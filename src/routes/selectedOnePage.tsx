@@ -1,5 +1,5 @@
-function selectedOnePage() {
-  return <div>Hello, I'm selectedOnePage!</div>;
+function SelectedOnePage() {
+  return <div>Hello, I'm SelectedOnePage!</div>;
 }
 
-export default selectedOnePage;
+export default SelectedOnePage;

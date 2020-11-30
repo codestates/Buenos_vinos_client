@@ -1,5 +1,5 @@
-function searchResultPage() {
-  return <div>Hello, I'm searchResultPage!</div>;
+function SearchResultPage() {
+  return <div>Hello, I'm SearchResultPage!</div>;
 }
 
-export default searchResultPage;
+export default SearchResultPage;

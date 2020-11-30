@@ -1,5 +1,5 @@
-function myPage() {
-  return <div>Hello, I'm myPage!</div>;
+function MyPage() {
+  return <div>Hello, I'm MyPage!</div>;
 }
 
-export default myPage;
+export default MyPage;
