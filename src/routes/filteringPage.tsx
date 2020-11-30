@@ -1,5 +1,5 @@
-function filteringPage() {
-  return <div>Hello, I'm filteringPage!</div>;
+function FilteringPage() {
+  return <div>Hello, I'm FilteringPage!</div>;
 }
 
-export default filteringPage;
+export default FilteringPage;
