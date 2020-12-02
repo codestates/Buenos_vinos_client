@@ -7,12 +7,10 @@ import Pairings from '../components/filteringPage/pairings';
 function MainPage() {
   return (
     <>
-      {' '}
       <FindYourWines>
-        {' '}
-        <Recommended /> <Pairings /> <Flavor />{' '}
-      </FindYourWines>{' '}
-      <Explanation />{' '}
+        <Recommended /> <Pairings /> <Flavor />
+      </FindYourWines>
+      <Explanation />
     </>
   );
 }
