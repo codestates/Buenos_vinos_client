@@ -45,7 +45,7 @@ function Pairings(props) {
   };
 
   const classes = useStyles();
-
+  console.log(props);
   return (
     <div className={classes.root}>
       <Grid>
