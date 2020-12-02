@@ -1,33 +1,63 @@
+import React from 'react';
+import coverImage from '../../image/1.jpg';
 import Flavor from '../filteringPage/flavor';
 import Pairings from '../filteringPage/pairings';
-import { Container, Button, Typography, makeStyles } from '@material-ui/core';
+import { Container, Button, Typography, makeStyles, CssBaseline } from '@material-ui/core';
 
-function FindYourWines() {
+const FindYourWines = ({ children }) => {
   const handleClick = (e) => {
     console.log(e);
   };
 
-  const useStyles = makeStyles((theme) => ({}));
-
-  const classes = useStyles();
-
   return (
-    <Container maxWidth="lg">
+    <>
+      <div>{children[0]}</div>
       <div>
-        <img
-          src="https://d18lkz4dllo6v2.cloudfront.net/cumulus_uploads/entry/2019-11-05/wine.jpg"
-          style={{ width: 800 }}
-        />
+        <React.Fragment>
+          <CssBaseline />
+          <Container maxWidth="lg" style={{ position: 'relative' }}>
+            <Typography
+              component="div"
+              style={{
+                backgroundImage: `url(${coverImage})`,
+                backgroundPosition: 'center',
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                height: '30vh',
+              }}
+            />
+            <Typography
+              component="div"
+              style={{
+                textAlign: 'center',
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                color: 'white',
+                transform: 'translate( -50%, -50% )',
+              }}
+            >
+              <Typography
+                style={{
+                  fontSize: '60px',
+                  textShadow: '1px 1px 2px black',
+                }}
+              >
+                Discover <br /> the Right Wine
+              </Typography>
+            </Typography>
+          </Container>
+        </React.Fragment>
       </div>
-      <div>
-        <Typography>Find Your Wines!</Typography>
-      </div>
-      <div>
-        <Pairings onClick={handleClick} />
-        <Flavor onClick={handleClick} />
-      </div>
+      <div>{children[2]}</div>
+      <div>{children[4]}</div>
       <Button>찾기</Button>
-    </Container>
+    </>
   );
 }
 export default FindYourWines;
+
+//       <div>
+//         <Pairings onClick={handleClick} />
+//         <Flavor onClick={handleClick} />
+//       </div>
