@@ -1,9 +1,14 @@
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
 import coverImage from '../../image/1.jpg';
+import Flavor from '../filteringPage/flavor';
+import Pairings from '../filteringPage/pairings';
+import { Container, Button, Typography, makeStyles, CssBaseline } from '@material-ui/core';
+
 const FindYourWines = ({ children }) => {
+  const handleClick = (e) => {
+    console.log(e);
+  };
+
   return (
     <>
       <div>{children[0]}</div>
@@ -46,7 +51,13 @@ const FindYourWines = ({ children }) => {
       </div>
       <div>{children[2]}</div>
       <div>{children[4]}</div>
+      <Button>찾기</Button>
     </>
   );
-};
+}
 export default FindYourWines;
+
+//       <div>
+//         <Pairings onClick={handleClick} />
+//         <Flavor onClick={handleClick} />
+//       </div>
