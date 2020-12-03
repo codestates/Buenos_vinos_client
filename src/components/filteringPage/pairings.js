@@ -1,21 +1,25 @@
+import { Grid, makeStyles } from '@material-ui/core';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 import { useState } from 'react';
-import { Box, Grid, makeStyles } from '@material-ui/core';
 
 function Pairings(props) {
-  const [pairings, setPairings] = useState({
-    beef: false,
-    pork: false,
-    poultry: false,
-    fish: false,
-    seafood: false,
-    pasta: false,
-    cheese: false,
-    fruit: false,
-    vagetable: false,
-    sweet: 3,
-    acidic: 3,
-    body: 3,
-  });
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(1);
+
+  const handleClickListItem = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuItemClick = (event, index) => {
+    setSelectedIndex(index);
+    setAnchorEl(null);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const useStyles = makeStyles({
     root: {
@@ -35,77 +39,82 @@ function Pairings(props) {
     },
   });
 
-  const selectPairings = (key) => (e) => {
-    if (pairings[key]) {
-      setPairings({ ...pairings, [key]: false });
-    } else {
-      setPairings({ ...pairings, [key]: true });
-    }
-    props.onClick(pairings);
-  };
-
   const classes = useStyles();
-  console.log(props);
+
   return (
     <div className={classes.root}>
+      <List component="nav">
+        <ListItem
+          button
+          aria-haspopup="true"
+          aria-controls="lock-menu"
+          variant="contained"
+          onClick={handleClickListItem}
+        >
+          <ListItemText primary="와인 종류" secondary="테스트 레드" />
+        </ListItem>
+      </List>
+      <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+        <MenuItem>Hello</MenuItem>
+      </Menu>
       <Grid>
         <img
           src="https://penzim.synology.me/image/finalProject/icon/beef.png"
           alt="HTML5"
-          className={pairings.beef ? classes.selectedFood : classes.food}
-          onClick={selectPairings('beef')}
+          className={props.pairingState.beef ? classes.selectedFood : classes.food}
+          onClick={props.selectPairing('beef')}
         />
         <img
           src="https://penzim.synology.me/image/finalProject/icon/pig.png"
           alt="HTML5"
-          className={pairings.pork ? classes.selectedFood : classes.food}
-          onClick={selectPairings('pork')}
+          className={props.pairingState.pork ? classes.selectedFood : classes.food}
+          onClick={props.selectPairing('pork')}
         />
         <img
           src="https://penzim.synology.me/image/finalProject/icon/poultry.png"
           alt="HTML5"
-          className={pairings.poultry ? classes.selectedFood : classes.food}
-          onClick={selectPairings('poultry')}
+          className={props.pairingState.poultry ? classes.selectedFood : classes.food}
+          onClick={props.selectPairing('poultry')}
         />
       </Grid>
       <Grid>
         <img
           src="https://penzim.synology.me/image/finalProject/icon/fish.png"
           alt="HTML5"
-          className={pairings.fish ? classes.selectedFood : classes.food}
-          onClick={selectPairings('fish')}
+          className={props.pairingState.fish ? classes.selectedFood : classes.food}
+          onClick={props.selectPairing('fish')}
         />
         <img
           src="https://penzim.synology.me/image/finalProject/icon/seafood.png"
           alt="HTML5"
-          className={pairings.seafood ? classes.selectedFood : classes.food}
-          onClick={selectPairings('seafood')}
+          className={props.pairingState.seafood ? classes.selectedFood : classes.food}
+          onClick={props.selectPairing('seafood')}
         />
         <img
           src="https://penzim.synology.me/image/finalProject/icon/pasta.png"
           alt="HTML5"
-          className={pairings.pasta ? classes.selectedFood : classes.food}
-          onClick={selectPairings('pasta')}
+          className={props.pairingState.pasta ? classes.selectedFood : classes.food}
+          onClick={props.selectPairing('pasta')}
         />
       </Grid>
       <Grid>
         <img
           src="https://penzim.synology.me/image/finalProject/icon/cheese.png"
           alt="HTML5"
-          className={pairings.cheese ? classes.selectedFood : classes.food}
-          onClick={selectPairings('cheese')}
+          className={props.pairingState.cheese ? classes.selectedFood : classes.food}
+          onClick={props.selectPairing('cheese')}
         />
         <img
           src="https://penzim.synology.me/image/finalProject/icon/fruit.png"
           alt="HTML5"
-          className={pairings.fruit ? classes.selectedFood : classes.food}
-          onClick={selectPairings('fruit')}
+          className={props.pairingState.fruit ? classes.selectedFood : classes.food}
+          onClick={props.selectPairing('fruit')}
         />
         <img
           src="https://penzim.synology.me/image/finalProject/icon/vagetable.png"
           alt="HTML5"
-          className={pairings.vagetable ? classes.selectedFood : classes.food}
-          onClick={selectPairings('vagetable')}
+          className={props.pairingState.vagetable ? classes.selectedFood : classes.food}
+          onClick={props.selectPairing('vagetable')}
         />
       </Grid>
     </div>

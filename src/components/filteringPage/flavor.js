@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
@@ -31,21 +30,6 @@ const FlavorSlider = withStyles({
 })(Slider);
 
 function Flavor(props) {
-  const [values, setValues] = useState({
-    beef: false,
-    pork: false,
-    poultry: false,
-    fish: false,
-    seafood: false,
-    pasta: false,
-    cheese: false,
-    fruit: false,
-    vagetable: false,
-    sweet: 3,
-    acidic: 3,
-    body: 3,
-  });
-
   const useStyles = makeStyles((theme) => ({
     root: {
       width: 200 + theme.spacing(3) * 2,
@@ -56,42 +40,31 @@ function Flavor(props) {
 
   const classes = useStyles();
 
-  const handleChange = (key) => (event, newValue) => {
-    setValues({ ...values, [key]: newValue });
-    props.onClick(values);
-  };
-
   return (
     <div className={classes.root}>
       <Typography align="center">당도</Typography>
       <FlavorSlider
-        aria-label="sweet"
-        aria-labelledby="discrete-slider"
-        defaultValue={3}
+        defaultValue={[2, 4]}
         min={1}
         max={5}
         valueLabelDisplay="off"
-        onChange={handleChange('sweet')}
+        onChange={props.selectFlavor('sweet')}
       />
       <Typography align="center">산도</Typography>
       <FlavorSlider
-        aria-label="acidic"
-        aria-labelledby="discrete-slider"
-        defaultValue={3}
+        defaultValue={[2, 4]}
         min={1}
         max={5}
         valueLabelDisplay="off"
-        onChange={handleChange('acidic')}
+        onChange={props.selectFlavor('acidic')}
       />
       <Typography align="center">바디감</Typography>
       <FlavorSlider
-        aria-label="body"
-        aria-labelledby="discrete-slider"
-        defaultValue={3}
+        defaultValue={[2, 4]}
         min={1}
         max={5}
         valueLabelDisplay="off"
-        onChange={handleChange('body')}
+        onChange={props.selectFlavor('body')}
       />
     </div>
   );
