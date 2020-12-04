@@ -34,7 +34,7 @@ export default function Recommended() {
     <>
       <React.Fragment>
         <CssBaseline />
-        <Container maxWidth="lg" style={{ alignItems: 'center' }}>
+        <Container maxWidth="xl" style={{ alignItems: 'center' }}>
           <Typography
             component="div"
             style={{
