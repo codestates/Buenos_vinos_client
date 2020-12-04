@@ -32,8 +32,9 @@ const FlavorSlider = withStyles({
 function Flavor(props) {
   const useStyles = makeStyles((theme) => ({
     flavorBar: {
-      width: 100 + theme.spacing(3) * 2,
-      marginLeft: 20,
+      width: 150 + theme.spacing(4) * 2,
+      marginLeft: 18,
+      marginRight: 18,
       float: 'left',
     },
   }));
@@ -44,6 +45,12 @@ function Flavor(props) {
     <>
       <div className={classes.flavorBar}>
         <Typography align="center">당도</Typography>
+        <Typography variant="body2" color="textSecondary" style={{ float: 'left' }}>
+          1
+        </Typography>
+        <Typography variant="body2" color="textSecondary" style={{ float: 'right' }}>
+          5
+        </Typography>
         <FlavorSlider
           defaultValue={[2, 4]}
           min={1}
@@ -54,6 +61,12 @@ function Flavor(props) {
       </div>
       <div className={classes.flavorBar}>
         <Typography align="center">산도</Typography>
+        <Typography variant="body2" color="textSecondary" style={{ float: 'left' }}>
+          1
+        </Typography>
+        <Typography variant="body2" color="textSecondary" style={{ float: 'right' }}>
+          5
+        </Typography>
         <FlavorSlider
           defaultValue={[2, 4]}
           min={1}
@@ -64,6 +77,12 @@ function Flavor(props) {
       </div>
       <div className={classes.flavorBar}>
         <Typography align="center">바디감</Typography>
+        <Typography variant="body2" color="textSecondary" style={{ float: 'left' }}>
+          1
+        </Typography>
+        <Typography variant="body2" color="textSecondary" style={{ float: 'right' }}>
+          5
+        </Typography>
         <FlavorSlider
           defaultValue={[2, 4]}
           min={1}
