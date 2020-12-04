@@ -19,11 +19,11 @@ const FindYourWines = ({ children }) => {
       <div>
         <React.Fragment>
           <CssBaseline />
-          <Container maxWidth="lg" style={{ position: 'relative' }}>
+          <Container maxWidth="xl" style={{ position: 'relative' }}>
             <Typography
               component="div"
               style={{
-                backgroundImage: `url(${coverImage})`,
+                backgroundImage: `url(https://penzim.synology.me/image/finalProject/mainpage/findYourWines.jpg)`,
                 backgroundPosition: 'center',
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
