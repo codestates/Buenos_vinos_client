@@ -31,8 +31,8 @@ const FlavorSlider = withStyles({
 
 function Flavor(props) {
   const useStyles = makeStyles((theme) => ({
-    root: {
-      width: 200 + theme.spacing(3) * 2,
+    flavorBar: {
+      width: 100 + theme.spacing(3) * 2,
       marginLeft: 20,
       float: 'left',
     },
@@ -41,32 +41,38 @@ function Flavor(props) {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <Typography align="center">당도</Typography>
-      <FlavorSlider
-        defaultValue={[2, 4]}
-        min={1}
-        max={5}
-        valueLabelDisplay="off"
-        onChange={props.selectFlavor('sweet')}
-      />
-      <Typography align="center">산도</Typography>
-      <FlavorSlider
-        defaultValue={[2, 4]}
-        min={1}
-        max={5}
-        valueLabelDisplay="off"
-        onChange={props.selectFlavor('acidic')}
-      />
-      <Typography align="center">바디감</Typography>
-      <FlavorSlider
-        defaultValue={[2, 4]}
-        min={1}
-        max={5}
-        valueLabelDisplay="off"
-        onChange={props.selectFlavor('body')}
-      />
-    </div>
+    <>
+      <div className={classes.flavorBar}>
+        <Typography align="center">당도</Typography>
+        <FlavorSlider
+          defaultValue={[2, 4]}
+          min={1}
+          max={5}
+          valueLabelDisplay="off"
+          onChange={props.selectFlavor('sweet')}
+        />
+      </div>
+      <div className={classes.flavorBar}>
+        <Typography align="center">산도</Typography>
+        <FlavorSlider
+          defaultValue={[2, 4]}
+          min={1}
+          max={5}
+          valueLabelDisplay="off"
+          onChange={props.selectFlavor('acidic')}
+        />
+      </div>
+      <div className={classes.flavorBar}>
+        <Typography align="center">바디감</Typography>
+        <FlavorSlider
+          defaultValue={[2, 4]}
+          min={1}
+          max={5}
+          valueLabelDisplay="off"
+          onChange={props.selectFlavor('body')}
+        />
+      </div>
+    </>
   );
 }
 export default Flavor;

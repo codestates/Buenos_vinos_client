@@ -1,9 +1,18 @@
 import React from 'react';
 import coverImage from '../../image/1.jpg';
-import { Container, Button, Typography, makeStyles, CssBaseline } from '@material-ui/core';
+import { Container, Button, Typography, makeStyles, CssBaseline, Paper } from '@material-ui/core';
 
 const FindYourWines = ({ children }) => {
-  console.log(children[0]);
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      margin: theme.spacing(1),
+      width: theme.spacing(100),
+      height: theme.spacing(16),
+    },
+  }));
+
+  const classes = useStyles();
+
   return (
     <>
       <div>{children[0]}</div>
@@ -44,9 +53,11 @@ const FindYourWines = ({ children }) => {
           </Container>
         </React.Fragment>
       </div>
-      <div>{children[1]}</div>
-      <div>{children[2]}</div>
-      <Button>찾기</Button>
+      <Paper className={classes.root} elevation={3}>
+        <div>{children[1]}</div>
+        <div>{children[2]}</div>
+        <Button>찾기</Button>
+      </Paper>
     </>
   );
 };
