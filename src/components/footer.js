@@ -7,6 +7,7 @@ import ContactMailIcon from '@material-ui/icons/ContactMail';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Modal from '@material-ui/core/Modal';
+import footerLogo from '../image/footerLogo.png';
 
 const useStyles = makeStyles({
   footer: {
@@ -88,28 +89,27 @@ function Footer() {
   return (
     <>
       <Box className={classes.footer}>
-        <img src="https://penzim.synology.me/image/finalProject/logo/logo.png" alt="logo"></img>
-        <Grid container spacing={2} className={classes.btnContainer}>
-          <Grid item xs={6} sm={1}>
-            <Box p={2}>
-              <Button startIcon={<BuildIcon />} onClick={techOpen}>
-                tech
-              </Button>
-            </Box>
+        <img
+          // src="https://penzim.synology.me/image/finalProject/logo/logo.png"
+          src={footerLogo}
+          alt="logo"
+          style={{ marginTop: 20 }}
+        ></img>
+        <Grid container spacing={1} className={classes.btnContainer}>
+          <Grid item xs={6} sm={2}>
+            <Button startIcon={<BuildIcon />} onClick={techOpen}>
+              tech
+            </Button>
           </Grid>
-          <Grid item xs={6} sm={1}>
-            <Box p={2}>
-              <Button startIcon={<ContactMailIcon />} onClick={contactOpen}>
-                contact
-              </Button>
-            </Box>
+          <Grid item xs={6} sm={2}>
+            <Button startIcon={<ContactMailIcon />} onClick={contactOpen}>
+              contact
+            </Button>
           </Grid>
-          <Grid item xs={6} sm={1}>
-            <Box p={2}>
-              <Button startIcon={<GroupIcon />} onClick={infoOpen}>
-                info
-              </Button>
-            </Box>
+          <Grid item xs={6} sm={2}>
+            <Button startIcon={<GroupIcon />} onClick={infoOpen}>
+              info
+            </Button>
           </Grid>
         </Grid>
         <Modal
