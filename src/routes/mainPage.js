@@ -4,11 +4,13 @@ import Recommended from '../components/mainPage/recommended';
 import Flavor from '../components/filteringPage/flavor';
 import Pairings from '../components/filteringPage/pairings';
 
-function MainPage() {
+function MainPage(props) {
   return (
     <>
       <FindYourWines>
-        <Recommended /> <Pairings /> <Flavor />
+        <Recommended />
+        <Pairings selectPairing={props.selectPairing} pairingState={props.pairingState} />
+        <Flavor selectFlavor={props.selectFlavor} />
       </FindYourWines>
       <Explanation />
     </>
