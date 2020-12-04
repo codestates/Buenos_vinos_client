@@ -38,7 +38,6 @@ export default function Recommended() {
           <Typography
             component="div"
             style={{
-              backgroundColor: '#FEF8EA',
               height: '44.5vh',
               borderRadius: '15px',
               justifyContent: 'center',

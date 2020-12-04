@@ -1,22 +1,16 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import {
   Container,
-  Button,
-  Typography,
   makeStyles,
   CssBaseline,
-  Paper,
-  Divider,
   Grid,
   TextField,
   IconButton,
   Link,
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { AccessAlarm, ThreeDRotation } from '@material-ui/icons';
 import logo from '../image/logo.png';
 import FaceIcon from '@material-ui/icons/Face';
-import SearchIcon from '@material-ui/icons/Search';
 import { SvgIcon } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2, 0),
   },
   selectedBtn: {
-    color: '#FFC312',
+    color: '#CB9FC7',
   },
   defalutColor: {
     color: 'black',

@@ -38,7 +38,7 @@ export default function Item({ wine }) {
               spacing={1}
               style={{
                 height: '180px',
-                backgroundColor: '#FEC12A',
+                backgroundColor: '#CAC5D8',
                 borderTopRightRadius: '15px',
                 borderTopLeftRadius: '15px',
               }}
