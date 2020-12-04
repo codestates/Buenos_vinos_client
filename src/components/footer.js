@@ -10,12 +10,13 @@ import Modal from '@material-ui/core/Modal';
 
 const useStyles = makeStyles({
   footer: {
+    boxSizing: 'content-box',
     backgroundColor: '#F2D1CF',
     color: 'white',
     padding: '1rem',
     textAlign: 'center',
-    height: '10rem',
-    width: '100%',
+    height: 'auto',
+    width: 'auto',
   },
   btnContainer: {
     justifyContent: 'center',
