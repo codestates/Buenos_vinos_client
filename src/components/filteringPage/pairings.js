@@ -1,113 +1,261 @@
-import { useState } from 'react';
-import { Box, Grid, makeStyles } from '@material-ui/core';
+import {
+  Grid,
+  makeStyles,
+  ClickAwayListener,
+  Grow,
+  Paper,
+  Popper,
+  MenuItem,
+  MenuList,
+  Button,
+} from '@material-ui/core';
+import { useState, useEffect, useRef } from 'react';
 
 function Pairings(props) {
-  const [pairings, setPairings] = useState({
-    beef: false,
-    pork: false,
-    poultry: false,
-    fish: false,
-    seafood: false,
-    pasta: false,
-    cheese: false,
-    fruit: false,
-    vagetable: false,
-    sweet: 3,
-    acidic: 3,
-    body: 3,
-  });
+  const [open, setOpen] = useState(false);
+  const anchorRef = useRef(null);
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+    setOpen(false);
+  };
+
+  function handleListKeyDown(event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpen(false);
+    }
+  }
+
+  const prevOpen = useRef(open);
+
+  useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+    prevOpen.current = open;
+  }, [open]);
 
   const useStyles = makeStyles({
     root: {
       float: 'left',
+      display: 'inline-flex',
+      flexWrap: 'wrap',
+      alignContent: 'center',
+      alignItems: 'center',
+      verticalAlign: 'middle',
+      justifyContent: 'center',
+      textAlign: 'center',
+    },
+    button: {
+      margin: 10,
+      marginRight: 15,
+      display: 'flex',
+      flexWrap: 'wrap',
+      alignContent: 'center',
+      alignItems: 'center',
+      verticalAlign: 'middle',
+      justifyContent: 'center',
+      textAlign: 'center',
+    },
+    menu: {
+      zIndex: 9999,
     },
     food: {
-      width: 64,
-      webkitFilter: 'opacity(50%)',
-      filter: 'opacity(50%)',
-      '&:hover': {
-        webkitFilter: 'opacity(100%)',
-        filter: 'opacity(100%)',
-      },
+      width: 24,
+      // webkitFilter: 'opacity(50%)',
+      // filter: 'opacity(50%)',
+      // '&:hover': {
+      //   webkitFilter: 'opacity(100%)',
+      //   filter: 'opacity(100%)',
+      // },
     },
     selectedFood: {
-      width: 64,
+      width: 24,
     },
   });
 
-  const selectPairings = (key) => (e) => {
-    if (pairings[key]) {
-      setPairings({ ...pairings, [key]: false });
-    } else {
-      setPairings({ ...pairings, [key]: true });
-    }
-    props.onClick(pairings);
-  };
-
   const classes = useStyles();
-  console.log(props);
+
   return (
     <div className={classes.root}>
-      <Grid>
+      <Button
+        ref={anchorRef}
+        aria-controls={open ? 'menu-list-grow' : undefined}
+        aria-haspopup="true"
+        onClick={handleToggle}
+        className={classes.button}
+      >
+        음식 선택
+      </Button>
+      <Popper
+        className={classes.menu}
+        open={open}
+        anchorEl={anchorRef.current}
+        role={undefined}
+        transition
+        disablePortal
+      >
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                  <MenuItem onClick={handleClose}>
+                    <img
+                      src="https://penzim.synology.me/image/finalProject/icon/beef.png"
+                      alt="HTML5"
+                      className={props.pairingState.beef ? classes.selectedFood : classes.food}
+                    />
+                    소고기
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    <img
+                      src="https://penzim.synology.me/image/finalProject/icon/pig.png"
+                      alt="HTML5"
+                      className={props.pairingState.pork ? classes.selectedFood : classes.food}
+                    />
+                    돼지고기
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    {' '}
+                    <img
+                      src="https://penzim.synology.me/image/finalProject/icon/poultry.png"
+                      alt="HTML5"
+                      className={props.pairingState.poultry ? classes.selectedFood : classes.food}
+                    />
+                    가금류
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    {' '}
+                    <img
+                      src="https://penzim.synology.me/image/finalProject/icon/fish.png"
+                      alt="HTML5"
+                      className={props.pairingState.fish ? classes.selectedFood : classes.food}
+                    />
+                    생선
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    {' '}
+                    <img
+                      src="https://penzim.synology.me/image/finalProject/icon/seafood.png"
+                      alt="HTML5"
+                      className={props.pairingState.seafood ? classes.selectedFood : classes.food}
+                    />
+                    해산물
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    {' '}
+                    <img
+                      src="https://penzim.synology.me/image/finalProject/icon/pasta.png"
+                      alt="HTML5"
+                      className={props.pairingState.pasta ? classes.selectedFood : classes.food}
+                    />
+                    파스타
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    {' '}
+                    <img
+                      src="https://penzim.synology.me/image/finalProject/icon/cheese.png"
+                      alt="HTML5"
+                      className={props.pairingState.cheese ? classes.selectedFood : classes.food}
+                    />
+                    치즈
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    {' '}
+                    <img
+                      src="https://penzim.synology.me/image/finalProject/icon/fruit.png"
+                      alt="HTML5"
+                      className={props.pairingState.fruit ? classes.selectedFood : classes.food}
+                    />
+                    과일
+                  </MenuItem>
+                  <MenuItem onClick={handleClose}>
+                    {' '}
+                    <img
+                      src="https://penzim.synology.me/image/finalProject/icon/vagetable.png"
+                      alt="HTML5"
+                      className={props.pairingState.vagetable ? classes.selectedFood : classes.food}
+                    />
+                    채소
+                  </MenuItem>
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
+
+      {/* <Grid>
         <img
           src="https://penzim.synology.me/image/finalProject/icon/beef.png"
           alt="HTML5"
-          className={pairings.beef ? classes.selectedFood : classes.food}
-          onClick={selectPairings('beef')}
+          className={props.pairingState.beef ? classes.selectedFood : classes.food}
+          onClick={props.selectPairing('beef')}
         />
         <img
           src="https://penzim.synology.me/image/finalProject/icon/pig.png"
           alt="HTML5"
-          className={pairings.pork ? classes.selectedFood : classes.food}
-          onClick={selectPairings('pork')}
+          className={props.pairingState.pork ? classes.selectedFood : classes.food}
+          onClick={props.selectPairing('pork')}
         />
         <img
           src="https://penzim.synology.me/image/finalProject/icon/poultry.png"
           alt="HTML5"
-          className={pairings.poultry ? classes.selectedFood : classes.food}
-          onClick={selectPairings('poultry')}
+          className={props.pairingState.poultry ? classes.selectedFood : classes.food}
+          onClick={props.selectPairing('poultry')}
         />
       </Grid>
       <Grid>
         <img
           src="https://penzim.synology.me/image/finalProject/icon/fish.png"
           alt="HTML5"
-          className={pairings.fish ? classes.selectedFood : classes.food}
-          onClick={selectPairings('fish')}
+          className={props.pairingState.fish ? classes.selectedFood : classes.food}
+          onClick={props.selectPairing('fish')}
         />
         <img
           src="https://penzim.synology.me/image/finalProject/icon/seafood.png"
           alt="HTML5"
-          className={pairings.seafood ? classes.selectedFood : classes.food}
-          onClick={selectPairings('seafood')}
+          className={props.pairingState.seafood ? classes.selectedFood : classes.food}
+          onClick={props.selectPairing('seafood')}
         />
         <img
           src="https://penzim.synology.me/image/finalProject/icon/pasta.png"
           alt="HTML5"
-          className={pairings.pasta ? classes.selectedFood : classes.food}
-          onClick={selectPairings('pasta')}
+          className={props.pairingState.pasta ? classes.selectedFood : classes.food}
+          onClick={props.selectPairing('pasta')}
         />
       </Grid>
       <Grid>
         <img
           src="https://penzim.synology.me/image/finalProject/icon/cheese.png"
           alt="HTML5"
-          className={pairings.cheese ? classes.selectedFood : classes.food}
-          onClick={selectPairings('cheese')}
+          className={props.pairingState.cheese ? classes.selectedFood : classes.food}
+          onClick={props.selectPairing('cheese')}
         />
         <img
           src="https://penzim.synology.me/image/finalProject/icon/fruit.png"
           alt="HTML5"
-          className={pairings.fruit ? classes.selectedFood : classes.food}
-          onClick={selectPairings('fruit')}
+          className={props.pairingState.fruit ? classes.selectedFood : classes.food}
+          onClick={props.selectPairing('fruit')}
         />
         <img
           src="https://penzim.synology.me/image/finalProject/icon/vagetable.png"
           alt="HTML5"
-          className={pairings.vagetable ? classes.selectedFood : classes.food}
-          onClick={selectPairings('vagetable')}
+          className={props.pairingState.vagetable ? classes.selectedFood : classes.food}
+          onClick={props.selectPairing('vagetable')}
         />
-      </Grid>
+      </Grid> */}
     </div>
   );
 }
