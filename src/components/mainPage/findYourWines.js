@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Button, Typography, makeStyles, CssBaseline } from '@material-ui/core';
+import copyPhoto from '../../image/copyPhoto.png';
 
 const FindYourWines = ({ children }) => {
   return (
@@ -12,7 +13,8 @@ const FindYourWines = ({ children }) => {
             <Typography
               component="div"
               style={{
-                backgroundImage: `url(https://penzim.synology.me/image/finalProject/mainpage/findYourWines.jpg)`,
+                // backgroundImage: `url(https://penzim.synology.me/image/finalProject/mainpage/findYourWines.jpg)`,
+                backgroundImage: `url(${copyPhoto})`,
                 backgroundPosition: 'center',
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',

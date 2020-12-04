@@ -12,7 +12,7 @@ import footerLogo from '../image/footerLogo.png';
 const useStyles = makeStyles({
   footer: {
     boxSizing: 'content-box',
-    backgroundColor: '#F2D1CF',
+    backgroundColor: '#F3F0FD',
     color: 'white',
     padding: '1rem',
     textAlign: 'center',

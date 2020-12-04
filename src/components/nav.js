@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2, 0),
   },
   selectedBtn: {
-    color: '#FFC312',
+    color: '#CB9FC7',
   },
   defalutColor: {
     color: 'black',

@@ -12,6 +12,7 @@ const useStyles = makeStyles({
   explain: {
     padding: '1rem',
     whiteSpace: 'nowrap',
+    // backgroundColor: '#F3F0FD',
   },
   description: {
     color: '#616161',
