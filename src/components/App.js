@@ -8,6 +8,13 @@ import SearchResultPage from '../routes/searchResultPage';
 import SelectedOnePage from '../routes/selectedOnePage';
 import Nav from './nav';
 import Footer from './footer';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: ['Stylish', 'sans-serif'].join(','),
+  },
+});
 
 function App() {
   const [countryState, setCountryState] = useState({
@@ -58,26 +65,28 @@ function App() {
 
   return (
     <>
-      <Nav />
-      <HashRouter>
-        <Route
-          path="/"
-          exact={true}
-          render={() => (
-            <MainPage
-              selectFlavor={selectFlavor}
-              selectPairing={selectPairing}
-              pairingState={pairingState}
-            />
-          )}
-        />
-        <Route path="/users" exact={true} component={MyPage} />
-        <Route path="/editinfo" exact={true} component={EditInfoPage} />
-        <Route path="/filter" exact={true} component={FilteringPage} />
-        <Route path="/result" exact={true} component={SearchResultPage} />
-        <Route path="/select" exact={true} component={SelectedOnePage} />
-      </HashRouter>
-      <Footer />
+      <ThemeProvider theme={theme}>
+        <Nav />
+        <HashRouter>
+          <Route
+            path="/"
+            exact={true}
+            render={() => (
+              <MainPage
+                selectFlavor={selectFlavor}
+                selectPairing={selectPairing}
+                pairingState={pairingState}
+              />
+            )}
+          />
+          <Route path="/users" exact={true} component={MyPage} />
+          <Route path="/editinfo" exact={true} component={EditInfoPage} />
+          <Route path="/filter" exact={true} component={FilteringPage} />
+          <Route path="/result" exact={true} component={SearchResultPage} />
+          <Route path="/select" exact={true} component={SelectedOnePage} />
+        </HashRouter>
+        <Footer />
+      </ThemeProvider>
     </>
   );
 }

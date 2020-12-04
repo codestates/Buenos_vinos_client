@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 
 const FlavorSlider = withStyles({
   root: {
-    color: '#900020',
+    color: '#9F5881',
     height: 8,
   },
   thumb: {

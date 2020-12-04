@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container, Button, Typography, makeStyles, CssBaseline } from '@material-ui/core';
 import copyPhoto from '../../image/copyPhoto.png';
 import coverImage from '../../image/1.jpg';
 import {
@@ -49,7 +48,9 @@ const FindYourWines = ({ children }) => {
                 backgroundPosition: 'center',
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
-                height: '30vh',
+                height: '280px',
+                minWidth: '889px',
+                width: '100%',
               }}
             />
             <Typography
@@ -67,9 +68,10 @@ const FindYourWines = ({ children }) => {
                 style={{
                   fontSize: '60px',
                   textShadow: '1px 1px 2px black',
+                  fontFamily: 'Roboto',
                 }}
               >
-                Discover <br /> the Right Wine
+                Discover the Right Wine
               </Typography>
             </Typography>
           </Container>
