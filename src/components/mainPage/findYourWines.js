@@ -1,13 +1,32 @@
 import React from 'react';
 import coverImage from '../../image/1.jpg';
-import { Container, Button, Typography, makeStyles, CssBaseline, Paper } from '@material-ui/core';
+import {
+  Container,
+  Button,
+  Typography,
+  makeStyles,
+  CssBaseline,
+  Paper,
+  Divider,
+} from '@material-ui/core';
 
 const FindYourWines = ({ children }) => {
   const useStyles = makeStyles((theme) => ({
     root: {
-      margin: theme.spacing(1),
-      width: theme.spacing(100),
-      height: theme.spacing(16),
+      display: 'flex',
+      justifyContent: 'center',
+    },
+    selectBar: {
+      width: 'auto',
+      height: theme.spacing(14),
+      margin: theme.spacing(3),
+      display: 'inline-flex',
+      flexWrap: 'wrap',
+      alignContent: 'center',
+      padding: 12,
+    },
+    pairing: {
+      alignSelf: 'center',
     },
   }));
 
@@ -53,11 +72,15 @@ const FindYourWines = ({ children }) => {
           </Container>
         </React.Fragment>
       </div>
-      <Paper className={classes.root} elevation={3}>
-        <div>{children[1]}</div>
-        <div>{children[2]}</div>
-        <Button>찾기</Button>
-      </Paper>
+      <div className={classes.root}>
+        <Paper className={classes.selectBar} elevation={3} style={{ borderRadius: 10 }}>
+          <div className={classes.pairing}>{children[1]}</div>
+          <Divider orientation="vertical" flexItem />
+          <div>{children[2]}</div>
+          <Divider orientation="vertical" flexItem />
+          <Button style={{ marginLeft: 5 }}>찾기</Button>
+        </Paper>
+      </div>
     </>
   );
 };

@@ -49,7 +49,6 @@ function App() {
   };
 
   const selectPairing = (key) => (e) => {
-    console.log('hello');
     if (pairingState[key]) {
       setPairingState({ ...pairingState, [key]: false });
     } else {
