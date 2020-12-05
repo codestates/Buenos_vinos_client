@@ -44,15 +44,15 @@ function App() {
     sparkling: false,
   });
 
-  const selectFlavor = (key) => (event, value) => {
-    setFlavorState({ ...flavorState, [key]: value });
+  const selectFlavor = (e, value) => {
+    setFlavorState({ ...flavorState, [e]: value });
   };
 
-  const selectPairing = (key) => (e) => {
-    if (pairingState[key]) {
-      setPairingState({ ...pairingState, [key]: false });
-    } else {
-      setPairingState({ ...pairingState, [key]: true });
+  const selectPairing = (e) => {
+    if (pairingState[e] && e) {
+      setPairingState({ ...pairingState, [e]: false });
+    } else if (!pairingState[e] && e) {
+      setPairingState({ ...pairingState, [e]: true });
     }
   };
 
