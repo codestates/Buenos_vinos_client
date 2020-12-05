@@ -25,7 +25,7 @@ export default function WineRating({ rating }) {
         style={{ fontSize: '25px', fontWeight: '400px', textAlign: 'center' }}
       >
         <Rating name="half-rating-read" defaultValue={value} precision={0.1} readOnly />
-        {`${rating} / 5`}
+        {`${Number(rating).toFixed(1)} / 5`}
       </div>
     </>
   );

@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Wrapper({ wines }) {
-  console.log(wines);
   const classes = useStyles();
   return (
     <>

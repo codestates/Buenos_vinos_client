@@ -1,15 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Carousel from 'react-material-ui-carousel';
-import { fakeData } from '../../fakeData';
 import Wrapper from './Wrapper';
-import Item from './Item';
+import axios from 'axios';
 
 export default function Recommended() {
-  const [wines, setWines] = useState(fakeData);
-  console.log(typeof wines[0].rating, Number(wines[0].rating));
+  const [wines, setWines] = useState([]);
+  useEffect(() => {
+    axios.get('http://54.180.150.63:3000/wine').then(({ data }) => setWines(data));
+  });
+
+  wines.sort((a, b) => {
+    if (a.rating > b.rating) {
+      return -1;
+    }
+    if (a.rating < b.rating) {
+      return 1;
+    }
+    return 0;
+  });
+
   function makeChunkedWines(wines) {
     const chunkedWines = [];
     let tempWines = [];
@@ -29,7 +41,6 @@ export default function Recommended() {
   }
 
   const chunkedWines = makeChunkedWines(wines);
-  console.log(chunkedWines);
   return (
     <>
       <React.Fragment>

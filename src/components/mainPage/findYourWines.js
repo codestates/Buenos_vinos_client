@@ -39,7 +39,7 @@ const FindYourWines = ({ children }) => {
       <div>
         <React.Fragment>
           <CssBaseline />
-          <Container maxWidth="xl" style={{ position: 'relative' }}>
+          <Container maxWidth="xl" style={{ position: 'relative', paddingTop: '1vh' }}>
             <Typography
               component="div"
               style={{

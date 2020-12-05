@@ -87,15 +87,16 @@ export default function Item({ wine }) {
                 <Grid item xs container direction="column" spacing={2}>
                   <Grid item xs>
                     <Typography variant="body2" gutterBottom style={{ textAlign: 'center' }}>
-                      <b>{wine.wineKr}</b>
-                      <br /> {<small>({wine.wine})</small>}
+                      <b>{wine.name}</b>
+                      <br /> {<small>({wine.name_en})</small>}
                     </Typography>
                     <Typography
                       variant="body2"
                       color="textSecondary"
                       style={{ textAlign: 'center' }}
                     >
-                      <small>{`${wine.country}산 ${wine.type}`}</small>
+                      <img src={wine.country.image} style={{ width: 10, height: 10 }}></img>
+                      <small>{`${wine.country.name}산 ${wine.type.name}`}</small>
                     </Typography>
                   </Grid>
                 </Grid>
