@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container, Button, Typography, makeStyles, CssBaseline } from '@material-ui/core';
 import copyPhoto from '../../image/copyPhoto.png';
 import coverImage from '../../image/1.jpg';
 import {
