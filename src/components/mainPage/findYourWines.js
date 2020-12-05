@@ -30,6 +30,12 @@ const FindYourWines = ({ children }) => {
     pairing: {
       alignSelf: 'center',
     },
+    button: {
+      padding: 6,
+      marginLeft: 5,
+      height: 24,
+      alignSelf: 'center',
+    },
   }));
 
   const classes = useStyles();
@@ -81,7 +87,7 @@ const FindYourWines = ({ children }) => {
           <Divider orientation="vertical" flexItem />
           <div>{children[2]}</div>
           <Divider orientation="vertical" flexItem />
-          <Button style={{ marginLeft: 5 }}>찾기</Button>
+          <Button className={classes.button}>찾기</Button>
         </Paper>
       </div>
     </>
