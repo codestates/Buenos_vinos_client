@@ -52,7 +52,7 @@ const FindYourWines = (props) => {
       <div>
         <React.Fragment>
           <CssBaseline />
-          <Container maxWidth="xl" style={{ position: 'relative' }}>
+          <Container maxWidth="xl" style={{ position: 'relative', paddingTop: '1vh' }}>
             <Typography
               component="div"
               style={{
@@ -61,7 +61,9 @@ const FindYourWines = (props) => {
                 backgroundPosition: 'center',
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
-                height: '30vh',
+                height: '280px',
+                minWidth: '889px',
+                width: '100%',
               }}
             />
             <Typography
@@ -79,9 +81,10 @@ const FindYourWines = (props) => {
                 style={{
                   fontSize: '60px',
                   textShadow: '1px 1px 2px black',
+                  fontFamily: 'Roboto',
                 }}
               >
-                Discover <br /> the Right Wine
+                Discover the Right Wine
               </Typography>
             </Typography>
           </Container>

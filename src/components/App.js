@@ -8,6 +8,13 @@ import SearchResultPage from '../routes/searchResultPage';
 import SelectedOnePage from '../routes/selectedOnePage';
 import Nav from './nav';
 import Footer from './footer';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: ['Stylish', 'sans-serif'].join(','),
+  },
+});
 
 function App() {
   const [countryState, setCountryState] = React.useState({
@@ -70,6 +77,7 @@ function App() {
 
   return (
     <>
+      <ThemeProvider theme={theme}>
       <Nav />
       <HashRouter>
         <Route
@@ -101,6 +109,7 @@ function App() {
         <Route path="/select" exact={true} component={SelectedOnePage} />
       </HashRouter>
       <Footer />
+      </ThemeProvider>
     </>
   );
 }

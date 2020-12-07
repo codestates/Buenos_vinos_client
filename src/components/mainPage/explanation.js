@@ -12,7 +12,6 @@ const useStyles = makeStyles({
   explain: {
     padding: '1rem',
     whiteSpace: 'nowrap',
-    // backgroundColor: '#F3F0FD',
   },
   description: {
     color: '#616161',
@@ -24,7 +23,7 @@ const useStyles = makeStyles({
     display: 'flex',
     marginBottom: '5px',
     margin: 'auto',
-    color: '#870000',
+    color: '#9F5881',
   },
 });
 
