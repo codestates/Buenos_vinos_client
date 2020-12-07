@@ -39,58 +39,38 @@ function Flavor(props) {
     },
   }));
 
+  const handleChange = (e, value, flavor) => {
+    props.selectFlavor(flavor, value);
+  };
+
+  const flavor = [
+    ['sweet', '당도'],
+    ['acidic', '산도'],
+    ['body', '바디감'],
+  ];
+
   const classes = useStyles();
 
   return (
     <>
-      <div className={classes.flavorBar}>
-        <Typography align="center">당도</Typography>
-        <Typography variant="body2" color="textSecondary" style={{ float: 'left' }}>
-          1
-        </Typography>
-        <Typography variant="body2" color="textSecondary" style={{ float: 'right' }}>
-          5
-        </Typography>
-        <FlavorSlider
-          defaultValue={[2, 4]}
-          min={1}
-          max={5}
-          valueLabelDisplay="off"
-          onChange={props.selectFlavor('sweet')}
-        />
-      </div>
-      <div className={classes.flavorBar}>
-        <Typography align="center">산도</Typography>
-        <Typography variant="body2" color="textSecondary" style={{ float: 'left' }}>
-          1
-        </Typography>
-        <Typography variant="body2" color="textSecondary" style={{ float: 'right' }}>
-          5
-        </Typography>
-        <FlavorSlider
-          defaultValue={[2, 4]}
-          min={1}
-          max={5}
-          valueLabelDisplay="off"
-          onChange={props.selectFlavor('acidic')}
-        />
-      </div>
-      <div className={classes.flavorBar}>
-        <Typography align="center">바디감</Typography>
-        <Typography variant="body2" color="textSecondary" style={{ float: 'left' }}>
-          1
-        </Typography>
-        <Typography variant="body2" color="textSecondary" style={{ float: 'right' }}>
-          5
-        </Typography>
-        <FlavorSlider
-          defaultValue={[2, 4]}
-          min={1}
-          max={5}
-          valueLabelDisplay="off"
-          onChange={props.selectFlavor('body')}
-        />
-      </div>
+      {flavor.map((item) => (
+        <div className={classes.flavorBar} key={item}>
+          <Typography align="center">{item[1]}</Typography>
+          <Typography variant="body2" color="textSecondary" style={{ float: 'left' }}>
+            1
+          </Typography>
+          <Typography variant="body2" color="textSecondary" style={{ float: 'right' }}>
+            5
+          </Typography>
+          <FlavorSlider
+            value={props.flavorState[item[0]]}
+            min={1}
+            max={5}
+            valueLabelDisplay="off"
+            onChange={(e, value) => handleChange(e, value, item[0])}
+          />
+        </div>
+      ))}
     </>
   );
 }
