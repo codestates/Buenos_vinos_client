@@ -8,14 +8,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Wrapper({ wines }) {
+export default function Wrapper({ wines, loading }) {
   const classes = useStyles();
+  let winesData = <div style={{ padding: '180px' }}> loading...</div>;
+  if (!loading) {
+    winesData = wines.map((wine, index) => <Item key={index} wine={wine} />);
+  }
   return (
     <>
       <div className={classes.root} style={{ display: 'flex', justifyContent: 'center' }}>
-        {wines.map((wine, index) => (
-          <Item key={index} wine={wine} />
-        ))}
+        {winesData}
       </div>
     </>
   );

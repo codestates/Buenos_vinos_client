@@ -4,14 +4,10 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Carousel from 'react-material-ui-carousel';
 import Wrapper from './Wrapper';
-import axios from 'axios';
-
+import useFetch from './useFetch';
 export default function Recommended() {
   const [wines, setWines] = useState([]);
-  useEffect(() => {
-    axios.get('http://54.180.150.63:3000/wine').then(({ data }) => setWines(data));
-  });
-
+  const loading = useFetch(setWines, 'http://54.180.150.63:3000/wine');
   wines.sort((a, b) => {
     if (a.rating > b.rating) {
       return -1;
@@ -21,7 +17,6 @@ export default function Recommended() {
     }
     return 0;
   });
-
   function makeChunkedWines(wines) {
     const chunkedWines = [];
     let tempWines = [];
@@ -57,7 +52,7 @@ export default function Recommended() {
           >
             <Carousel autoPlay={false} animation={'slide'} indicators={false}>
               {chunkedWines.map((wines, index) => (
-                <Wrapper key={index} wines={wines} />
+                <Wrapper key={index} wines={wines} loading={loading} />
               ))}
             </Carousel>
           </Typography>

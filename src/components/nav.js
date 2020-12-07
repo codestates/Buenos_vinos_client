@@ -13,6 +13,7 @@ import logo from '../image/logo.png';
 import FaceIcon from '@material-ui/icons/Face';
 import { SvgIcon } from '@material-ui/core';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,12 +46,20 @@ const useStyles = makeStyles((theme) => ({
 
 function Nav() {
   const [wineNames, setWineNames] = useState([]);
+  const history = useHistory();
+  console.log(history);
+  const getWinesData = async () => {
+    const response = await axios.get('http://54.180.150.63:3000/wine');
+    setWineNames(response.data);
+  };
   useEffect(() => {
-    axios.get('http://54.180.150.63:3000/wine').then(({ data }) => setWineNames(data));
-  });
+    getWinesData();
+  }, []);
   const krAndEnName = [];
   for (let i in wineNames) {
     krAndEnName.push(wineNames[i].name);
+  }
+  for (let i in wineNames) {
     krAndEnName.push(wineNames[i].name_en);
   }
   const classes = useStyles();
@@ -65,6 +74,20 @@ function Nav() {
       setBtns({ ...btns, [key]: false });
     } else {
       setBtns({ ...btns, [key]: true });
+    }
+  };
+  const [searchWine, setSearchWine] = useState('');
+  const changeInputData = (e) => {
+    setSearchWine(e.target.value);
+  };
+  const onClick = (wine) => {
+    console.log(wine);
+    history.push('/result');
+  };
+
+  const searchWines = (e) => {
+    if (e.key === 'Enter') {
+      onClick(searchWine);
     }
   };
 
@@ -103,6 +126,9 @@ function Nav() {
                       margin="none"
                       variant="standard"
                       InputProps={{ ...params.InputProps, type: 'search' }}
+                      value={searchWine}
+                      onChange={changeInputData}
+                      onKeyPress={searchWines}
                       style={{ margin: '33px 0px 0px 5px' }}
                     />
                   )}
