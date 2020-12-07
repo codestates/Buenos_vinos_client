@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import copyPhoto from '../../image/copyPhoto.png';
 import coverImage from '../../image/1.jpg';
 import {
@@ -11,7 +12,7 @@ import {
   Divider,
 } from '@material-ui/core';
 
-const FindYourWines = ({ children }) => {
+const FindYourWines = (props) => {
   const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
@@ -32,16 +33,22 @@ const FindYourWines = ({ children }) => {
     button: {
       padding: 6,
       marginLeft: 5,
-      height: 24,
+    },
+    link: {
+      textDecoration: 'unset',
       alignSelf: 'center',
     },
   }));
+
+  const handleClick = () => {
+    console.log('click');
+  };
 
   const classes = useStyles();
 
   return (
     <>
-      <div>{children[0]}</div>
+      <div>{props.children[0]}</div>
       <div>
         <React.Fragment>
           <CssBaseline />
@@ -82,11 +89,15 @@ const FindYourWines = ({ children }) => {
       </div>
       <div className={classes.root}>
         <Paper className={classes.selectBar} elevation={3} style={{ borderRadius: 10 }}>
-          <div className={classes.pairing}>{children[1]}</div>
+          <div className={classes.pairing}>{props.children[1]}</div>
           <Divider orientation="vertical" flexItem />
-          <div>{children[2]}</div>
+          <div>{props.children[2]}</div>
           <Divider orientation="vertical" flexItem />
-          <Button className={classes.button}>찾기</Button>
+          <Link to="/filter" className={classes.link}>
+            <Button className={classes.button} onClick={handleClick}>
+              찾기
+            </Button>
+          </Link>
         </Paper>
       </div>
     </>

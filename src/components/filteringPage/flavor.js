@@ -63,7 +63,7 @@ function Flavor(props) {
             5
           </Typography>
           <FlavorSlider
-            defaultValue={[2, 4]}
+            value={props.flavorState[item[0]]}
             min={1}
             max={5}
             valueLabelDisplay="off"

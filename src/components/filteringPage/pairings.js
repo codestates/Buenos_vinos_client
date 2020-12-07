@@ -20,7 +20,7 @@ function Pairings(props) {
   });
   const anchorRef = React.useRef(null);
   const iconUrl = 'https://penzim.synology.me/image/finalProject/icon/';
-  const options = [
+  const pairingsName = [
     ['beef', '소고기'],
     ['pork', '돼지고기'],
     ['poultry', '가금류'],
@@ -37,7 +37,7 @@ function Pairings(props) {
   };
 
   const handleClose = (event) => {
-    props.selectPairing(event.target.id);
+    props.selectOnePairing(event.target.id);
     showSelected(event.target.id);
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
@@ -56,7 +56,7 @@ function Pairings(props) {
     let korName;
 
     if (food) {
-      options.forEach((element) => {
+      pairingsName.forEach((element) => {
         if (element[0] === food) return (korName = element[1]);
       });
       setSelectedFood({ selected: true, foodKor: korName, foodEng: food });
@@ -107,15 +107,6 @@ function Pairings(props) {
     food: {
       width: 24,
       marginRight: 8,
-      // webkitFilter: 'opacity(50%)',
-      // filter: 'opacity(50%)',
-      // '&:hover': {
-      //   webkitFilter: 'opacity(100%)',
-      //   filter: 'opacity(100%)',
-      // },
-    },
-    selectedFood: {
-      width: 24,
     },
   });
 
@@ -150,7 +141,7 @@ function Pairings(props) {
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                  {options.map((item) => (
+                  {pairingsName.map((item) => (
                     <MenuItem onClick={handleClose} id={item[0]} key={item[0]}>
                       <img
                         src={`${iconUrl}${item[0]}.png`}
