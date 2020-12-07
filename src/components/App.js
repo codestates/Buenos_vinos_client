@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import { HashRouter, Route } from 'react-router-dom';
 import EditInfoPage from '../routes/editInfoPage';
 import FilteringPage from '../routes/filteringPage';
@@ -10,9 +10,9 @@ import Nav from './nav';
 import Footer from './footer';
 
 function App() {
-  const [countryState, setCountryState] = useState({
+  const [countryState, setCountryState] = React.useState({
     argen: false,
-    aust: false,
+    australia: false,
     chile: false,
     france: false,
     germany: false,
@@ -21,12 +21,14 @@ function App() {
     spain: false,
     usa: false,
   });
-  const [flavorState, setFlavorState] = useState({
+
+  const [flavorState, setFlavorState] = React.useState({
     sweet: [2, 4],
     acidic: [2, 4],
     body: [2, 4],
   });
-  const [pairingState, setPairingState] = useState({
+
+  const [pairingsState, setPairingsState] = React.useState({
     beef: false,
     pork: false,
     poultry: false,
@@ -37,7 +39,8 @@ function App() {
     fruit: false,
     vagetable: false,
   });
-  const [wineState, setWineState] = useState({
+
+  const [wineState, setWineState] = React.useState({
     red: false,
     white: false,
     rose: false,
@@ -48,11 +51,20 @@ function App() {
     setFlavorState({ ...flavorState, [e]: value });
   };
 
-  const selectPairing = (e) => {
-    if (pairingState[e] && e) {
-      setPairingState({ ...pairingState, [e]: false });
-    } else if (!pairingState[e] && e) {
-      setPairingState({ ...pairingState, [e]: true });
+  const selectOnePairing = (e) => {
+    setPairingsState((prevState) => {
+      for (let key in prevState) {
+        prevState[key] = false;
+      }
+      return { ...prevState, [e]: true };
+    });
+  };
+
+  const selectPairings = (e) => {
+    if (pairingsState[e] && e) {
+      setPairingsState({ ...pairingsState, [e]: false });
+    } else if (!pairingsState[e] && e) {
+      setPairingsState({ ...pairingsState, [e]: true });
     }
   };
 
@@ -66,14 +78,25 @@ function App() {
           render={() => (
             <MainPage
               selectFlavor={selectFlavor}
-              selectPairing={selectPairing}
-              pairingState={pairingState}
+              selectOnePairing={selectOnePairing}
+              flavorState={flavorState}
             />
           )}
         />
         <Route path="/users" exact={true} component={MyPage} />
         <Route path="/editinfo" exact={true} component={EditInfoPage} />
-        <Route path="/filter" exact={true} component={FilteringPage} />
+        <Route
+          path="/filter"
+          exact={true}
+          render={() => (
+            <FilteringPage
+              selectFlavor={selectFlavor}
+              selectPairings={selectPairings}
+              flavorState={flavorState}
+              pairingsState={pairingsState}
+            />
+          )}
+        />
         <Route path="/result" exact={true} component={SearchResultPage} />
         <Route path="/select" exact={true} component={SelectedOnePage} />
       </HashRouter>

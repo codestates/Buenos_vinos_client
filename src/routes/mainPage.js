@@ -9,8 +9,8 @@ function MainPage(props) {
     <>
       <FindYourWines>
         <Recommended />
-        <Pairings selectPairing={props.selectPairing} pairingState={props.pairingState} />
-        <Flavor selectFlavor={props.selectFlavor} />
+        <Pairings selectOnePairing={props.selectOnePairing} />
+        <Flavor selectFlavor={props.selectFlavor} flavorState={props.flavorState} />
       </FindYourWines>
       <Explanation />
     </>
