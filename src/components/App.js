@@ -94,8 +94,8 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Nav />
         <HashRouter>
+          <Nav />
           <Route
             path="/"
             exact={true}
@@ -127,8 +127,8 @@ function App() {
           />
           <Route path="/result" exact={true} component={SearchResultPage} />
           <Route path="/select" exact={true} component={SelectedOnePage} />
+          <Footer />
         </HashRouter>
-        <Footer />
       </ThemeProvider>
     </>
   );

@@ -46,8 +46,6 @@ const useStyles = makeStyles((theme) => ({
 
 function Nav() {
   const [wineNames, setWineNames] = useState([]);
-  const history = useHistory();
-  console.log(history);
   const getWinesData = async () => {
     const response = await axios.get('http://54.180.150.63:3000/wine');
     setWineNames(response.data);
@@ -80,9 +78,13 @@ function Nav() {
   const changeInputData = (e) => {
     setSearchWine(e.target.value);
   };
+  const history = useHistory();
   const onClick = (wine) => {
     console.log(wine);
-    history.push('/result');
+    history.push({
+      pathname: './result',
+      search: wine,
+    });
   };
 
   const searchWines = (e) => {
