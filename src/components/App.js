@@ -18,7 +18,7 @@ const theme = createMuiTheme({
 
 function App() {
   const [countryState, setCountryState] = React.useState({
-    argen: false,
+    argentina: false,
     australia: false,
     chile: false,
     france: false,
@@ -75,40 +75,60 @@ function App() {
     }
   };
 
+  const selectCountries = (e) => {
+    if (countryState[e] && e) {
+      setCountryState({ ...countryState, [e]: false });
+    } else if (!countryState[e] && e) {
+      setCountryState({ ...countryState, [e]: true });
+    }
+  };
+
+  const selectWines = (e) => {
+    if (wineState[e] && e) {
+      setWineState({ ...wineState, [e]: false });
+    } else if (!wineState[e] && e) {
+      setWineState({ ...wineState, [e]: true });
+    }
+  };
+
   return (
     <>
       <ThemeProvider theme={theme}>
-      <Nav />
-      <HashRouter>
-        <Route
-          path="/"
-          exact={true}
-          render={() => (
-            <MainPage
-              selectFlavor={selectFlavor}
-              selectOnePairing={selectOnePairing}
-              flavorState={flavorState}
-            />
-          )}
-        />
-        <Route path="/users" exact={true} component={MyPage} />
-        <Route path="/editinfo" exact={true} component={EditInfoPage} />
-        <Route
-          path="/filter"
-          exact={true}
-          render={() => (
-            <FilteringPage
-              selectFlavor={selectFlavor}
-              selectPairings={selectPairings}
-              flavorState={flavorState}
-              pairingsState={pairingsState}
-            />
-          )}
-        />
-        <Route path="/result" exact={true} component={SearchResultPage} />
-        <Route path="/select" exact={true} component={SelectedOnePage} />
-      </HashRouter>
-      <Footer />
+        <Nav />
+        <HashRouter>
+          <Route
+            path="/"
+            exact={true}
+            render={() => (
+              <MainPage
+                selectFlavor={selectFlavor}
+                selectOnePairing={selectOnePairing}
+                flavorState={flavorState}
+              />
+            )}
+          />
+          <Route path="/users" exact={true} component={MyPage} />
+          <Route path="/editinfo" exact={true} component={EditInfoPage} />
+          <Route
+            path="/filter"
+            exact={true}
+            render={() => (
+              <FilteringPage
+                selectFlavor={selectFlavor}
+                selectPairings={selectPairings}
+                selectCountries={selectCountries}
+                selectWines={selectWines}
+                flavorState={flavorState}
+                pairingsState={pairingsState}
+                countryState={countryState}
+                wineState={wineState}
+              />
+            )}
+          />
+          <Route path="/result" exact={true} component={SearchResultPage} />
+          <Route path="/select" exact={true} component={SelectedOnePage} />
+        </HashRouter>
+        <Footer />
       </ThemeProvider>
     </>
   );
