@@ -93,7 +93,7 @@ const FindYourWines = (props) => {
         <Paper className={classes.selectBar} elevation={3} style={{ borderRadius: 10 }}>
           <div className={classes.pairing}>{props.children[1]}</div>
           <Divider orientation="vertical" flexItem />
-          <div>{props.children[2]}</div>
+          <div>{props.children[2]}</div>cd
           <Divider orientation="vertical" flexItem />
           <Link to="/filter" className={classes.link}>
             <Button className={classes.button} onClick={handleClick}>

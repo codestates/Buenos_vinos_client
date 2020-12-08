@@ -1,5 +1,12 @@
+import WineArticle from '../components/searchPage/wineArticle';
+import Search from '../components/searchPage/search';
 function SearchResultPage() {
-  return <div>Hello, I'm SearchResultPage!</div>;
+  return (
+    <>
+      <Search />
+      <WineArticle />
+    </>
+  );
 }
 
 export default SearchResultPage;

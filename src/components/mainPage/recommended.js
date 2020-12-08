@@ -5,6 +5,7 @@ import Container from '@material-ui/core/Container';
 import Carousel from 'react-material-ui-carousel';
 import Wrapper from './Wrapper';
 import useFetch from './useFetch';
+
 export default function Recommended() {
   const [wines, setWines] = useState([]);
   const loading = useFetch(setWines, 'http://54.180.150.63:3000/wine');
