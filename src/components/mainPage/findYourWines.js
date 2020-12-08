@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import copyPhoto from '../../image/copyPhoto.png';
-import coverImage from '../../image/1.jpg';
 import {
   Container,
   Button,
@@ -52,7 +51,7 @@ const FindYourWines = (props) => {
       <div>
         <React.Fragment>
           <CssBaseline />
-          <Container maxWidth="xl" style={{ position: 'relative', paddingTop: '1vh' }}>
+          <Container maxWidth="xl" style={{ position: 'relative', paddingTop: '2vh' }}>
             <Typography
               component="div"
               style={{
@@ -94,7 +93,7 @@ const FindYourWines = (props) => {
         <Paper className={classes.selectBar} elevation={3} style={{ borderRadius: 10 }}>
           <div className={classes.pairing}>{props.children[1]}</div>
           <Divider orientation="vertical" flexItem />
-          <div>{props.children[2]}</div>
+          <div>{props.children[2]}</div>cd
           <Divider orientation="vertical" flexItem />
           <Link to="/filter" className={classes.link}>
             <Button className={classes.button} onClick={handleClick}>

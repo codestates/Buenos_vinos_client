@@ -78,37 +78,37 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-      <Nav />
-      <HashRouter>
-        <Route
-          path="/"
-          exact={true}
-          render={() => (
-            <MainPage
-              selectFlavor={selectFlavor}
-              selectOnePairing={selectOnePairing}
-              flavorState={flavorState}
-            />
-          )}
-        />
-        <Route path="/users" exact={true} component={MyPage} />
-        <Route path="/editinfo" exact={true} component={EditInfoPage} />
-        <Route
-          path="/filter"
-          exact={true}
-          render={() => (
-            <FilteringPage
-              selectFlavor={selectFlavor}
-              selectPairings={selectPairings}
-              flavorState={flavorState}
-              pairingsState={pairingsState}
-            />
-          )}
-        />
-        <Route path="/result" exact={true} component={SearchResultPage} />
-        <Route path="/select" exact={true} component={SelectedOnePage} />
-      </HashRouter>
-      <Footer />
+        <HashRouter>
+          <Nav />
+          <Route
+            path="/"
+            exact={true}
+            render={() => (
+              <MainPage
+                selectFlavor={selectFlavor}
+                selectOnePairing={selectOnePairing}
+                flavorState={flavorState}
+              />
+            )}
+          />
+          <Route path="/users" exact={true} component={MyPage} />
+          <Route path="/editinfo" exact={true} component={EditInfoPage} />
+          <Route
+            path="/filter"
+            exact={true}
+            render={() => (
+              <FilteringPage
+                selectFlavor={selectFlavor}
+                selectPairings={selectPairings}
+                flavorState={flavorState}
+                pairingsState={pairingsState}
+              />
+            )}
+          />
+          <Route path="/result" exact={true} component={SearchResultPage} />
+          <Route path="/select" exact={true} component={SelectedOnePage} />
+          <Footer />
+        </HashRouter>
       </ThemeProvider>
     </>
   );
