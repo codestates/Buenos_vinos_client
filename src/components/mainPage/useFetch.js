@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
-const useFetch = (setWines, url) => {
+const useFetch = (setWines, axios) => {
   const [loading, setLoading] = useState(false);
   const getWinesData = async () => {
     setLoading(true);
-    const response = await axios.get(url);
+    const response = await axios;
     setWines(response.data);
     setLoading(false);
   };

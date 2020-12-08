@@ -5,10 +5,11 @@ import Container from '@material-ui/core/Container';
 import Carousel from 'react-material-ui-carousel';
 import Wrapper from './Wrapper';
 import useFetch from './useFetch';
+import axios from 'axios';
 
 export default function Recommended() {
   const [wines, setWines] = useState([]);
-  const loading = useFetch(setWines, 'http://54.180.150.63:3000/wine');
+  const loading = useFetch(setWines, axios.get('http://54.180.150.63:3000/wine'));
   wines.sort((a, b) => {
     if (a.rating > b.rating) {
       return -1;
