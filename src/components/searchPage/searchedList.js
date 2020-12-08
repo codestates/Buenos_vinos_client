@@ -2,7 +2,6 @@ import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 
 function SearchedList({ wines }) {
-  console.log(wines);
   const useStyles = makeStyles({
     text: {
       padding: '15px',

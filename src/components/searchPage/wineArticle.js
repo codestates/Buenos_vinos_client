@@ -1,72 +1,25 @@
-import { Grid, makeStyles, Typography } from '@material-ui/core';
-
-function WineArticle() {
-  const useStyles = makeStyles({
-    text: {
-      padding: '15px',
-      margin: '10px',
-    },
-  });
-  const classes = useStyles();
+import { Grid, makeStyles, Typography, Paper } from '@material-ui/core';
+import Carousel from 'react-material-ui-carousel';
+import Wrapper from './wrapper';
+function WineArticle({ chunkedArticles, loading }) {
   return (
     <>
       <Grid
         container
-        direction="row"
+        direction="column"
         justify="center"
         alignItems="center"
-        style={{ borderRadius: '15px' }}
+        style={{ borderRadius: '15px', backgroundColor: 'white' }}
       >
-        <Grid item xs={8} md={8}>
-          <Grid
-            className={classes.text}
-            container
-            direction="row"
-            alignItems="stretch"
-            style={{ backgroundColor: 'white', marginBottom: 10 }}
-          >
-            <Grid
-              item
-              xs={2}
-              md={2}
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#CAC5D8',
-                borderRadius: '15px',
-              }}
-            >
-              <img style={{ width: 50, height: 180 }} alt="wine" />
-            </Grid>
-            <Grid item xs={3} md={3} className={classes.text}>
-              <Typography variant="body1">아아아</Typography>
-              <Typography>
-                <small>아아아</small>
-              </Typography>
-              <Typography variant="body2" style={{ display: 'inline', paddingLeft: 5 }}>
-                아아아
-                <br />
-              </Typography>
-              <Typography
-                variant="h4"
-                style={{
-                  display: 'inline',
-                  marginTop: 50,
-                  paddingRight: 6,
-                  verticalAlign: '2pt',
-                }}
-              >
-                아아아
-              </Typography>
-            </Grid>
-            <Grid className={classes.text} item xs={6} md={6}>
-              <Typography variant="h5">Wine Style</Typography>
-              <br />
-              <Typography>아아아</Typography>
-            </Grid>
-          </Grid>
-        </Grid>
+        <Typography variant="h4" style={{ display: 'block', margin: '15px 0 0 0' }}>
+          와인에 대해 더 알고 싶으신가요?
+        </Typography>
+
+        <Carousel autoPlay={false} animation={'slide'} indicators={false}>
+          {chunkedArticles.map((article) => (
+            <Wrapper article={article} loading={loading} />
+          ))}
+        </Carousel>
       </Grid>
     </>
   );
