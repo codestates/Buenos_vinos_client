@@ -3,8 +3,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Carousel from 'react-material-ui-carousel';
-import Wrapper from './Wrapper';
-import useFetch from './useFetch';
+import Wrapper from '../utility/Wrapper';
+import useFetch from '../utility/useFetch';
 import axios from 'axios';
 
 export default function Recommended() {
