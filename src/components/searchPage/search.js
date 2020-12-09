@@ -10,20 +10,12 @@ function Search() {
   let splitedsearchedWine = searchedWine.split('%20');
   let searchResult = splitedsearchedWine.join(' ');
   const [searchedWines, setSearchedWines] = useState([]);
-  const getSearchEnResult = async (searchResult) => {
-    const response = await axios.get(`http://54.180.150.63:3000/wine?name_en=${searchResult}`);
-    setSearchedWines(response.data);
-  };
-  const getSearchKrResult = async (searchResult) => {
+  const getSearchResult = async (searchResult) => {
     const response = await axios.get(`http://54.180.150.63:3000/wine?name=${searchResult}`);
     setSearchedWines(response.data);
   };
-  console.log(searchedWines);
   useEffect(() => {
-    getSearchKrResult(searchResult);
-  }, [searchResult]);
-  useEffect(() => {
-    getSearchEnResult(searchResult);
+    getSearchResult(searchResult);
   }, [searchResult]);
   return (
     <>
