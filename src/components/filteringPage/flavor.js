@@ -6,6 +6,7 @@ const FlavorSlider = withStyles({
   root: {
     color: '#9F5881',
     height: 8,
+    paddingTop: 5,
   },
   thumb: {
     height: 20,

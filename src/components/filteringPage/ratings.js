@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Box } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 
 const useStyles = makeStyles({
@@ -13,10 +13,12 @@ function Ratings(props) {
   const classes = useStyles();
 
   const handleChange = (event, newValue) => {
-    props.handleChange(event, newValue);
+    props.handleRatingChange(event, newValue);
   };
 
-  const handleChangeHover = (event, newValue) => {};
+  const handleChangeHover = (event, newValue) => {
+    props.handleRatingChangeHover(event, newValue);
+  };
 
   return (
     <div className={classes.root}>
@@ -27,7 +29,9 @@ function Ratings(props) {
         onChange={handleChange}
         onChangeActive={handleChangeHover}
       />
-      {/* {value !== null && <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>} */}
+      {props.ratingValue !== null && (
+        <Box ml={2}>{props.ratingHover !== -1 ? props.ratingHover : props.ratingValue}</Box>
+      )}
     </div>
   );
 }
