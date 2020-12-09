@@ -1,59 +1,42 @@
 import { Grid, makeStyles } from '@material-ui/core';
 import Country from './country';
 import Flavor from './flavor';
+import PairingsButton from './pairingsButton';
 import Ratings from './ratings';
 import WineTypes from './wineTypes';
 
 function Filter(props) {
-  const iconUrl = 'https://penzim.synology.me/image/finalProject/icon/';
   const useStyles = makeStyles({
-    food: {
-      width: 80,
-      float: 'left',
-      webkitFilter: 'opacity(50%)',
-      filter: 'opacity(50%)',
-      '&:hover': {
-        webkitFilter: 'opacity(100%)',
-        filter: 'opacity(100%)',
-      },
-    },
-    selectedFood: {
-      width: 80,
-      float: 'left',
-    },
     filteringBar: {
+      width: 250,
+      padding: 5,
       position: 'fixed',
       left: '1.5rem',
     },
+    text: {
+      fontSize: '1.4rem',
+      margin: 10,
+    },
   });
-
-  const pairingsName = Object.keys(props.pairingsState);
-
-  const handleClick = (e) => {
-    props.selectPairings(e.target.alt);
-  };
 
   const classes = useStyles();
 
   return (
     <Grid item xs={2} className={classes.filteringBar}>
+      <p className={classes.text}>와인 종류</p>
       <WineTypes selectWines={props.selectWines} wineState={props.wineState} />
+      <p className={classes.text}>맛 선택</p>
       <Flavor selectFlavor={props.selectFlavor} flavorState={props.flavorState}></Flavor>
-      {pairingsName.map((item) => (
-        <img
-          src={`${iconUrl}${item}.png`}
-          className={props.pairingsState[item][0] ? classes.selectedFood : classes.food}
-          key={item}
-          alt={item}
-          onClick={handleClick}
-        />
-      ))}
+      <p className={classes.text}>음식 선택</p>
+      <PairingsButton selectPairings={props.selectPairings} pairingsState={props.pairingsState} />
+      <p className={classes.text}>국가 선택</p>
       <Country selectCountries={props.selectCountries} countryState={props.countryState} />
+      <p className={classes.text}>평점 선택</p>
       <Ratings
         ratingHover={props.ratingHover}
         ratingValue={props.ratingValue}
-        handleChange={props.handleChange}
-        handleChangeHover={props.handleChangeHover}
+        handleRatingChange={props.handleRatingChange}
+        handleRatingChangeHover={props.handleRatingChangeHover}
       />
     </Grid>
   );

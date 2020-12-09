@@ -1,4 +1,4 @@
-import { Box, makeStyles } from '@material-ui/core';
+import { Box, Button, makeStyles, Typography } from '@material-ui/core';
 
 function Country(props) {
   const url = 'https://penzim.synology.me/image/finalProject/country/';
@@ -6,7 +6,14 @@ function Country(props) {
 
   const useStyles = makeStyles({
     flag: {
+      width: 24,
       float: 'left',
+      marginRight: 4,
+    },
+    button: {
+      // width: 100,
+      padding: 4,
+      justifyContent: 'left',
       webkitFilter: 'opacity(50%)',
       filter: 'opacity(50%)',
       '&:hover': {
@@ -14,13 +21,18 @@ function Country(props) {
         filter: 'opacity(100%)',
       },
     },
-    selectedFlag: {
-      float: 'left',
+    clickedButton: {
+      // width: 100,
+      padding: 4,
+      justifyContent: 'left',
+    },
+    text: {
+      fontSize: '0.9rem',
     },
   });
 
   const handleClick = (e) => {
-    props.selectCountries(e.target.alt);
+    props.selectCountries(e.currentTarget.name);
   };
 
   const classes = useStyles();
@@ -28,13 +40,16 @@ function Country(props) {
   return (
     <Box>
       {countries.map((item) => (
-        <img
-          src={`${url}${item}_round_64.png`}
+        <Button
           key={item}
-          alt={item}
-          className={props.countryState[item][0] ? classes.selectedFlag : classes.flag}
+          name={item}
+          // variant="outlined"
+          className={props.countryState[item][0] ? classes.clickedButton : classes.button}
           onClick={handleClick}
-        />
+        >
+          <img src={`${url}${item}_round_32.png`} key={item} alt={item} className={classes.flag} />
+          <Typography className={classes.text}>{props.countryState[item][1]}</Typography>
+        </Button>
       ))}
     </Box>
   );
