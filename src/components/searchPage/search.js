@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import useFetch from '../mainPage/useFetch';
+import useFetch from '../utility/useFetch';
 import SearchedList from './searchedList';
 import axios from 'axios';
 
