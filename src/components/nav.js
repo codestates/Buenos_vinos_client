@@ -14,6 +14,7 @@ import FaceIcon from '@material-ui/icons/Face';
 import { SvgIcon } from '@material-ui/core';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import Signin from '../components/user/login';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -93,6 +94,14 @@ function Nav() {
     }
   };
 
+  const [signinModal, setSignModal] = useState(false);
+  const signinOpen = () => {
+    setSignModal(true);
+  };
+  const signinClose = () => {
+    setSignModal(false);
+  };
+
   return (
     <>
       <React.Fragment>
@@ -139,7 +148,8 @@ function Nav() {
               <Grid item xs={1} style={{ marginLeft: 'auto', marginTop: '30px' }}>
                 <IconButton>
                   <SvgIcon>
-                    <FaceIcon />
+                    <FaceIcon onClick={signinOpen} />
+                    <Signin signinModal={signinModal} signinClose={signinClose}></Signin>
                     login and sign up
                   </SvgIcon>
                 </IconButton>
