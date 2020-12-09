@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import copyPhoto from '../../image/copyPhoto.png';
 import {
   Container,
@@ -39,8 +39,10 @@ const FindYourWines = (props) => {
     },
   }));
 
+  const history = useHistory();
+
   const handleClick = () => {
-    console.log('click');
+    history.push('/filter');
   };
 
   const classes = useStyles();
@@ -93,13 +95,11 @@ const FindYourWines = (props) => {
         <Paper className={classes.selectBar} elevation={3} style={{ borderRadius: 10 }}>
           <div className={classes.pairing}>{props.children[1]}</div>
           <Divider orientation="vertical" flexItem />
-          <div>{props.children[2]}</div>cd
+          <div>{props.children[2]}</div>
           <Divider orientation="vertical" flexItem />
-          <Link to="/filter" className={classes.link}>
-            <Button className={classes.button} onClick={handleClick}>
-              찾기
-            </Button>
-          </Link>
+          <Button className={classes.button} onClick={handleClick}>
+            찾기
+          </Button>
         </Paper>
       </div>
     </>

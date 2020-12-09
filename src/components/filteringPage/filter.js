@@ -1,6 +1,7 @@
 import { Grid, makeStyles } from '@material-ui/core';
 import Country from './country';
 import Flavor from './flavor';
+import Ratings from './ratings';
 import WineTypes from './wineTypes';
 
 function Filter(props) {
@@ -41,13 +42,19 @@ function Filter(props) {
       {pairingsName.map((item) => (
         <img
           src={`${iconUrl}${item}.png`}
-          className={props.pairingsState[item] ? classes.selectedFood : classes.food}
+          className={props.pairingsState[item][0] ? classes.selectedFood : classes.food}
           key={item}
           alt={item}
           onClick={handleClick}
         />
       ))}
       <Country selectCountries={props.selectCountries} countryState={props.countryState} />
+      <Ratings
+        ratingHover={props.ratingHover}
+        ratingValue={props.ratingValue}
+        handleChange={props.handleChange}
+        handleChangeHover={props.handleChangeHover}
+      />
     </Grid>
   );
 }

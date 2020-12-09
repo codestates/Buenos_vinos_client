@@ -32,7 +32,7 @@ function Country(props) {
           src={`${url}${item}_round_64.png`}
           key={item}
           alt={item}
-          className={props.countryState[item] ? classes.selectedFlag : classes.flag}
+          className={props.countryState[item][0] ? classes.selectedFlag : classes.flag}
           onClick={handleClick}
         />
       ))}
