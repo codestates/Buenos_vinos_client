@@ -11,7 +11,7 @@ function Country(props) {
       marginRight: 4,
     },
     button: {
-      // width: 100,
+      width: 120,
       padding: 4,
       justifyContent: 'left',
       webkitFilter: 'opacity(50%)',
@@ -22,12 +22,12 @@ function Country(props) {
       },
     },
     clickedButton: {
-      // width: 100,
+      width: 120,
       padding: 4,
       justifyContent: 'left',
     },
     text: {
-      fontSize: '0.9rem',
+      fontSize: '1.2rem',
     },
   });
 

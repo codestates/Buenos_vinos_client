@@ -6,19 +6,14 @@ import Carousel from 'react-material-ui-carousel';
 import Wrapper from '../utility/Wrapper';
 import useFetch from '../utility/useFetch';
 import axios from 'axios';
+import sortDesc from '../utility/sortDesc';
 
 export default function Recommended() {
   const [wines, setWines] = useState([]);
   const loading = useFetch(setWines, axios.get('http://54.180.150.63:3000/wine'));
-  wines.sort((a, b) => {
-    if (a.rating > b.rating) {
-      return -1;
-    }
-    if (a.rating < b.rating) {
-      return 1;
-    }
-    return 0;
-  });
+
+  const sortedList = sortDesc(wines, 'rating');
+
   function makeChunkedWines(wines) {
     const chunkedWines = [];
     let tempWines = [];
@@ -37,7 +32,7 @@ export default function Recommended() {
     return chunkedWines;
   }
 
-  const chunkedWines = makeChunkedWines(wines);
+  const chunkedWines = makeChunkedWines(sortedList);
   return (
     <>
       <React.Fragment>
