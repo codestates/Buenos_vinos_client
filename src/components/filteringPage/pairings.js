@@ -37,8 +37,10 @@ function Pairings(props) {
   };
 
   const handleClose = (event) => {
-    props.selectOnePairing(event.target.id);
-    showSelected(event.target.id);
+    if (event.target.id) {
+      props.selectOnePairing(event.target.id);
+      showSelected(event.target.id);
+    }
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }

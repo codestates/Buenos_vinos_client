@@ -1,4 +1,4 @@
-import { Button, makeStyles } from '@material-ui/core';
+import { Button, makeStyles, Typography } from '@material-ui/core';
 
 function WineTypes(props) {
   const useStyles = makeStyles((theme) => ({
@@ -21,32 +21,28 @@ function WineTypes(props) {
     },
   }));
 
+  const wineName = Object.keys(props.wineState);
+
   const handleClick = (e) => {
-    props.selectWines(e.target.name);
-    console.log(e.target);
+    props.selectWines(e.currentTarget.name);
+    console.log(e.currentTarget.name);
   };
 
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Button
-        variant="outlined"
-        className={props.wineState.red ? classes.clickedButton : classes.button}
-        name="red"
-        onClick={handleClick}
-      >
-        레드
-      </Button>
-      <Button variant="outlined" className={classes.button} name="white" onClick={handleClick}>
-        화이트
-      </Button>
-      <Button variant="outlined" className={classes.button} name="rose" onClick={handleClick}>
-        스파클링
-      </Button>
-      <Button variant="outlined" className={classes.button} name="sparkling" onClick={handleClick}>
-        로제
-      </Button>
+      {wineName.map((item) => (
+        <Button
+          variant="outlined"
+          className={props.wineState[item][0] ? classes.clickedButton : classes.button}
+          key={item}
+          name={item}
+          onClick={handleClick}
+        >
+          <Typography>{props.wineState[item][1]}</Typography>
+        </Button>
+      ))}
     </div>
   );
 }
