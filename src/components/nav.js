@@ -14,7 +14,7 @@ import FaceIcon from '@material-ui/icons/Face';
 import { SvgIcon } from '@material-ui/core';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import Signin from '../components/user/login';
+import SignModal from './user/SignModal';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,17 +43,26 @@ const useStyles = makeStyles((theme) => ({
   defalutColor: {
     color: 'black',
   },
+  logo: {
+    cursor: 'pointer',
+    verticalAlign: 'center',
+  },
 }));
 
 function Nav() {
   const [wineNames, setWineNames] = useState([]);
+  const [searchWine, setSearchWine] = useState('');
+  const [signInModal, setSignModal] = useState(false);
+
   const getWinesData = async () => {
     const response = await axios.get('http://54.180.150.63:3000/wine');
     setWineNames(response.data);
   };
+
   useEffect(() => {
     getWinesData();
   }, []);
+
   const krAndEnName = [];
   for (let i in wineNames) {
     krAndEnName.push(wineNames[i].name);
@@ -61,13 +70,16 @@ function Nav() {
   for (let i in wineNames) {
     krAndEnName.push(wineNames[i].name_en);
   }
+
   const classes = useStyles();
+
   const [btns, setBtns] = useState({
     red: false,
     white: false,
     sparkling: false,
     rose: false,
   });
+
   const toggleHover = (key) => (e) => {
     if (btns[key]) {
       setBtns({ ...btns, [key]: false });
@@ -75,11 +87,13 @@ function Nav() {
       setBtns({ ...btns, [key]: true });
     }
   };
-  const [searchWine, setSearchWine] = useState('');
+
   const changeInputData = (e) => {
     setSearchWine(e.target.value);
   };
+
   const history = useHistory();
+
   const onClick = (wine) => {
     console.log(wine);
     history.push({
@@ -94,13 +108,23 @@ function Nav() {
     }
   };
 
-  const [signinModal, setSignModal] = useState(false);
-  const signinOpen = () => {
+  const signInOpen = () => {
     setSignModal(true);
+    console.log('click');
   };
-  const signinClose = () => {
+  const signInClose = () => {
     setSignModal(false);
   };
+
+  const handleClickToMain = () => {
+    history.push('./');
+  };
+  // 로고 클릭시 메인으로 이동시키는 함수
+
+  const handleClickToFilter = (e) => {
+    console.log(e.target);
+  };
+  // 네비게이션 바의 와인 타입을 누르면 필터링 메뉴로 이동시키는 함수
 
   return (
     <>
@@ -120,9 +144,8 @@ function Nav() {
                 // src={'https://penzim.synology.me/image/finalProject/logo/logo.png'}
                 src={logo}
                 alt="logo"
-                style={{
-                  verticalAlign: 'center',
-                }}
+                className={classes.logo}
+                onClick={handleClickToMain}
               />
               <div style={{ width: 200, height: 30 }}>
                 <Autocomplete
@@ -146,13 +169,13 @@ function Nav() {
                 />
               </div>
               <Grid item xs={1} style={{ marginLeft: 'auto', marginTop: '30px' }}>
-                <IconButton>
-                  <SvgIcon>
-                    <FaceIcon onClick={signinOpen} />
-                    <Signin signinModal={signinModal} signinClose={signinClose}></Signin>
-                    login and sign up
-                  </SvgIcon>
+                <IconButton onClick={signInOpen}>
+                  {/* <SvgIcon> */}
+                  {/* login and sign up */}
+                  <FaceIcon />
+                  {/* </SvgIcon> */}
                 </IconButton>
+                <SignModal signInModal={signInModal} signInClose={signInClose} />
               </Grid>
             </Grid>
             <Grid container spacing={2} item xs={12} style={{ padding: '0px 0px 0px 10vw' }}>
@@ -161,6 +184,7 @@ function Nav() {
                   className={btns.red ? classes.selectedBtn : classes.defalutColor}
                   onMouseLeave={toggleHover('red')}
                   onMouseOver={toggleHover('red')}
+                  onClick={handleClickToFilter}
                   component="button"
                   underline="none"
                   style={{
