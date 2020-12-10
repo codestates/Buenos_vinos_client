@@ -1,0 +1,48 @@
+export default function validate(obj, password) {
+  const errors = {};
+  console.log(obj);
+  const emailRegExp = /^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/;
+  const passwordRegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
+
+  if (obj.nickname) {
+    if (obj.nickname.length < 2) {
+      errors.isNickNameVaild = false;
+    } else {
+      errors.isNickNameVaild = true;
+    }
+  } else if (obj.nickname === '') {
+    errors.isNickNameVaild = false;
+  }
+
+  if (obj.email) {
+    if (obj.email.match(emailRegExp)) {
+      errors.isEmailVaild = true;
+    } else {
+      errors.isEmailVaild = false;
+    }
+  } else if (obj.email === '') {
+    errors.isEmailVaild = false;
+  }
+
+  if (obj.password) {
+    if (obj.password.match(passwordRegExp)) {
+      errors.isPasswordVaild = true;
+    } else {
+      errors.isPasswordVaild = false;
+    }
+  } else if (obj.password === '') {
+    errors.isPasswordVaild = false;
+  }
+
+  if (obj.passwordCorrect && password) {
+    if (obj.passwordCorrect === password) {
+      errors.isPasswordCorrect = true;
+    } else {
+      errors.isPasswordCorrect = false;
+    }
+  } else if (obj.passwordCorrect === '') {
+    errors.isPasswordCorrect = false;
+  }
+
+  return errors;
+}
