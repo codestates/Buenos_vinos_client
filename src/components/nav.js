@@ -11,7 +11,6 @@ import {
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import logo from '../image/logo.png';
 import FaceIcon from '@material-ui/icons/Face';
-import { SvgIcon } from '@material-ui/core';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import SignModal from './user/SignModal';
@@ -37,11 +36,16 @@ const useStyles = makeStyles((theme) => ({
   divider: {
     margin: theme.spacing(2, 0),
   },
-  selectedBtn: {
-    color: '#CB9FC7',
-  },
-  defalutColor: {
+  wineMenu: {
     color: 'black',
+    position: 'relative',
+    display: 'inline-block',
+    overflow: 'hidden',
+    textShadow: '1px 1px 2px black',
+    fontSize: '15px',
+    '&:hover': {
+      color: '#CB9FC7',
+    },
   },
   logo: {
     cursor: 'pointer',
@@ -55,7 +59,7 @@ function Nav() {
   const [signInModal, setSignModal] = useState(false);
 
   const getWinesData = async () => {
-    const response = await axios.get('http://54.180.150.63:3000/wine');
+    const response = await axios.get('https://buenosvinosserver.ga/wine');
     setWineNames(response.data);
   };
 
@@ -72,21 +76,6 @@ function Nav() {
   }
 
   const classes = useStyles();
-
-  const [btns, setBtns] = useState({
-    red: false,
-    white: false,
-    sparkling: false,
-    rose: false,
-  });
-
-  const toggleHover = (key) => (e) => {
-    if (btns[key]) {
-      setBtns({ ...btns, [key]: false });
-    } else {
-      setBtns({ ...btns, [key]: true });
-    }
-  };
 
   const changeInputData = (e) => {
     setSearchWine(e.target.value);
@@ -122,7 +111,12 @@ function Nav() {
   // 로고 클릭시 메인으로 이동시키는 함수
 
   const handleClickToFilter = (e) => {
-    console.log(e.target);
+    history.push({
+      pathname: './filter',
+      state: {
+        selectedWine: e.currentTarget.name,
+      },
+    });
   };
   // 네비게이션 바의 와인 타입을 누르면 필터링 메뉴로 이동시키는 함수
 
@@ -170,10 +164,7 @@ function Nav() {
               </div>
               <Grid item xs={1} style={{ marginLeft: 'auto', marginTop: '30px' }}>
                 <IconButton onClick={signInOpen}>
-                  {/* <SvgIcon> */}
-                  {/* login and sign up */}
                   <FaceIcon />
-                  {/* </SvgIcon> */}
                 </IconButton>
                 <SignModal signInModal={signInModal} signInClose={signInClose} />
               </Grid>
@@ -181,73 +172,44 @@ function Nav() {
             <Grid container spacing={2} item xs={12} style={{ padding: '0px 0px 0px 10vw' }}>
               <div className={classes.root}>
                 <Link
-                  className={btns.red ? classes.selectedBtn : classes.defalutColor}
-                  onMouseLeave={toggleHover('red')}
-                  onMouseOver={toggleHover('red')}
+                  className={classes.wineMenu}
                   onClick={handleClickToFilter}
                   component="button"
                   underline="none"
-                  style={{
-                    position: 'relative',
-                    display: 'inline-block',
-                    overflow: 'hidden',
-                    textShadow: '1px 1px 2px black',
-                    fontSize: '15px',
-                  }}
+                  name="red"
                 >
                   레드
                 </Link>
               </div>
               <div className={classes.root}>
                 <Link
-                  className={btns.white ? classes.selectedBtn : classes.defalutColor}
-                  onMouseLeave={toggleHover('white')}
-                  onMouseOver={toggleHover('white')}
+                  className={classes.wineMenu}
+                  onClick={handleClickToFilter}
                   component="button"
                   underline="none"
-                  style={{
-                    position: 'relative',
-                    display: 'inline-block',
-                    overflow: 'hidden',
-                    textShadow: '1px 1px 2px black',
-                    fontSize: '15px',
-                  }}
+                  name="white"
                 >
                   화이트
                 </Link>
               </div>
               <div className={classes.root}>
                 <Link
-                  className={btns.sparkling ? classes.selectedBtn : classes.defalutColor}
-                  onMouseLeave={toggleHover('sparkling')}
-                  onMouseOver={toggleHover('sparkling')}
+                  className={classes.wineMenu}
+                  onClick={handleClickToFilter}
                   component="button"
                   underline="none"
-                  style={{
-                    position: 'relative',
-                    display: 'inline-block',
-                    overflow: 'hidden',
-                    textShadow: '1px 1px 2px black',
-                    fontSize: '15px',
-                  }}
+                  name="sparkling"
                 >
                   스파클링
                 </Link>
               </div>
               <div className={classes.root}>
                 <Link
-                  className={btns.rose ? classes.selectedBtn : classes.defalutColor}
-                  onMouseLeave={toggleHover('rose')}
-                  onMouseOver={toggleHover('rose')}
+                  className={classes.wineMenu}
+                  onClick={handleClickToFilter}
                   underline="none"
                   component="button"
-                  style={{
-                    position: 'relative',
-                    display: 'inline-block',
-                    overflow: 'hidden',
-                    textShadow: '1px 1px 2px black',
-                    fontSize: '15px',
-                  }}
+                  name="rose"
                 >
                   로제
                 </Link>

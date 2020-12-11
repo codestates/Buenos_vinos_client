@@ -106,20 +106,40 @@ function FilteringPage() {
   const handleRatingChange = (event, newValue) => {
     setRatingValue(newValue);
   };
+  // 클릭했을때 레이팅 값을 변경하는 함수
 
   const handleRatingChangeHover = (event, newHover) => {
     setRatingHover(newHover);
   };
+  // 호버링할때 마우스 커서가 위치한 곳의 레이팅 값을 변경하는 함수
 
-  // React.useEffect(() => {
-  //   setPairingsState(mainPageState.pairingsState);
-  //   setFlavorState(mainPageState.flavorState);
-  // }, []);
+  React.useEffect(() => {
+    if (mainPageState.pairingsState) {
+      setPairingsState(mainPageState.pairingsState);
+    }
+
+    if (mainPageState.flavorState) {
+      setFlavorState(mainPageState.flavorState);
+    }
+    // 메인페이지에서 history state에 담아 보낸 값들을 반영시킨다
+
+    if (mainPageState.selectedWine) {
+      setWineState((prevState) => {
+        for (let key in wineState) {
+          if (mainPageState.selectedWine === key) {
+            prevState[key][0] = true;
+          }
+        }
+        return { ...prevState };
+      });
+    }
+    // 메인페이지 네비메뉴에서 선택한 값들을 반영시킨다
+  }, []);
 
   React.useEffect(() => {
     const getFilterdList = async () => {
       try {
-        const res = await axios.get('http://54.180.150.63:3000/wine', {
+        const res = await axios.get('https://buenosvinosserver.ga/wine', {
           params: {
             sweet_min: flavorState.sweet[0],
             sweet_max: flavorState.sweet[1],

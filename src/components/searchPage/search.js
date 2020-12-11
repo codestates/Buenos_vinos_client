@@ -10,7 +10,7 @@ function Search() {
   let searchResult = splitedsearchedWine.join(' ');
   const [searchedWines, setSearchedWines] = useState([]);
   const getSearchResult = async (searchResult) => {
-    const response = await axios.get(`http://54.180.150.63:3000/wine?name=${searchResult}`);
+    const response = await axios.get(`https://buenosvinosserver.ga/wine?name=${searchResult}`);
     setSearchedWines(response.data);
   };
   useEffect(() => {

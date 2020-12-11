@@ -1,4 +1,4 @@
-export default function validate(obj, password) {
+export default function validate(obj) {
   const errors = {};
   console.log(obj);
   const emailRegExp = /^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/;
@@ -32,16 +32,6 @@ export default function validate(obj, password) {
     }
   } else if (obj.password === '') {
     errors.isPasswordVaild = false;
-  }
-
-  if (obj.passwordCorrect && password) {
-    if (obj.passwordCorrect === password) {
-      errors.isPasswordCorrect = true;
-    } else {
-      errors.isPasswordCorrect = false;
-    }
-  } else if (obj.passwordCorrect === '') {
-    errors.isPasswordCorrect = false;
   }
 
   return errors;
