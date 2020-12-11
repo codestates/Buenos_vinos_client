@@ -1,5 +1,7 @@
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 function SearchedList({ wines }) {
   const useStyles = makeStyles({
@@ -9,6 +11,16 @@ function SearchedList({ wines }) {
     },
   });
   const classes = useStyles();
+  const [searchResult, setSearchResult] = React.useState();
+  const onClick = (wine) => {
+    console.log(wine);
+    history.push({
+      pathname: './select',
+      state: wine,
+    });
+  };
+  const history = useHistory();
+
   return (
     <>
       <Grid
@@ -27,7 +39,8 @@ function SearchedList({ wines }) {
                 direction="row"
                 alignItems="stretch"
                 key={item.id}
-                style={{ backgroundColor: 'white', marginBottom: 10 }}
+                style={{ backgroundColor: 'white', marginBottom: 10, cursor: 'pointer' }}
+                onClick={() => onClick(item)}
               >
                 <Grid
                   item
