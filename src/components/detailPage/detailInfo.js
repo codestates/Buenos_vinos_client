@@ -1,8 +1,4 @@
 import { Grid, makeStyles } from '@material-ui/core';
-import wineName from '../../image/wineName.png';
-import wineType from '../../image/type.png';
-import winery from '../../image/winery.png';
-import alcohol from '../../image/alcohol.png';
 
 function DetailInfo({ searchResult }) {
   const useStyles = makeStyles((theme) => ({
@@ -20,12 +16,10 @@ function DetailInfo({ searchResult }) {
       verticalAlign: '-5pt',
     },
     lineName: {
-      border: '1px solid black',
       fontSize: '1.5rem',
       padding: '10px 20px',
     },
     lineInfo: {
-      border: '1px solid black',
       fontSize: '1.5rem',
       maxWidth: '998px',
       padding: '10px 20px 10px 20px',
@@ -58,7 +52,6 @@ function DetailInfo({ searchResult }) {
           style={{
             fontSize: '1rem',
             margin: 20,
-            border: '1px solid black',
           }}
         >
           <caption
@@ -77,7 +70,11 @@ function DetailInfo({ searchResult }) {
             <tr style={{ borderCollapse: 'collapse' }}>
               <th className={classes.lineName}>
                 <div className={classes.listbox}>
-                  <img className={classes.image} src={wineName} alt="wineName" />
+                  <img
+                    className={classes.image}
+                    src="https://penzim.synology.me/image/finalProject/icon/wineName.png"
+                    alt="wineName"
+                  />
                   <span> 와인 이름 </span>
                 </div>
               </th>
@@ -88,7 +85,11 @@ function DetailInfo({ searchResult }) {
             <tr>
               <th className={classes.lineName}>
                 <div className={classes.listbox}>
-                  <img className={classes.image} src={wineType} alt="wineType" />
+                  <img
+                    className={classes.image}
+                    src="https://penzim.synology.me/image/finalProject/icon/type.png"
+                    alt="wineType"
+                  />
                   <span> 와인 타입 </span>
                 </div>
               </th>
@@ -99,7 +100,11 @@ function DetailInfo({ searchResult }) {
             <tr>
               <th className={classes.lineName}>
                 <div className={classes.listbox}>
-                  <img className={classes.image} src={alcohol} alt="alcohol" />
+                  <img
+                    className={classes.image}
+                    src="https://penzim.synology.me/image/finalProject/icon/alcohol.png"
+                    alt="alcohol"
+                  />
                   <span>와인 도수</span>
                 </div>
               </th>
@@ -121,7 +126,11 @@ function DetailInfo({ searchResult }) {
             <tr>
               <th className={classes.lineName}>
                 <div className={classes.listbox}>
-                  <img className={classes.image} src={winery} alt="winery" />
+                  <img
+                    className={classes.image}
+                    src="https://penzim.synology.me/image/finalProject/icon/winery.png"
+                    alt="winery"
+                  />
                   <span> 와이너리 </span>
                 </div>
               </th>

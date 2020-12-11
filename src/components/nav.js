@@ -9,7 +9,6 @@ import {
   Link,
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import logo from '../image/logo.png';
 import FaceIcon from '@material-ui/icons/Face';
 import { SvgIcon } from '@material-ui/core';
 import axios from 'axios';
@@ -141,8 +140,7 @@ function Nav() {
           >
             <Grid container spacing={3} item xs={12} style={{ padding: '0px 6.5vw 0px 9vw' }}>
               <img
-                // src={'https://penzim.synology.me/image/finalProject/logo/logo.png'}
-                src={logo}
+                src="https://penzim.synology.me/image/finalProject/logo/logo.png"
                 alt="logo"
                 className={classes.logo}
                 onClick={handleClickToMain}

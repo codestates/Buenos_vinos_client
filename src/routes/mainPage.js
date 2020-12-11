@@ -1,6 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import copyPhoto from '../image/copyPhoto.png';
 import {
   Container,
   Button,
@@ -96,8 +95,7 @@ function MainPage() {
             <Typography
               component="div"
               style={{
-                // backgroundImage: `url(https://penzim.synology.me/image/finalProject/mainpage/findYourWines.jpg)`,
-                backgroundImage: `url(${copyPhoto})`,
+                backgroundImage: `url(https://penzim.synology.me/image/finalProject/mainpage/mainbanner.png)`,
                 backgroundPosition: 'center',
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',

@@ -61,8 +61,8 @@ function AllComments({ comments }) {
           <Typography variant="h6">리뷰 모아보기</Typography>
           <Grid container direction="column" justify="flex-start" alignItems="flex-start">
             {chunckedData.map((comment) => (
-              <Paper className={classes.layout}>
-                <Grid key={comment.id} container>
+              <Paper key={comment.id} className={classes.layout}>
+                <Grid container>
                   <Grid className={classes.accountInfo} item xs={2} md={2}>
                     <Grid>
                       <AccountCircleIcon style={{ width: 50, height: 50 }} />
