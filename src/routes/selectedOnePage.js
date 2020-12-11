@@ -4,22 +4,36 @@ import SelectedOnePairings from '../components/detailPage/selectedOnePairings';
 import { useLocation } from 'react-router-dom';
 import { Grid, makeStyles, Typography, Button } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import DetailInfo from '../components/detailPage/detailInfo';
 import ShowFlavor from '../components/detailPage/showFlavor';
 import GolfCourseIcon from '@material-ui/icons/GolfCourse';
 import AllComments from '../components/detailPage/allComments';
+import SignModal from '../components/user/SignModal';
 
 function SelectedOnePage() {
+  //검색결과 데이터 가져오기
   const location = useLocation();
   const searchResult = location.state;
   console.log(searchResult);
+
+  // 버튼 구현
   const [styleAndPairingsInfo, setStyleAndPairingsInfo] = useState(true);
   const [wineInfo, setWineInfo] = useState(false);
   const [flavorInfo, setFlavorInfo] = useState(false);
   const [wineDetailInfo, setWineDetailInfo] = useState(false);
   const [showReview, setShowReview] = useState(false);
-  console.log(styleAndPairingsInfo, wineInfo, flavorInfo, wineDetailInfo, showReview);
+
+  // 로그인 모달 구현
+  const [signInModal, setSignModal] = useState(false);
+
+  const signInOpen = () => {
+    setSignModal(true);
+    console.log('click');
+  };
+  const signInClose = () => {
+    setSignModal(false);
+  };
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -108,12 +122,15 @@ function SelectedOnePage() {
               <Typography style={{ display: 'inline-block', marginTop: 50 }}>
                 <Rating defaultValue={searchResult.rating} precision={0.1} readOnly />
               </Typography>
-              <div className={classes.root}>
+              <div className={classes.root} onClick={signInOpen}>
                 <Button>
                   <GolfCourseIcon />
                   위시리스트에 추가하기
                 </Button>
               </div>
+              {localStorage.logging ? null : (
+                <SignModal signInModal={signInModal} signInClose={signInClose} />
+              )}
               <Comment comments={searchResult.comment} />
             </Grid>
             <Grid

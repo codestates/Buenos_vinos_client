@@ -1,6 +1,9 @@
 import { Grid, makeStyles, Typography, Button, Paper } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Rating from '@material-ui/lab/Rating';
+import SignModal from '../../components/user/SignModal';
+import React, { useState } from 'react';
+import ReviewModal from './reviewModal';
 
 function Comment({ comments }) {
   const useStyles = makeStyles((theme) => ({
@@ -40,6 +43,7 @@ function Comment({ comments }) {
     },
   }));
   const classes = useStyles();
+  // 데이터 가공
   let chunckedData = [];
   comments.sort((a, b) => {
     if (a.rating > b.rating) return -1;
@@ -56,6 +60,29 @@ function Comment({ comments }) {
     }
   }
   console.log(chunckedData);
+
+  // 모달창 구현
+  const [signInModal, setSignModal] = useState(false);
+
+  const signInOpen = () => {
+    setSignModal(true);
+    console.log('click');
+  };
+  const signInClose = () => {
+    setSignModal(false);
+  };
+
+  //리뷰 모달창 구현
+  const [toReview, setToReview] = useState(false);
+  const reviewInOpen = () => {
+    setToReview(true);
+    console.log('click');
+  };
+
+  const reviewInClose = () => {
+    setToReview(false);
+  };
+
   return (
     <div style={{ marginTop: '3vh' }}>
       <Typography variant="h6">베스트 리뷰</Typography>
@@ -96,9 +123,23 @@ function Comment({ comments }) {
         <Typography variant="h6">- 아직 리뷰가 없습니다. -</Typography>
       )}
 
-      <div className={classes.root} style={{ display: 'flex', justify: 'text-end' }}>
+      <div
+        className={classes.root}
+        style={{ display: 'flex', justify: 'text-end' }}
+        onClick={reviewInOpen}
+      >
         <Button variant="outlined">와인 리뷰 남기기</Button>
       </div>
+      {localStorage.logging ? (
+        <ReviewModal
+          reviewInOpen={reviewInOpen}
+          reviewInClose={reviewInClose}
+          toReview={toReview}
+          setToReview={setToReview}
+        />
+      ) : (
+        <SignModal signInModal={signInModal} signInClose={signInClose} />
+      )}
     </div>
   );
 }
