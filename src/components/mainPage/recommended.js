@@ -10,7 +10,7 @@ import sortDesc from '../utility/sortDesc';
 
 export default function Recommended() {
   const [wines, setWines] = useState([]);
-  const loading = useFetch(setWines, axios.get('http://54.180.150.63:3000/wine'));
+  const loading = useFetch(setWines, axios.get('https://buenosvinosserver.ga/wine'));
 
   const sortedList = sortDesc(wines, 'rating');
 
