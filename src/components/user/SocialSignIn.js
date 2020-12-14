@@ -1,43 +1,42 @@
 import { Container } from '@material-ui/core';
 import axios from 'axios';
-import { useState } from 'react';
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import KakaoLogin from 'react-kakao-login';
 import { Google_ClientId, KakaoKey } from '../../config/config';
+import Cookies from 'js-cookie';
 
 axios.defaults.withCredentials = true;
 
-function SocialSignIn() {
-  const [values, setValues] = useState({
-    id: '',
-    email: '',
-    nickname: '',
-    provider: '',
-    accessToken: '',
-    tokenId: '',
-  });
-
-  const googleRes = (res) => {
+function SocialSignIn(props) {
+  const googleRes = async (res) => {
     console.log(res);
-    setValues({
-      id: res.googleId,
-      email: res.profileObj.email,
-      nickname: res.profileObj.name,
-      provider: 'google',
-      accessToken: res.accessToken,
-    });
+    await axios({
+      method: 'post',
+      url: 'https://buenosvinosserver.ga/auth/login/google',
+      data: {
+        tokenId: res.tokenId,
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+        Cookies.set('authorization', res.data.authorization);
+        Cookies.set('userId', res.data.userId);
+        alert('로그인 성공');
+        props.signInClose();
+      })
+      .catch((err) => console.error(err));
   };
 
   const kakaoRes = (res) => {
     console.log(res);
-    setValues({
-      id: res.profile.id,
-      email: res.profile.kakao_account.email,
-      nickname: res.profile.properties.nickname,
-      provider: 'kakao',
-      accessToken: res.response.access_token,
-    });
+    // setValues({
+    //   id: res.profile.id,
+    //   email: res.profile.kakao_account.email,
+    //   nickname: res.profile.properties.nickname,
+    //   provider: 'kakao',
+    //   accessToken: res.response.access_token,
+    // });
   };
 
   const failRes = (err) => {
@@ -48,7 +47,7 @@ function SocialSignIn() {
     <Container>
       <GoogleLogin
         clientId={Google_ClientId}
-        buttonText="Google"
+        buttonText="구글로 로그인하기"
         onSuccess={googleRes}
         onFailure={failRes}
       />
