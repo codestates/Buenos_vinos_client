@@ -136,20 +136,21 @@ function Nav() {
     setSearchWine(e.target.value);
   };
 
+  // 와인 검색 엔터 기능
+  const searchWines = (e) => {
+    if (e.key === 'Enter') {
+      onClick(searchWine);
+    }
+  };
+  // 데이터 전송
   const history = useHistory();
-
   const onClick = (wine) => {
     console.log(wine);
     history.push({
       pathname: './result',
       search: wine,
     });
-  };
-
-  const searchWines = (e) => {
-    if (e.key === 'Enter') {
-      onClick(searchWine);
-    }
+    setSearchWine('');
   };
 
   const signInOpen = () => {
@@ -201,6 +202,12 @@ function Nav() {
                   id="free-solo-2-demo"
                   disableClearable
                   options={krAndEnName}
+                  autoComplete={true}
+                  onChange={changeInputData}
+                  onKeyPress={searchWines}
+                  value={searchWine}
+                  disableListWrap={true}
+                  clearOnEscape={true}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -208,9 +215,6 @@ function Nav() {
                       margin="none"
                       variant="standard"
                       InputProps={{ ...params.InputProps, type: 'search' }}
-                      value={searchWine}
-                      onChange={changeInputData}
-                      onKeyPress={searchWines}
                       style={{ margin: '33px 0px 0px 5px' }}
                     />
                   )}

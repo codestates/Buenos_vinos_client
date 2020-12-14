@@ -4,6 +4,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { Grid, makeStyles, Typography, Button, Paper } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -50,13 +51,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TransitionsModal({ reviewInClose, toReview, setToReview }) {
+export default function TransitionsModal({ reviewInClose, toReview, setToReview, wineInfo }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(2);
+  const [review, setReview] = React.useState('');
   const closeBtn = () => {
     setToReview(false);
   };
-  console.log(value, localStorage);
+  const handleChange = (e) => {
+    setReview(e.target.value);
+  };
+  console.log(localStorage);
+  const handleSubmit = async (e) => {
+    console.log('click');
+    e.preventDefault();
+    await axios({
+      method: 'POST',
+      url: 'https://buenosvinosserver.ga/comment',
+      data: {
+        wineId: wineInfo,
+        comment: review,
+        rating: value,
+      },
+      withCredentials: true,
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <div>
       <Modal
@@ -108,19 +131,21 @@ export default function TransitionsModal({ reviewInClose, toReview, setToReview 
             <Paper className={classes.layout}>
               <Grid container>
                 <textarea
-                  autoFocus="autofocus"
+                  name="comment"
                   placeholder="와인에 대한 평가를 남겨주세요."
                   rows="4"
                   cols="50"
                   maxLength="100"
-                  onFocus="none"
                   style={{ border: 'none', resize: 'none', outline: 'none' }}
-                ></textarea>
+                  required
+                  onChange={handleChange}
+                  value={review}
+                />
               </Grid>
             </Paper>
 
             <div className={classes.root} style={{ display: 'flex', justify: 'text-end' }}>
-              <Button variant="outlined" onClick={closeBtn}>
+              <Button variant="outlined" onClick={handleSubmit}>
                 와인 리뷰 남기기
               </Button>
             </div>

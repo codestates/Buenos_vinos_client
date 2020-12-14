@@ -5,7 +5,7 @@ import SignModal from '../../components/user/SignModal';
 import React, { useState } from 'react';
 import ReviewModal from './reviewModal';
 
-function Comment({ comments }) {
+function Comment({ comments, wineInfo }) {
   const useStyles = makeStyles((theme) => ({
     root: {
       '& > *': {
@@ -83,6 +83,8 @@ function Comment({ comments }) {
     setToReview(false);
   };
 
+  console.log(sessionStorage.userData);
+
   return (
     <div style={{ marginTop: '3vh' }}>
       <Typography variant="h6">베스트 리뷰</Typography>
@@ -132,7 +134,7 @@ function Comment({ comments }) {
       </div>
       {localStorage.logging ? (
         <ReviewModal
-          reviewInOpen={reviewInOpen}
+          wineInfo={wineInfo}
           reviewInClose={reviewInClose}
           toReview={toReview}
           setToReview={setToReview}

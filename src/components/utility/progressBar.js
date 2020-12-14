@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   progress: {
@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     margin: '15px 0',
     height: '30px',
-    width: '250px',
+    width: '500px',
   },
   progressDone: {
     background: 'linear-gradient(to left, #F2709C, #FF9472)',
@@ -22,32 +22,37 @@ const useStyles = makeStyles((theme) => ({
     width: 0,
     transition: '2s ease',
   },
+  layout: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: `${window.innerWidth}px`,
+    height: `${window.innerHeight}px`,
+  },
 }));
 
-const FlavorBar = ({ done, flavor }) => {
+const ProgressBar = ({ done }) => {
+  // done => 100 수치를 뜻함 일단 수정 필요
   const [style, setStyle] = useState({});
-
+  const classes = useStyles();
   useEffect(() => {
     setTimeout(() => {
       const newStyle = {
         opacity: 1,
         width: `${done}%`,
       };
-
-      setStyle(newStyle);
+      return setStyle(newStyle);
     }, 500);
   }, []);
-
-  const classes = useStyles();
-
   return (
-    <div className={classes.progress}>
-      <div className={classes.progressDone} style={style}>
-        {flavor}
-        {done / 20}
+    <div className={classes.layout}>
+      <div className={classes.progress}>
+        <div className={classes.progressDone} style={style}>
+          {done}%
+        </div>
       </div>
     </div>
   );
 };
 
-export default FlavorBar;
+export default ProgressBar;
