@@ -13,6 +13,7 @@ import {
   ClickAwayListener,
   MenuList,
   MenuItem,
+  Typography,
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import logo from '../image/logo.png';
@@ -21,6 +22,8 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import SignModal from './user/SignModal';
 import Cookies from 'js-cookie';
+
+axios.defaults.withCredentials = true;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,8 +75,22 @@ function Nav() {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+  const handleClose = (e) => {
+    if (e.target.id) {
+      if (e.target.id === 'signout') {
+        Cookies.remove('authorization');
+        Cookies.remove('userId');
+        history.push('/');
+      }
+      // 로그아웃 버튼 클릭시 쿠키를 삭제하고 메인페이지로 이동
+
+      if (e.target.id === 'mypage') {
+        history.push('/users');
+      }
+      // 마이페이지 버튼 클릭시 마이페이지로 이동
+    }
+
+    if (anchorRef.current && anchorRef.current.contains(e.target)) {
       return;
     }
 
@@ -231,8 +248,12 @@ function Nav() {
                             id="menu-list-grow"
                             onKeyDown={handleListKeyDown}
                           >
-                            <MenuItem onClick={handleClose}>마이페이지</MenuItem>
-                            <MenuItem onClick={handleClose}>로그아웃</MenuItem>
+                            <MenuItem id="mypage" onClick={handleClose}>
+                              마이페이지
+                            </MenuItem>
+                            <MenuItem id="signout" onClick={handleClose}>
+                              로그아웃
+                            </MenuItem>
                           </MenuList>
                         </ClickAwayListener>
                       </Paper>
