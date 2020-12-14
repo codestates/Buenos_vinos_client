@@ -15,6 +15,7 @@ function SocialSignIn() {
     nickname: '',
     provider: '',
     accessToken: '',
+    id_token: '',
   });
 
   // const googleRes = (res) => {

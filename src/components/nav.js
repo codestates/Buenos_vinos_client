@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   Container,
   makeStyles,
@@ -7,12 +7,22 @@ import {
   TextField,
   IconButton,
   Link,
+  Popper,
+  Grow,
+  Paper,
+  ClickAwayListener,
+  MenuList,
+  MenuItem,
+  Typography,
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import FaceIcon from '@material-ui/icons/Face';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import SignModal from './user/SignModal';
+import Cookies from 'js-cookie';
+
+axios.defaults.withCredentials = true;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,16 +63,62 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Nav() {
-  const [wineNames, setWineNames] = useState([]);
-  const [searchWine, setSearchWine] = useState('');
-  const [signInModal, setSignModal] = useState(false);
+  const [wineNames, setWineNames] = React.useState([]);
+  const [searchWine, setSearchWine] = React.useState('');
+  const [signInModal, setSignModal] = React.useState(false);
+
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (e) => {
+    if (e.target.id) {
+      if (e.target.id === 'signout') {
+        Cookies.remove('authorization');
+        Cookies.remove('userId');
+        history.push('/');
+      }
+      // 로그아웃 버튼 클릭시 쿠키를 삭제하고 메인페이지로 이동
+
+      if (e.target.id === 'mypage') {
+        history.push('/users');
+      }
+      // 마이페이지 버튼 클릭시 마이페이지로 이동
+    }
+
+    if (anchorRef.current && anchorRef.current.contains(e.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  function handleListKeyDown(event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpen(false);
+    }
+  }
+
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = React.useRef(open);
+  React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open]);
 
   const getWinesData = async () => {
     const response = await axios.get('https://buenosvinosserver.ga/wine');
     setWineNames(response.data);
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     getWinesData();
   }, []);
 
@@ -165,9 +221,47 @@ function Nav() {
                 />
               </div>
               <Grid item xs={1} style={{ marginLeft: 'auto', marginTop: '30px' }}>
-                <IconButton onClick={signInOpen}>
+                <IconButton
+                  ref={anchorRef}
+                  aria-controls={open ? 'menu-list-grow' : undefined}
+                  aria-haspopup="true"
+                  onClick={Cookies.get('authorization') ? handleToggle : signInOpen}
+                >
                   <FaceIcon />
                 </IconButton>
+                <Popper
+                  open={open}
+                  anchorEl={anchorRef.current}
+                  role={undefined}
+                  transition
+                  disablePortal
+                >
+                  {({ TransitionProps, placement }) => (
+                    <Grow
+                      {...TransitionProps}
+                      style={{
+                        transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
+                      }}
+                    >
+                      <Paper>
+                        <ClickAwayListener onClickAway={handleClose}>
+                          <MenuList
+                            autoFocusItem={open}
+                            id="menu-list-grow"
+                            onKeyDown={handleListKeyDown}
+                          >
+                            <MenuItem id="mypage" onClick={handleClose}>
+                              마이페이지
+                            </MenuItem>
+                            <MenuItem id="signout" onClick={handleClose}>
+                              로그아웃
+                            </MenuItem>
+                          </MenuList>
+                        </ClickAwayListener>
+                      </Paper>
+                    </Grow>
+                  )}
+                </Popper>
                 <SignModal signInModal={signInModal} signInClose={signInClose} />
               </Grid>
             </Grid>

@@ -6,7 +6,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import SocialSignIn from './SocialSignIn';
-
+import Cookies from 'js-cookie';
 const useStyles = makeStyles((theme) => ({
   paper: {
     backgroundColor: theme.palette.background.paper,
@@ -33,19 +33,16 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
 export default function Signin(props) {
   const classes = useStyles();
   const [values, setValues] = useState({
     email: '',
     password: '',
   });
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { email, password } = values;
@@ -59,10 +56,12 @@ export default function Signin(props) {
       withCredentials: true,
     })
       .then((res) => {
-        console.log('응답', res);
-        sessionStorage.setItem('userData', res.data);
-        localStorage.setItem('logging', true);
-        console.log(localStorage);
+        console.log('응답', res.data);
+        // sessionStorage.setItem('userData', res.data);
+        // localStorage.setItem('logging', true);
+        // console.log(localStorage);
+        Cookies.set('authorization', res.data.authorization);
+        Cookies.set('userId', res.data.userId);
         alert('로그인 성공');
         props.signInClose();
       })
@@ -70,65 +69,71 @@ export default function Signin(props) {
         alert('아이디 비밀번호를 다시 확인해주세요');
       });
   };
-
+  const handleGetInfo = async () => {
+    await axios({
+      method: 'get',
+      url: 'https://buenosvinosserver.ga/user',
+      withCredentials: true,
+    })
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
+  };
   return (
-    <>
+    // <form onSubmit={handleSubmit}>
+    //   <TextField
+    //     label="이메일"
+    //     name="email"
+    //     value={values.email}
+    //     className={classes.textField}
+    //     onChange={handleChange}
+    //     type="email"
+    //   />
+    //   <TextField
+    //     label="비밀번호"
+    //     name="password"
+    //     value={values.password}
+    //     className={classes.textField}
+    //     onChange={handleChange}
+    //     type="password"
+    //   />
+    //   <Button variant="contained" style={{ width: '20vh', marginTop: '20px' }} type="submit">
+    //     로그인
+    //   </Button>
+    // </form>
+    <Container maxWidth="sm">
       <form onSubmit={handleSubmit}>
-        <TextField
-          label="이메일"
-          name="email"
-          value={values.email}
-          className={classes.textField}
-          onChange={handleChange}
-          type="email"
-        />
-        <TextField
-          label="비밀번호"
-          name="password"
-          value={values.password}
-          className={classes.textField}
-          onChange={handleChange}
-          type="password"
-        />
-        <Button variant="contained" style={{ width: '20vh', marginTop: '20px' }} type="submit">
-          로그인
-        </Button>
+        <div className={classes.textFieldDiv}>
+          <EmailIcon style={{ marginTop: '27px' }} />
+          <TextField
+            id="standard-basic"
+            label="이메일"
+            className={classes.textField}
+            name="email"
+            value={values.email}
+            onChange={handleChange}
+            type="email"
+          />
+        </div>
+        <div className={classes.textFieldDiv}>
+          <VpnKeyIcon style={{ marginTop: '27px' }} />
+          <TextField
+            id="standard-basic"
+            label="비밀번호"
+            name="password"
+            value={values.password}
+            className={classes.textField}
+            onChange={handleChange}
+            type="password"
+          />
+        </div>
+        <Grid container justify="center">
+          <Button variant="contained" style={{ width: '20vh', marginTop: '20px' }} type="submit">
+            로그인
+          </Button>
+        </Grid>
       </form>
-
-      <Container maxWidth="sm">
-        <form onSubmit={handleSubmit}>
-          <div className={classes.textFieldDiv}>
-            <EmailIcon style={{ marginTop: '27px' }} />
-            <TextField
-              id="standard-basic"
-              label="이메일"
-              className={classes.textField}
-              name="email"
-              value={values.email}
-              onChange={handleChange}
-              type="email"
-            />
-          </div>
-          <div className={classes.textFieldDiv}>
-            <VpnKeyIcon style={{ marginTop: '27px' }} />
-            <TextField
-              id="standard-basic"
-              label="비밀번호"
-              name="password"
-              value={values.password}
-              className={classes.textField}
-              onChange={handleChange}
-              type="password"
-            />
-          </div>
-          <Grid container justify="center">
-            <Button variant="contained" style={{ width: '20vh', marginTop: '20px' }} type="submit">
-              로그인
-            </Button>
-          </Grid>
-        </form>
-        <SocialSignIn />
-      </Container>
-    </>
+      <Button onClick={handleGetInfo}>Get Info Test</Button>
+      <SocialSignIn />
+    </Container>
   );
 }

@@ -18,15 +18,22 @@ function Filter(props) {
       margin: 10,
     },
   });
-
   const classes = useStyles();
+
+  // const getCurrentScroll = () => {
+  //   console.log(`scrollY: ${window.scrollY}`);
+  //   console.log(`innerHeight: ${window.innerHeight}`);
+  //   console.log(`offsetTop: ${document.body.offsetTop}`);
+  //   console.log(`clientHeight: ${document.body.clientHeight}`);
+  // };
+  // window.addEventListener('scroll', getCurrentScroll);
 
   return (
     <Grid item xs={2} className={classes.filteringBar}>
       <p className={classes.text}>와인 종류</p>
       <WineTypes selectWines={props.selectWines} wineState={props.wineState} />
       <p className={classes.text}>맛 선택</p>
-      <Flavor selectFlavor={props.selectFlavor} flavorState={props.flavorState}></Flavor>
+      <Flavor selectFlavor={props.selectFlavor} flavorState={props.flavorState} />
       <p className={classes.text}>음식 선택</p>
       <PairingsButton selectPairings={props.selectPairings} pairingsState={props.pairingsState} />
       <p className={classes.text}>국가 선택</p>
