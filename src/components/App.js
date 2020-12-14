@@ -18,7 +18,10 @@ const theme = createMuiTheme({
   },
 });
 
+export const LogInStatus = React.createContext();
+
 function App() {
+  const [isLogin, setLogin] = React.useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -26,13 +29,14 @@ function App() {
       setIsLoading(false);
     }, 3000);
   }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         {isLoading ? (
           <ProgressBar done={'100'} />
         ) : (
-          <>
+          <LogInStatus.Provider value={{ state: isLogin, setState: setLogin }}>
             <Nav />
             <Route path="/" exact={true} component={MainPage} />
             <Route path="/users" exact={true} component={MyPage} />
@@ -42,7 +46,7 @@ function App() {
             <Route path="/select" exact={true} component={SelectedOnePage} />
             <Explanation />
             <Footer />
-          </>
+          </LogInStatus.Provider>
         )}
       </BrowserRouter>
     </ThemeProvider>
