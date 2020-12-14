@@ -131,7 +131,7 @@ function SelectedOnePage() {
               {localStorage.logging ? null : (
                 <SignModal signInModal={signInModal} signInClose={signInClose} />
               )}
-              <Comment comments={searchResult.comment} />
+              <Comment wineInfo={searchResult.id} comments={searchResult.comment} />
             </Grid>
             <Grid
               item
@@ -218,7 +218,9 @@ function SelectedOnePage() {
                   <>
                     <Typography variant="h5">{searchResult.type.name} 와인 정보</Typography>
                     <br />
-                    <Typography>{searchResult.type.type_content}</Typography>
+                    <Typography style={{ fontSize: '1.2rem' }}>
+                      {searchResult.type.type_content}
+                    </Typography>
                   </>
                 ) : null}
                 {flavorInfo ? <SelectedOneDef universalDef={searchResult.type} /> : null}

@@ -27,7 +27,7 @@ function SelectedOneDef({ universalDef }) {
       padding: '10px 20px 10px 20px',
     },
     font: {
-      fontSize: '2rem',
+      fontSize: '1.2rem',
     },
   });
   const classes = useStyles();
@@ -36,15 +36,21 @@ function SelectedOneDef({ universalDef }) {
       <Grid item xs={12} md={12} className={classes.text}>
         <Typography variant="h5">바디</Typography>
         <br />
-        <Typography variant="body1">{universalDef.body_content}</Typography>
+        <Typography className={classes.font} variant="body1">
+          {universalDef.body_content}
+        </Typography>
         <br />
         <Typography variant="h5">당도</Typography>
         <br />
-        <Typography variant="body1">{universalDef.sweet_content}</Typography>
+        <Typography className={classes.font} variant="body1">
+          {universalDef.sweet_content}
+        </Typography>
         <br />
         <Typography variant="h5">산도</Typography>
         <br />
-        <Typography variant="body1">{universalDef.acidic_content}</Typography>
+        <Typography className={classes.font} variant="body1">
+          {universalDef.acidic_content}
+        </Typography>
       </Grid>
     </>
   );

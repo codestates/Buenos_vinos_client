@@ -1,4 +1,4 @@
-import { Grid, makeStyles, Typography, Paper } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import Carousel from 'react-material-ui-carousel';
 import Wrapper from './wrapper';
 function WineArticle({ chunkedArticles, loading }) {
@@ -16,8 +16,8 @@ function WineArticle({ chunkedArticles, loading }) {
         </Typography>
 
         <Carousel autoPlay={false} animation={'slide'} indicators={false}>
-          {chunkedArticles.map((article) => (
-            <Wrapper article={article} loading={loading} />
+          {chunkedArticles.map((article, index) => (
+            <Wrapper key={index} article={article} loading={loading} />
           ))}
         </Carousel>
       </Grid>

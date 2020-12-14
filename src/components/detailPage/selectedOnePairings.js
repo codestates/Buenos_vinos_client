@@ -6,6 +6,9 @@ function SelectedOnePairings({ searchResult }) {
       padding: '15px',
       margin: '10px',
     },
+    fontSize: {
+      fontSize: '1.2rem',
+    },
   });
   const classes = useStyles();
   return (
@@ -14,7 +17,7 @@ function SelectedOnePairings({ searchResult }) {
         <Grid className={classes.text} item xs={12} md={12}>
           <Typography variant="h5">와인 스타일</Typography>
           <br />
-          <Typography>{searchResult.content}</Typography>
+          <Typography className={classes.fontSize}>{searchResult.content}</Typography>
         </Grid>
 
         <Grid
@@ -28,7 +31,13 @@ function SelectedOnePairings({ searchResult }) {
         >
           <Typography variant="h5">추천 안주</Typography>
           <br />
-          <Grid container direction="row" justify="flex-start" alignItems="stretch">
+          <Grid
+            className={classes.fontSize}
+            container
+            direction="row"
+            justify="flex-start"
+            alignItems="stretch"
+          >
             {pairings.map((food) => (
               <Grid key={food.id} item xs={3} md={3}>
                 <div style={{ textAlign: 'center' }}>

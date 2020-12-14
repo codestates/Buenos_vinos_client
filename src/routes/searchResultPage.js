@@ -9,8 +9,11 @@ function SearchResultPage() {
   const apiUrl =
     `https://api.rss2json.com/v1/api.json?rss_url=` +
     encodeURIComponent('https://rss.blog.naver.com/wine21com.xml');
+  console.log(apiUrl);
   const getRssData = async () => {
-    let res = await axios.get(apiUrl);
+    let res = await axios.get(apiUrl, {
+      withCredentials: false,
+    });
     setRssDatas(res.data.items);
   };
 

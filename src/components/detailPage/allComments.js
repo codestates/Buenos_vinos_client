@@ -1,4 +1,4 @@
-import { Grid, makeStyles, Typography, Button, Paper } from '@material-ui/core';
+import { Grid, makeStyles, Typography, Paper } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Rating from '@material-ui/lab/Rating';
 
