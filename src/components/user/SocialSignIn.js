@@ -4,11 +4,14 @@ import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import KakaoLogin from 'react-kakao-login';
 import { Google_ClientId, KakaoKey } from '../../config/config';
-import Cookies from 'js-cookie';
+import React from 'react';
+import { LogInStatus } from '../App';
 
 axios.defaults.withCredentials = true;
 
 function SocialSignIn(props) {
+  const isLogIn = React.useContext(LogInStatus);
+
   const googleRes = async (res) => {
     console.log(res);
     await axios({
@@ -20,8 +23,9 @@ function SocialSignIn(props) {
     })
       .then((res) => {
         console.log(res.data);
-        Cookies.set('authorization', res.data.authorization);
-        Cookies.set('userId', res.data.userId);
+        // Cookies.set('authorization', res.data.authorization);
+        // Cookies.set('userId', res.data.userId);
+        isLogIn.setState(true);
         alert('로그인 성공');
         props.signInClose();
       })

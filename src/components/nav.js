@@ -21,7 +21,7 @@ import FaceIcon from '@material-ui/icons/Face';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import SignModal from './user/SignModal';
-import Cookies from 'js-cookie';
+import { LogInStatus } from './App';
 
 axios.defaults.withCredentials = true;
 
@@ -67,8 +67,8 @@ function Nav() {
   const [wineNames, setWineNames] = React.useState([]);
   const [searchWine, setSearchWine] = React.useState('');
   const [signInModal, setSignModal] = React.useState(false);
-
   const [open, setOpen] = React.useState(false);
+  const isLogIn = React.useContext(LogInStatus);
   const anchorRef = React.useRef(null);
 
   const handleToggle = () => {
@@ -78,8 +78,15 @@ function Nav() {
   const handleClose = (e) => {
     if (e.target.id) {
       if (e.target.id === 'signout') {
-        Cookies.remove('authorization');
-        Cookies.remove('userId');
+        axios({
+          method: 'get',
+          url: 'https://buenosvinosserver.ga/user/logout',
+        })
+          .then((res) => {
+            console.log(res);
+            isLogIn.setState(false);
+          })
+          .catch((err) => console.error(err));
         history.push('/');
       }
       // 로그아웃 버튼 클릭시 쿠키를 삭제하고 메인페이지로 이동
@@ -223,7 +230,7 @@ function Nav() {
                   ref={anchorRef}
                   aria-controls={open ? 'menu-list-grow' : undefined}
                   aria-haspopup="true"
-                  onClick={Cookies.get('authorization') ? handleToggle : signInOpen}
+                  onClick={isLogIn.state ? handleToggle : signInOpen}
                 >
                   <FaceIcon />
                 </IconButton>

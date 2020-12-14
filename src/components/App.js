@@ -17,19 +17,25 @@ const theme = createMuiTheme({
   },
 });
 
+export const LogInStatus = React.createContext();
+
 function App() {
+  const [isLogin, setLogin] = React.useState(false);
+
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <Nav />
-        <Route path="/" exact={true} component={MainPage} />
-        <Route path="/users" exact={true} component={MyPage} />
-        <Route path="/editinfo" exact={true} component={EditInfoPage} />
-        <Route path="/filter" exact={true} component={FilteringPage} />
-        <Route path="/result" exact={true} component={SearchResultPage} />
-        <Route path="/select" exact={true} component={SelectedOnePage} />
-        <Explanation />
-        <Footer />
+        <LogInStatus.Provider value={{ state: isLogin, setState: setLogin }}>
+          <Nav />
+          <Route path="/" exact={true} component={MainPage} />
+          <Route path="/users" exact={true} component={MyPage} />
+          <Route path="/editinfo" exact={true} component={EditInfoPage} />
+          <Route path="/filter" exact={true} component={FilteringPage} />
+          <Route path="/result" exact={true} component={SearchResultPage} />
+          <Route path="/select" exact={true} component={SelectedOnePage} />
+          <Explanation />
+          <Footer />
+        </LogInStatus.Provider>
       </BrowserRouter>
     </ThemeProvider>
   );
