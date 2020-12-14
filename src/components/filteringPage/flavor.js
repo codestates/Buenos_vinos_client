@@ -38,6 +38,9 @@ function Flavor(props) {
       marginRight: 18,
       float: 'left',
     },
+    flavorText: {
+      lineHeight: 1,
+    },
   }));
 
   const handleChange = (e, value, flavor) => {
@@ -56,11 +59,23 @@ function Flavor(props) {
     <>
       {flavor.map((item) => (
         <div className={classes.flavorBar} key={item}>
-          <Typography align="center">{item[1]}</Typography>
-          <Typography variant="body2" color="textSecondary" style={{ float: 'left' }}>
+          <Typography className={classes.flavorText} align="center">
+            {item[1]}
+          </Typography>
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            className={classes.flavorText}
+            style={{ float: 'left' }}
+          >
             1
           </Typography>
-          <Typography variant="body2" color="textSecondary" style={{ float: 'right' }}>
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            className={classes.flavorText}
+            style={{ float: 'right' }}
+          >
             5
           </Typography>
           <FlavorSlider
