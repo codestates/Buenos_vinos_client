@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   Container,
   makeStyles,
@@ -7,12 +7,19 @@ import {
   TextField,
   IconButton,
   Link,
+  Popper,
+  Grow,
+  Paper,
+  ClickAwayListener,
+  MenuList,
+  MenuItem,
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import FaceIcon from '@material-ui/icons/Face';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import SignModal from './user/SignModal';
+import Cookies from 'js-cookie';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,16 +60,48 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Nav() {
-  const [wineNames, setWineNames] = useState([]);
-  const [searchWine, setSearchWine] = useState('');
-  const [signInModal, setSignModal] = useState(false);
+  const [wineNames, setWineNames] = React.useState([]);
+  const [searchWine, setSearchWine] = React.useState('');
+  const [signInModal, setSignModal] = React.useState(false);
+
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  function handleListKeyDown(event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpen(false);
+    }
+  }
+
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = React.useRef(open);
+  React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open]);
 
   const getWinesData = async () => {
     const response = await axios.get('https://buenosvinosserver.ga/wine');
     setWineNames(response.data);
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     getWinesData();
   }, []);
 
@@ -161,9 +200,43 @@ function Nav() {
                 />
               </div>
               <Grid item xs={1} style={{ marginLeft: 'auto', marginTop: '30px' }}>
-                <IconButton onClick={signInOpen}>
+                <IconButton
+                  ref={anchorRef}
+                  aria-controls={open ? 'menu-list-grow' : undefined}
+                  aria-haspopup="true"
+                  onClick={Cookies.get('authorization') ? handleToggle : signInOpen}
+                >
                   <FaceIcon />
                 </IconButton>
+                <Popper
+                  open={open}
+                  anchorEl={anchorRef.current}
+                  role={undefined}
+                  transition
+                  disablePortal
+                >
+                  {({ TransitionProps, placement }) => (
+                    <Grow
+                      {...TransitionProps}
+                      style={{
+                        transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
+                      }}
+                    >
+                      <Paper>
+                        <ClickAwayListener onClickAway={handleClose}>
+                          <MenuList
+                            autoFocusItem={open}
+                            id="menu-list-grow"
+                            onKeyDown={handleListKeyDown}
+                          >
+                            <MenuItem onClick={handleClose}>마이페이지</MenuItem>
+                            <MenuItem onClick={handleClose}>로그아웃</MenuItem>
+                          </MenuList>
+                        </ClickAwayListener>
+                      </Paper>
+                    </Grow>
+                  )}
+                </Popper>
                 <SignModal signInModal={signInModal} signInClose={signInClose} />
               </Grid>
             </Grid>
