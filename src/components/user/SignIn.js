@@ -65,6 +65,7 @@ export default function Signin(props) {
         // localStorage.setItem('logging', true);
         // console.log(localStorage);
         Cookies.set('authorization', res.data.authorization);
+        Cookies.set('userId', res.data.userId);
         alert('로그인 성공');
         props.signInClose();
       })
