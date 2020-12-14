@@ -1,4 +1,5 @@
 import { Grid, makeStyles } from '@material-ui/core';
+import useScroll from '../utility/useScroll';
 import Country from './country';
 import Flavor from './flavor';
 import PairingsButton from './pairingsButton';
@@ -12,25 +13,34 @@ function Filter(props) {
       padding: 5,
       position: 'fixed',
       left: '1.5rem',
+      top: 0,
+    },
+    filteringBarAbs: {
+      width: 250,
+      padding: 5,
+      position: 'absolute',
+      left: '1.5rem',
     },
     text: {
       fontSize: '1.4rem',
-      margin: 10,
+      margin: 8,
     },
   });
+
+  const { y } = useScroll();
+  console.log(y);
+
+  const handleClick = () => {
+    classes.filteringBar.position = 'absolute';
+  };
+
   const classes = useStyles();
 
-  // const getCurrentScroll = () => {
-  //   console.log(`scrollY: ${window.scrollY}`);
-  //   console.log(`innerHeight: ${window.innerHeight}`);
-  //   console.log(`offsetTop: ${document.body.offsetTop}`);
-  //   console.log(`clientHeight: ${document.body.clientHeight}`);
-  // };
-  // window.addEventListener('scroll', getCurrentScroll);
-
   return (
-    <Grid item xs={2} className={classes.filteringBar}>
-      <p className={classes.text}>와인 종류</p>
+    <Grid item xs={2} className={y > 159 ? classes.filteringBar : classes.filteringBarAbs}>
+      <p onClick={handleClick} className={classes.text}>
+        와인 종류
+      </p>
       <WineTypes selectWines={props.selectWines} wineState={props.wineState} />
       <p className={classes.text}>맛 선택</p>
       <Flavor selectFlavor={props.selectFlavor} flavorState={props.flavorState} />

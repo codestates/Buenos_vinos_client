@@ -52,7 +52,7 @@ function SignModal(props) {
       <Fade in={props.signInModal}>
         <div className={classes.paper}>
           <Typography variant="h3">
-            <Button name="signIn" onClick={handleClick} className={classes.signBtn}>
+            <Button name="signIn" onClick={handleClick} classNa me={classes.signBtn}>
               로그인
             </Button>
             |
