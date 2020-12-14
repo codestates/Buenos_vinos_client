@@ -6,6 +6,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import SocialSignIn from './SocialSignIn';
+import Cookies from 'js-cookie';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -59,16 +60,27 @@ export default function Signin(props) {
       withCredentials: true,
     })
       .then((res) => {
-        console.log('응답', res);
+        console.log('응답', res.data);
         // sessionStorage.setItem('userData', res.data);
         // localStorage.setItem('logging', true);
         // console.log(localStorage);
+        Cookies.set('authorization', res.data.authorization);
         alert('로그인 성공');
         props.signInClose();
       })
       .catch((err) => {
         alert('아이디 비밀번호를 다시 확인해주세요');
       });
+  };
+
+  const handleGetInfo = async () => {
+    await axios({
+      method: 'get',
+      url: 'https://buenosvinosserver.ga/user',
+      withCredentials: true,
+    })
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -126,6 +138,7 @@ export default function Signin(props) {
           </Button>
         </Grid>
       </form>
+      <Button onClick={handleGetInfo}>Get Info Test</Button>
       <SocialSignIn />
     </Container>
   );
