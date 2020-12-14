@@ -2,10 +2,10 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import ButtonBase from '@material-ui/core/ButtonBase';
 import Typography from '@material-ui/core/Typography';
 import WineRating from './WineRaiting';
-import { Autocomplete } from '@material-ui/lab';
+import { useHistory } from 'react-router-dom';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -28,9 +28,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Item({ wine }) {
   const classes = useStyles();
+  const history = useHistory();
+  const onClick = (wine) => {
+    console.log(wine);
+    history.push({
+      pathname: './select',
+      state: wine,
+    });
+  };
   return (
     <>
-      <Grid item xs={2} style={{ padding: '5px' }}>
+      <Grid item xs={2} style={{ padding: '5px', cursor: 'pointer' }}>
         <Paper className={classes.paper}>
           <Grid container spacing={1} style={{ height: '400px' }}>
             <Grid
@@ -42,19 +50,17 @@ export default function Item({ wine }) {
                 borderTopRightRadius: '15px',
                 borderTopLeftRadius: '15px',
               }}
+              onClick={() => onClick(wine)}
             >
               <Grid item style={{ margin: 'auto', display: 'block' }}>
-                <ButtonBase className={classes.image}>
-                  <img
-                    className={classes.img}
-                    alt="wines"
-                    src={wine.image}
-                    style={{
-                      cursor: 'pointer',
-                      height: '200px',
-                    }}
-                  />
-                </ButtonBase>
+                <img
+                  className={classes.img}
+                  alt="wines"
+                  src={wine.image}
+                  style={{
+                    height: '200px',
+                  }}
+                />
               </Grid>
             </Grid>
             <Grid item xs={12} sm container style={{ padding: '0px' }}>
@@ -95,7 +101,11 @@ export default function Item({ wine }) {
                       color="textSecondary"
                       style={{ textAlign: 'center' }}
                     >
-                      <img src={wine.country.image} style={{ width: 10, height: 10 }}></img>
+                      <img
+                        src={wine.country.image}
+                        alt="수입 국가"
+                        style={{ width: 10, height: 10 }}
+                      ></img>
                       <small>{`${wine.country.name}산 ${wine.type.name}`}</small>
                     </Typography>
                   </Grid>

@@ -57,6 +57,7 @@ export default function Item({ article }) {
 
     return windowSize;
   }
+  console.log(article);
   let randomId = Math.floor(Math.random() * (10 - 1));
   const size = useWindowSize();
   return (

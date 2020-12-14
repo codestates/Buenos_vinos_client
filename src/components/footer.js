@@ -7,7 +7,6 @@ import ContactMailIcon from '@material-ui/icons/ContactMail';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Modal from '@material-ui/core/Modal';
-import footerLogo from '../image/footerLogo.png';
 
 const useStyles = makeStyles({
   footer: {
@@ -90,8 +89,7 @@ function Footer() {
     <>
       <Box className={classes.footer}>
         <img
-          // src="https://penzim.synology.me/image/finalProject/logo/logo.png"
-          src={footerLogo}
+          src="https://penzim.synology.me/image/finalProject/logo/footerLogo.png"
           alt="logo"
           style={{ marginTop: 20 }}
         ></img>
@@ -126,7 +124,6 @@ function Footer() {
         >
           <Fade in={techModal}>
             <div className={classes.paper}>
-              {' '}
               <Typography variant="h3" className={classes.modalTitle}>
                 Back-End
               </Typography>

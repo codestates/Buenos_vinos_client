@@ -16,7 +16,6 @@ import {
   Typography,
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import logo from '../image/logo.png';
 import FaceIcon from '@material-ui/icons/Face';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
@@ -137,20 +136,21 @@ function Nav() {
     setSearchWine(e.target.value);
   };
 
+  // 와인 검색 엔터 기능
+  const searchWines = (e) => {
+    if (e.key === 'Enter') {
+      onClick(searchWine);
+    }
+  };
+  // 데이터 전송
   const history = useHistory();
-
   const onClick = (wine) => {
     console.log(wine);
     history.push({
       pathname: './result',
       search: wine,
     });
-  };
-
-  const searchWines = (e) => {
-    if (e.key === 'Enter') {
-      onClick(searchWine);
-    }
+    setSearchWine('');
   };
 
   const signInOpen = () => {
@@ -191,8 +191,7 @@ function Nav() {
           >
             <Grid container spacing={3} item xs={12} style={{ padding: '0px 6.5vw 0px 9vw' }}>
               <img
-                // src={'https://penzim.synology.me/image/finalProject/logo/logo.png'}
-                src={logo}
+                src="https://penzim.synology.me/image/finalProject/logo/logo.png"
                 alt="logo"
                 className={classes.logo}
                 onClick={handleClickToMain}
@@ -203,6 +202,12 @@ function Nav() {
                   id="free-solo-2-demo"
                   disableClearable
                   options={krAndEnName}
+                  autoComplete={true}
+                  onChange={changeInputData}
+                  onKeyPress={searchWines}
+                  value={searchWine}
+                  disableListWrap={true}
+                  clearOnEscape={true}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -210,9 +215,6 @@ function Nav() {
                       margin="none"
                       variant="standard"
                       InputProps={{ ...params.InputProps, type: 'search' }}
-                      value={searchWine}
-                      onChange={changeInputData}
-                      onKeyPress={searchWines}
                       style={{ margin: '33px 0px 0px 5px' }}
                     />
                   )}

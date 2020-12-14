@@ -1,6 +1,6 @@
 import { Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
-import { fakeData } from '../../fakeData';
+import { useHistory } from 'react-router-dom';
 
 function FilteredList(props) {
   const useStyles = makeStyles({
@@ -16,7 +16,15 @@ function FilteredList(props) {
   });
 
   const classes = useStyles();
-
+  // 와인 선택 페이지로 이동
+  const history = useHistory();
+  const onClick = (wine) => {
+    console.log(wine);
+    history.push({
+      pathname: './select',
+      state: wine,
+    });
+  };
   return (
     <Grid
       container
@@ -33,7 +41,8 @@ function FilteredList(props) {
             direction="row"
             alignItems="stretch"
             key={item.id}
-            style={{ backgroundColor: 'white', marginBottom: 10 }}
+            style={{ backgroundColor: 'white', marginBottom: 10, cursor: 'pointer' }}
+            onClick={() => onClick(item)}
           >
             <Grid
               item
