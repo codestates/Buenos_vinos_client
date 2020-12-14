@@ -57,9 +57,6 @@ export default function Signin(props) {
     })
       .then((res) => {
         console.log('응답', res.data);
-        // sessionStorage.setItem('userData', res.data);
-        // localStorage.setItem('logging', true);
-        // console.log(localStorage);
         Cookies.set('authorization', res.data.authorization);
         Cookies.set('userId', res.data.userId);
         alert('로그인 성공');
@@ -69,15 +66,7 @@ export default function Signin(props) {
         alert('아이디 비밀번호를 다시 확인해주세요');
       });
   };
-  const handleGetInfo = async () => {
-    await axios({
-      method: 'get',
-      url: 'https://buenosvinosserver.ga/user',
-      withCredentials: true,
-    })
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
-  };
+
   return (
     // <form onSubmit={handleSubmit}>
     //   <TextField
@@ -132,8 +121,7 @@ export default function Signin(props) {
           </Button>
         </Grid>
       </form>
-      <Button onClick={handleGetInfo}>Get Info Test</Button>
-      <SocialSignIn />
+      <SocialSignIn signInClose={props.signInClose} />
     </Container>
   );
 }
