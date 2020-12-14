@@ -7,7 +7,6 @@ import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import SocialSignIn from './SocialSignIn';
 import Cookies from 'js-cookie';
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     backgroundColor: theme.palette.background.paper,
@@ -34,19 +33,16 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
 export default function Signin(props) {
   const classes = useStyles();
   const [values, setValues] = useState({
     email: '',
     password: '',
   });
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { email, password } = values;
@@ -93,7 +89,6 @@ export default function Signin(props) {
     //     로그인
     //   </Button>
     // </form>
-
     <Container maxWidth="sm">
       <form onSubmit={handleSubmit}>
         <div className={classes.textFieldDiv}>
