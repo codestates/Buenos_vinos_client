@@ -5,6 +5,7 @@ import Fade from '@material-ui/core/Fade';
 import { Grid, makeStyles, Typography, Button, Paper } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -61,9 +62,9 @@ export default function TransitionsModal({ reviewInClose, toReview, setToReview,
   const handleChange = (e) => {
     setReview(e.target.value);
   };
-  console.log(localStorage);
+  console.log(Cookies.get('authorization'));
   const handleSubmit = async (e) => {
-    console.log('click');
+    console.log('submit click');
     e.preventDefault();
     await axios({
       method: 'POST',

@@ -4,6 +4,7 @@ import Rating from '@material-ui/lab/Rating';
 import SignModal from '../../components/user/SignModal';
 import React, { useState } from 'react';
 import ReviewModal from './reviewModal';
+import Cookies from 'js-cookie';
 
 function Comment({ comments, wineInfo }) {
   const useStyles = makeStyles((theme) => ({
@@ -66,7 +67,7 @@ function Comment({ comments, wineInfo }) {
 
   const signInOpen = () => {
     setSignModal(true);
-    console.log('click');
+    console.log('sigin in click');
   };
   const signInClose = () => {
     setSignModal(false);
@@ -76,14 +77,14 @@ function Comment({ comments, wineInfo }) {
   const [toReview, setToReview] = useState(false);
   const reviewInOpen = () => {
     setToReview(true);
-    console.log('click');
+    console.log('review click');
   };
 
   const reviewInClose = () => {
     setToReview(false);
   };
 
-  console.log(sessionStorage.userData);
+  console.log(Cookies.get('authorization') === undefined);
 
   return (
     <div style={{ marginTop: '3vh' }}>
@@ -128,20 +129,17 @@ function Comment({ comments, wineInfo }) {
       <div
         className={classes.root}
         style={{ display: 'flex', justify: 'text-end' }}
-        onClick={reviewInOpen}
+        onClick={Cookies.get('authorization') === undefined ? signInOpen : reviewInOpen}
       >
         <Button variant="outlined">와인 리뷰 남기기</Button>
       </div>
-      {localStorage.logging ? (
-        <ReviewModal
-          wineInfo={wineInfo}
-          reviewInClose={reviewInClose}
-          toReview={toReview}
-          setToReview={setToReview}
-        />
-      ) : (
-        <SignModal signInModal={signInModal} signInClose={signInClose} />
-      )}
+      <ReviewModal
+        wineInfo={wineInfo}
+        reviewInClose={reviewInClose}
+        toReview={toReview}
+        setToReview={setToReview}
+      />
+      <SignModal signInModal={signInModal} signInClose={signInClose} />
     </div>
   );
 }

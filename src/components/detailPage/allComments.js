@@ -1,66 +1,123 @@
-import { Grid, makeStyles, Typography, Paper } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Grid, makeStyles, Typography, Paper, Button } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Rating from '@material-ui/lab/Rating';
+import SlideToggle from 'react-slide-toggle';
+import SortAsce from '../utility/sortAsce';
+import SortDesc from '../utility/sortDesc';
+import chunkedData from '../utility/chunkedData';
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  text: {
+    padding: '15px',
+    margin: '10px',
+  },
+  button: {
+    display: 'inline',
+    cursor: 'pointer',
+  },
+
+  layout: {
+    minWidth: '710px',
+    borderRadius: '10px',
+    margin: '1vh',
+    padding: '2vh',
+    backgroundColor: 'white',
+    border: '3px FFF4D8 solid',
+  },
+
+  contentBox: {
+    minHeight: '50px',
+  },
+  gridLayout: {
+    marginBottom: 5,
+  },
+  accountInfo: {
+    textAlign: 'center',
+  },
+}));
 function AllComments({ comments }) {
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      '& > *': {
-        margin: theme.spacing(1),
-      },
-    },
-    text: {
-      padding: '15px',
-      margin: '10px',
-    },
-    button: {
-      display: 'inline',
-      cursor: 'pointer',
-    },
-
-    layout: {
-      minWidth: '710px',
-      borderRadius: '10px',
-      margin: '1vh',
-      padding: '2vh',
-      backgroundColor: 'white',
-      border: '3px FFF4D8 solid',
-    },
-
-    contentBox: {
-      minHeight: '50px',
-    },
-    gridLayout: {
-      marginBottom: 5,
-    },
-    accountInfo: {
-      textAlign: 'center',
-    },
-  }));
   const classes = useStyles();
-  console.log(comments);
-  comments.sort((a, b) => {
-    if (a.rating > b.rating) return -1;
-    if (a.rating < b.rating) return 1;
-    return 0;
-  });
-  let chunckedData = [];
-  let temp = [];
-  for (let i = 1; i <= comments.length; i++) {
-    temp.push(comments[i - 1]);
-    if (i % 4 === 0) {
-      chunckedData = temp;
-      break;
-    }
+  const [descOrder, setDescOrder] = useState(true);
+  const [asceOrder, setAsceOrder] = useState(false);
+  const hadleDescClick = () => {
+    console.log('desc click');
+    setDescOrder(true);
+    setAsceOrder(false);
+  };
+
+  const hadleAsceClick = () => {
+    console.log('asce click');
+    setDescOrder(false);
+    setAsceOrder(true);
+  };
+
+  let sortedComments = null;
+  if (descOrder && !asceOrder) {
+    sortedComments = SortDesc(comments, 'rating');
+  } else if (asceOrder && !descOrder) {
+    sortedComments = SortAsce(comments, 'rating');
   }
-  console.log(chunckedData);
+
+  let chunkedDatas = chunkedData(sortedComments, 4);
+  console.log(chunkedDatas);
+
+  console.log(descOrder, asceOrder);
+
   return (
     <div style={{ marginTop: '3vh' }}>
       {comments.length ? (
         <>
-          <Typography variant="h6">리뷰 모아보기</Typography>
+          <Typography variant="h5">리뷰 모아보기</Typography>
+          <div style={{ display: 'flex', marginBottom: 10 }}>
+            <SlideToggle
+              collapsed
+              render={({ toggle, setCollapsibleElement }) => (
+                <div className="my-collapsible" style={{ marginLeft: 'auto', marginRight: 15 }}>
+                  <Button
+                    variant="contained"
+                    className="my-collapsible__toggle"
+                    onClick={toggle}
+                    style={{ backgroundColor: '#FEE089' }}
+                  >
+                    리뷰 순서
+                  </Button>
+                  <div className="my-collapsible__content" ref={setCollapsibleElement}>
+                    <Button
+                      variant="contained"
+                      className="my-collapsible__content-inner"
+                      style={{ display: 'block', backgroundColor: '#FFEBB0 ' }}
+                      onClick={() => {
+                        hadleDescClick();
+                        toggle();
+                      }}
+                    >
+                      높은 등급
+                    </Button>
+                    <Button
+                      variant="contained"
+                      className="my-collapsible__content-inner"
+                      style={{ display: 'block', backgroundColor: '#FFEBB0 ' }}
+                      onClick={() => {
+                        hadleAsceClick();
+                        toggle();
+                      }}
+                    >
+                      낮은 등급
+                    </Button>
+                  </div>
+                </div>
+              )}
+            />
+          </div>
+
           <Grid container direction="column" justify="flex-start" alignItems="flex-start">
-            {chunckedData.map((comment) => (
+            {chunkedDatas.map((comment) => (
               <Paper key={comment.id} className={classes.layout}>
                 <Grid container>
                   <Grid className={classes.accountInfo} item xs={2} md={2}>
