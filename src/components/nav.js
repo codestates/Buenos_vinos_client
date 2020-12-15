@@ -13,7 +13,6 @@ import {
   ClickAwayListener,
   MenuList,
   MenuItem,
-  Typography,
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import FaceIcon from '@material-ui/icons/Face';
@@ -206,8 +205,6 @@ function Nav() {
                   onChange={changeInputData}
                   onKeyPress={searchWines}
                   value={searchWine}
-                  disableListWrap={true}
-                  clearOnEscape={true}
                   renderInput={(params) => (
                     <TextField
                       {...params}
