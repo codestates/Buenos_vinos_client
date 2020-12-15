@@ -83,10 +83,11 @@ function Nav() {
         })
           .then((res) => {
             console.log(res);
-            isLogIn.setState(false);
+            isLogIn.setState({ status: false, id: '' });
           })
           .catch((err) => console.error(err));
-        history.push('/');
+        // history.push('/');
+        window.location.href = '/';
       }
       // 로그아웃 버튼 클릭시 쿠키를 삭제하고 메인페이지로 이동
 
@@ -232,7 +233,7 @@ function Nav() {
                   ref={anchorRef}
                   aria-controls={open ? 'menu-list-grow' : undefined}
                   aria-haspopup="true"
-                  onClick={isLogIn.state ? handleToggle : signInOpen}
+                  onClick={isLogIn.state.status ? handleToggle : signInOpen}
                 >
                   <FaceIcon />
                 </IconButton>

@@ -23,9 +23,7 @@ function SocialSignIn(props) {
     })
       .then((res) => {
         console.log(res.data);
-        // Cookies.set('authorization', res.data.authorization);
-        // Cookies.set('userId', res.data.userId);
-        isLogIn.setState(true);
+        isLogIn.setState({ status: true, id: res.data.userId });
         alert('로그인 성공');
         props.signInClose();
       })

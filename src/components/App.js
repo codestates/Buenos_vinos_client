@@ -21,7 +21,7 @@ const theme = createMuiTheme({
 export const LogInStatus = React.createContext();
 
 function App() {
-  const [isLogin, setLogin] = React.useState(false);
+  const [isLogin, setLogin] = React.useState({ status: false, id: '' });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
