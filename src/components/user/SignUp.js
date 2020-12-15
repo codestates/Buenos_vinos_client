@@ -1,11 +1,21 @@
-import { Button, makeStyles, TextField } from '@material-ui/core';
+import { Button, InputAdornment, makeStyles, TextField } from '@material-ui/core';
+import EmailIcon from '@material-ui/icons/Email';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import axios from 'axios';
 import React from 'react';
 import validate from '../utility/validate';
 
 const useStyles = makeStyles({
-  button: {},
-  disabledBtn: {},
+  form: {
+    textAlign: 'center',
+  },
+  textBox: {
+    margin: '2px',
+    minHeight: '70px',
+    maxWidth: '250px',
+  },
 });
 
 function SignUp() {
@@ -20,8 +30,9 @@ function SignUp() {
   });
 
   const handleChange = (e) => {
-    const errors = validate({ [e.target.name]: e.target.value });
-    setValues({ ...values, ...errors, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    const errors = validate({ [name]: value });
+    setValues({ ...values, ...errors, [name]: value });
   };
   // validate 함수로 입력값을 실시간으로 검사하여 조건에 맞지않으면 해당 state를 거짓으로 변경
 
@@ -53,7 +64,7 @@ function SignUp() {
   const classes = useStyles();
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={classes.form}>
       <TextField
         error={!values.isEmailVaild && values.email !== ''}
         helperText={!values.isEmailVaild && values.email !== '' && '올바른 이메일을 입력하세요'}
@@ -61,6 +72,16 @@ function SignUp() {
         label="이메일"
         name="email"
         type="email"
+        // placeholder="이메일을 입력해주세요"
+        value={values.email}
+        className={classes.textBox}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <EmailIcon />
+            </InputAdornment>
+          ),
+        }}
       />
       <TextField
         error={!values.isNickNameVaild && values.nickname !== ''}
@@ -68,6 +89,15 @@ function SignUp() {
         onChange={handleChange}
         label="닉네임"
         name="nickname"
+        value={values.nickname}
+        className={classes.textBox}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <AccountCircleIcon />
+            </InputAdornment>
+          ),
+        }}
       />
       <TextField
         error={!values.isPasswordVaild && values.password !== ''}
@@ -80,6 +110,15 @@ function SignUp() {
         label="비밀번호"
         name="password"
         type="password"
+        value={values.password}
+        className={classes.textBox}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <VpnKeyIcon />
+            </InputAdornment>
+          ),
+        }}
       />
       <TextField
         error={!(values.password === values.passwordCorrect) && values.passwordCorrect !== ''}
@@ -92,10 +131,21 @@ function SignUp() {
         label="비밀번호 확인"
         name="passwordCorrect"
         type="password"
+        value={values.passwordCorrect}
+        className={classes.textBox}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <CheckCircleIcon />
+            </InputAdornment>
+          ),
+        }}
       />
-      <Button type="submit" disabled={!isAllVaild()}>
-        회원가입
-      </Button>
+      <div>
+        <Button type="submit" variant="outlined" disabled={!isAllVaild()}>
+          회원가입
+        </Button>
+      </div>
     </form>
   );
 }
