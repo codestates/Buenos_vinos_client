@@ -62,7 +62,7 @@ export default function Signin(props) {
         // Cookies.set('authorization', res.data.authorization);
         // Cookies.set('userId', res.data.userId);
         alert('로그인 성공');
-        isLogIn.setState(true);
+        isLogIn.setState({ status: true, id: res.data.userId });
         console.log(isLogIn.state);
         props.signInClose();
       })
