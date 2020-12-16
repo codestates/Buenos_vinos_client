@@ -1,23 +1,27 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import {
   Container,
-  Button,
-  Typography,
   makeStyles,
   CssBaseline,
-  Paper,
-  Divider,
   Grid,
   TextField,
   IconButton,
   Link,
+  Popper,
+  Grow,
+  Paper,
+  ClickAwayListener,
+  MenuList,
+  MenuItem,
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { AccessAlarm, ThreeDRotation } from '@material-ui/icons';
-import logo from '../image/logo.png';
 import FaceIcon from '@material-ui/icons/Face';
-import SearchIcon from '@material-ui/icons/Search';
-import { SvgIcon } from '@material-ui/core';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
+import SignModal from './user/SignModal';
+import { LogInStatus } from './App';
+
+axios.defaults.withCredentials = true;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,29 +44,159 @@ const useStyles = makeStyles((theme) => ({
   divider: {
     margin: theme.spacing(2, 0),
   },
-  selectedBtn: {
-    color: '#FFC312',
-  },
-  defalutColor: {
+  wineMenu: {
     color: 'black',
+    position: 'relative',
+    display: 'inline-block',
+    overflow: 'hidden',
+    textShadow: '1px 1px 2px black',
+    fontSize: '15px',
+    '&:hover': {
+      color: '#CB9FC7',
+    },
+  },
+  logo: {
+    cursor: 'pointer',
+    verticalAlign: 'center',
   },
 }));
 
 function Nav() {
+  const [wineNames, setWineNames] = React.useState([]);
+  const [searchWine, setSearchWine] = React.useState('');
+  const [signInModal, setSignModal] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
+
+  const handleToggle = async () => {
+    await axios({
+      method: 'get',
+      url: 'https://buenosvinosserver.ga/auth',
+      withCredentials: true,
+    })
+      .then((res) => {
+        console.log('로그인된 상태');
+        setOpen((prevOpen) => !prevOpen);
+      })
+      .catch((err) => {
+        console.log('로그인 안된 상태');
+        setSignModal(true);
+      });
+  };
+  // 유저 아이콘 클릭시 마이페이지와 로그아웃 버튼이 있는 드롭다운 메뉴를 보여줌
+  // 로그인 여부에 따라 드롭다운 메뉴를 보여주거나 로그인 모달창을 띄움
+
+  const signInOpen = () => {
+    setSignModal(true);
+    console.log('click');
+  };
+
+  const signInClose = () => {
+    setSignModal(false);
+  };
+  // 로그인 모달창을 닫을 때 사용되는 함수
+
+  const handleClose = (e) => {
+    if (e.target.id) {
+      if (e.target.id === 'signout') {
+        axios({
+          method: 'get',
+          url: 'https://buenosvinosserver.ga/user/logout',
+        })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => console.error(err));
+        // history.push('/');
+        window.location.href = '/';
+      }
+      // 로그아웃 버튼 클릭시 쿠키를 삭제하고 메인페이지로 이동
+
+      if (e.target.id === 'mypage') {
+        history.push('/users');
+      }
+      // 마이페이지 버튼 클릭시 마이페이지로 이동
+    }
+
+    if (anchorRef.current && anchorRef.current.contains(e.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  function handleListKeyDown(event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpen(false);
+    }
+  }
+
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = React.useRef(open);
+  React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open]);
+
+  const getWinesData = async () => {
+    const response = await axios.get('https://buenosvinosserver.ga/wine');
+    setWineNames(response.data);
+  };
+
+  React.useEffect(() => {
+    getWinesData();
+  }, []);
+
+  const krAndEnName = [];
+  for (let i in wineNames) {
+    krAndEnName.push(wineNames[i].name);
+  }
+  for (let i in wineNames) {
+    krAndEnName.push(wineNames[i].name_en);
+  }
+
   const classes = useStyles();
-  const [btns, setBtns] = useState({
-    red: false,
-    white: false,
-    sparkling: false,
-    rose: false,
-  });
-  const toggleHover = (key) => (e) => {
-    if (btns[key]) {
-      setBtns({ ...btns, [key]: false });
-    } else {
-      setBtns({ ...btns, [key]: true });
+
+  const changeInputData = (e) => {
+    setSearchWine(e.target.value);
+  };
+
+  // 와인 검색 엔터 기능
+  const searchWines = (e) => {
+    if (e.key === 'Enter') {
+      onClick(searchWine);
     }
   };
+  // 데이터 전송
+  const history = useHistory();
+  const onClick = (wine) => {
+    console.log(wine);
+    history.push({
+      pathname: './result',
+      search: wine,
+    });
+    setSearchWine('');
+  };
+
+  const handleClickToMain = () => {
+    history.push('./');
+  };
+  // 로고 클릭시 메인으로 이동시키는 함수
+
+  const handleClickToFilter = (e) => {
+    history.push({
+      pathname: './filter',
+      state: {
+        selectedWine: e.currentTarget.name,
+      },
+    });
+  };
+  // 네비게이션 바의 와인 타입을 누르면 필터링 메뉴로 이동시키는 함수
+
   return (
     <>
       <React.Fragment>
@@ -78,19 +212,21 @@ function Nav() {
           >
             <Grid container spacing={3} item xs={12} style={{ padding: '0px 6.5vw 0px 9vw' }}>
               <img
-                // src={'https://penzim.synology.me/image/finalProject/logo/logo.png'}
-                src={logo}
+                src="https://penzim.synology.me/image/finalProject/logo/logo.png"
                 alt="logo"
-                style={{
-                  verticalAlign: 'center',
-                }}
+                className={classes.logo}
+                onClick={handleClickToMain}
               />
               <div style={{ width: 200, height: 30 }}>
                 <Autocomplete
                   freeSolo
                   id="free-solo-2-demo"
                   disableClearable
-                  options={top100Films.map((option) => option.title)}
+                  options={krAndEnName}
+                  autoComplete={true}
+                  onChange={changeInputData}
+                  onKeyPress={searchWines}
+                  value={searchWine}
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -104,83 +240,92 @@ function Nav() {
                 />
               </div>
               <Grid item xs={1} style={{ marginLeft: 'auto', marginTop: '30px' }}>
-                <IconButton>
-                  <SvgIcon>
-                    <FaceIcon />
-                    login and sign up
-                  </SvgIcon>
+                <IconButton
+                  ref={anchorRef}
+                  aria-controls={open ? 'menu-list-grow' : undefined}
+                  aria-haspopup="true"
+                  // onClick={isLogIn.state.status ? handleToggle : signInOpen}
+                  onClick={handleToggle}
+                >
+                  <FaceIcon />
                 </IconButton>
+                <Popper
+                  open={open}
+                  anchorEl={anchorRef.current}
+                  role={undefined}
+                  transition
+                  disablePortal
+                >
+                  {({ TransitionProps, placement }) => (
+                    <Grow
+                      {...TransitionProps}
+                      style={{
+                        transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
+                      }}
+                    >
+                      <Paper>
+                        <ClickAwayListener onClickAway={handleClose}>
+                          <MenuList
+                            autoFocusItem={open}
+                            id="menu-list-grow"
+                            onKeyDown={handleListKeyDown}
+                          >
+                            <MenuItem id="mypage" onClick={handleClose}>
+                              마이페이지
+                            </MenuItem>
+                            <MenuItem id="signout" onClick={handleClose}>
+                              로그아웃
+                            </MenuItem>
+                          </MenuList>
+                        </ClickAwayListener>
+                      </Paper>
+                    </Grow>
+                  )}
+                </Popper>
+                <SignModal signInModal={signInModal} signInClose={signInClose} />
               </Grid>
             </Grid>
             <Grid container spacing={2} item xs={12} style={{ padding: '0px 0px 0px 10vw' }}>
               <div className={classes.root}>
                 <Link
-                  className={btns.red ? classes.selectedBtn : classes.defalutColor}
-                  onMouseLeave={toggleHover('red')}
-                  onMouseOver={toggleHover('red')}
+                  className={classes.wineMenu}
+                  onClick={handleClickToFilter}
                   component="button"
                   underline="none"
-                  style={{
-                    position: 'relative',
-                    display: 'inline-block',
-                    overflow: 'hidden',
-                    textShadow: '1px 1px 2px black',
-                    fontSize: '15px',
-                  }}
+                  name="red"
                 >
                   레드
                 </Link>
               </div>
               <div className={classes.root}>
                 <Link
-                  className={btns.white ? classes.selectedBtn : classes.defalutColor}
-                  onMouseLeave={toggleHover('white')}
-                  onMouseOver={toggleHover('white')}
+                  className={classes.wineMenu}
+                  onClick={handleClickToFilter}
                   component="button"
                   underline="none"
-                  style={{
-                    position: 'relative',
-                    display: 'inline-block',
-                    overflow: 'hidden',
-                    textShadow: '1px 1px 2px black',
-                    fontSize: '15px',
-                  }}
+                  name="white"
                 >
                   화이트
                 </Link>
               </div>
               <div className={classes.root}>
                 <Link
-                  className={btns.sparkling ? classes.selectedBtn : classes.defalutColor}
-                  onMouseLeave={toggleHover('sparkling')}
-                  onMouseOver={toggleHover('sparkling')}
+                  className={classes.wineMenu}
+                  onClick={handleClickToFilter}
                   component="button"
                   underline="none"
-                  style={{
-                    position: 'relative',
-                    display: 'inline-block',
-                    overflow: 'hidden',
-                    textShadow: '1px 1px 2px black',
-                    fontSize: '15px',
-                  }}
+                  name="sparkling"
                 >
                   스파클링
                 </Link>
               </div>
               <div className={classes.root}>
                 <Link
-                  className={btns.rose ? classes.selectedBtn : classes.defalutColor}
-                  onMouseLeave={toggleHover('rose')}
-                  onMouseOver={toggleHover('rose')}
+                  className={classes.wineMenu}
+                  onClick={handleClickToFilter}
                   underline="none"
                   component="button"
-                  style={{
-                    position: 'relative',
-                    display: 'inline-block',
-                    overflow: 'hidden',
-                    textShadow: '1px 1px 2px black',
-                    fontSize: '15px',
-                  }}
+                  name="rose"
                 >
                   로제
                 </Link>
@@ -201,106 +346,3 @@ function Nav() {
   );
 }
 export default Nav;
-
-const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-  { title: 'The Godfather: Part II', year: 1974 },
-  { title: 'The Dark Knight', year: 2008 },
-  { title: '12 Angry Men', year: 1957 },
-  { title: "Schindler's List", year: 1993 },
-  { title: 'Pulp Fiction', year: 1994 },
-  { title: 'The Lord of the Rings: The Return of the King', year: 2003 },
-  { title: 'The Good, the Bad and the Ugly', year: 1966 },
-  { title: 'Fight Club', year: 1999 },
-  { title: 'The Lord of the Rings: The Fellowship of the Ring', year: 2001 },
-  { title: 'Star Wars: Episode V - The Empire Strikes Back', year: 1980 },
-  { title: 'Forrest Gump', year: 1994 },
-  { title: 'Inception', year: 2010 },
-  { title: 'The Lord of the Rings: The Two Towers', year: 2002 },
-  { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
-  { title: 'Goodfellas', year: 1990 },
-  { title: 'The Matrix', year: 1999 },
-  { title: 'Seven Samurai', year: 1954 },
-  { title: 'Star Wars: Episode IV - A New Hope', year: 1977 },
-  { title: 'City of God', year: 2002 },
-  { title: 'Se7en', year: 1995 },
-  { title: 'The Silence of the Lambs', year: 1991 },
-  { title: "It's a Wonderful Life", year: 1946 },
-  { title: 'Life Is Beautiful', year: 1997 },
-  { title: 'The Usual Suspects', year: 1995 },
-  { title: 'Léon: The Professional', year: 1994 },
-  { title: 'Spirited Away', year: 2001 },
-  { title: 'Saving Private Ryan', year: 1998 },
-  { title: 'Once Upon a Time in the West', year: 1968 },
-  { title: 'American History X', year: 1998 },
-  { title: 'Interstellar', year: 2014 },
-  { title: 'Casablanca', year: 1942 },
-  { title: 'City Lights', year: 1931 },
-  { title: 'Psycho', year: 1960 },
-  { title: 'The Green Mile', year: 1999 },
-  { title: 'The Intouchables', year: 2011 },
-  { title: 'Modern Times', year: 1936 },
-  { title: 'Raiders of the Lost Ark', year: 1981 },
-  { title: 'Rear Window', year: 1954 },
-  { title: 'The Pianist', year: 2002 },
-  { title: 'The Departed', year: 2006 },
-  { title: 'Terminator 2: Judgment Day', year: 1991 },
-  { title: 'Back to the Future', year: 1985 },
-  { title: 'Whiplash', year: 2014 },
-  { title: 'Gladiator', year: 2000 },
-  { title: 'Memento', year: 2000 },
-  { title: 'The Prestige', year: 2006 },
-  { title: 'The Lion King', year: 1994 },
-  { title: 'Apocalypse Now', year: 1979 },
-  { title: 'Alien', year: 1979 },
-  { title: 'Sunset Boulevard', year: 1950 },
-  { title: 'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb', year: 1964 },
-  { title: 'The Great Dictator', year: 1940 },
-  { title: 'Cinema Paradiso', year: 1988 },
-  { title: 'The Lives of Others', year: 2006 },
-  { title: 'Grave of the Fireflies', year: 1988 },
-  { title: 'Paths of Glory', year: 1957 },
-  { title: 'Django Unchained', year: 2012 },
-  { title: 'The Shining', year: 1980 },
-  { title: 'WALL·E', year: 2008 },
-  { title: 'American Beauty', year: 1999 },
-  { title: 'The Dark Knight Rises', year: 2012 },
-  { title: 'Princess Mononoke', year: 1997 },
-  { title: 'Aliens', year: 1986 },
-  { title: 'Oldboy', year: 2003 },
-  { title: 'Once Upon a Time in America', year: 1984 },
-  { title: 'Witness for the Prosecution', year: 1957 },
-  { title: 'Das Boot', year: 1981 },
-  { title: 'Citizen Kane', year: 1941 },
-  { title: 'North by Northwest', year: 1959 },
-  { title: 'Vertigo', year: 1958 },
-  { title: 'Star Wars: Episode VI - Return of the Jedi', year: 1983 },
-  { title: 'Reservoir Dogs', year: 1992 },
-  { title: 'Braveheart', year: 1995 },
-  { title: 'M', year: 1931 },
-  { title: 'Requiem for a Dream', year: 2000 },
-  { title: 'Amélie', year: 2001 },
-  { title: 'A Clockwork Orange', year: 1971 },
-  { title: 'Like Stars on Earth', year: 2007 },
-  { title: 'Taxi Driver', year: 1976 },
-  { title: 'Lawrence of Arabia', year: 1962 },
-  { title: 'Double Indemnity', year: 1944 },
-  { title: 'Eternal Sunshine of the Spotless Mind', year: 2004 },
-  { title: 'Amadeus', year: 1984 },
-  { title: 'To Kill a Mockingbird', year: 1962 },
-  { title: 'Toy Story 3', year: 2010 },
-  { title: 'Logan', year: 2017 },
-  { title: 'Full Metal Jacket', year: 1987 },
-  { title: 'Dangal', year: 2016 },
-  { title: 'The Sting', year: 1973 },
-  { title: '2001: A Space Odyssey', year: 1968 },
-  { title: "Singin' in the Rain", year: 1952 },
-  { title: 'Toy Story', year: 1995 },
-  { title: 'Bicycle Thieves', year: 1948 },
-  { title: 'The Kid', year: 1921 },
-  { title: 'Inglourious Basterds', year: 2009 },
-  { title: 'Snatch', year: 2000 },
-  { title: '3 Idiots', year: 2009 },
-  { title: 'Monty Python and the Holy Grail', year: 1975 },
-];

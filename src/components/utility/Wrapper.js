@@ -1,5 +1,5 @@
 import React from 'react';
-import Item from './Item';
+import Item from '../mainPage/Item';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -8,15 +8,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Wrapper({ wines }) {
-  console.log(wines);
+export default function Wrapper({ wines, loading }) {
   const classes = useStyles();
+
+  let winesData = <div style={{ padding: '180px' }}> loading...</div>;
+  if (!loading) {
+    winesData = wines.map((wine, index) => <Item key={index} wine={wine} />);
+  }
   return (
     <>
       <div className={classes.root} style={{ display: 'flex', justifyContent: 'center' }}>
-        {wines.map((wine, index) => (
-          <Item key={index} wine={wine} />
-        ))}
+        {winesData}
       </div>
     </>
   );

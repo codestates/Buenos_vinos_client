@@ -1,27 +1,54 @@
-import { HashRouter, Route } from 'react-router-dom';
-import editInfoPage from '../routes/editInfoPage';
-import filteringPage from '../routes/filteringPage';
-import mainPage from '../routes/mainPage';
-import myPage from '../routes/myPage';
-import searchResultPage from '../routes/searchResultPage';
-import selectedOnePage from '../routes/selectedOnePage';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
+import EditInfoPage from '../routes/editInfoPage';
+import FilteringPage from '../routes/filteringPage';
+import MainPage from '../routes/mainPage';
+import MyPage from '../routes/myPage';
+import SearchResultPage from '../routes/searchResultPage';
+import SelectedOnePage from '../routes/selectedOnePage';
 import Nav from './nav';
 import Footer from './footer';
+import Explanation from './explanation';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import ProgressBar from '../components/utility/progressBar';
+
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: ['Stylish', 'sans-serif'].join(','),
+  },
+});
+
+export const LogInStatus = React.createContext();
 
 function App() {
+  const [isLogin, setLogin] = React.useState({ status: false, id: '' });
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 6000);
+  }, []);
+
   return (
-    <>
-      <Nav />
-      <HashRouter>
-        <Route path="/" exact={true} component={mainPage} />
-        <Route path="/users" exact={true} component={myPage} />
-        <Route path="/editinfo" exact={true} component={editInfoPage} />
-        <Route path="/filter" exact={true} component={filteringPage} />
-        <Route path="/result" exact={true} component={searchResultPage} />
-        <Route path="/select" exact={true} component={selectedOnePage} />
-      </HashRouter>
-      <Footer />
-    </>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        {isLoading ? (
+          <ProgressBar />
+        ) : (
+          <LogInStatus.Provider value={{ state: isLogin, setState: setLogin }}>
+            <Nav />
+            <Route path="/" exact={true} component={MainPage} />
+            <Route path="/users" exact={true} component={MyPage} />
+            <Route path="/editinfo" exact={true} component={EditInfoPage} />
+            <Route path="/filter" exact={true} component={FilteringPage} />
+            <Route path="/result" exact={true} component={SearchResultPage} />
+            <Route path="/select" exact={true} component={SelectedOnePage} />
+            <Explanation />
+            <Footer />
+          </LogInStatus.Provider>
+        )}
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 export default App;
