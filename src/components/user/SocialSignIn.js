@@ -1,9 +1,9 @@
 import { Container } from '@material-ui/core';
 import axios from 'axios';
-import FacebookLogin from 'react-facebook-login';
-import GoogleLogin from 'react-google-login';
-import KakaoLogin from 'react-kakao-login';
-import { Google_ClientId, KakaoKey } from '../../config/config';
+// import FacebookLogin from 'react-facebook-login';
+// import GoogleLogin from 'react-google-login';
+// import KakaoLogin from 'react-kakao-login';
+// import { Google_ClientId, KakaoKey } from '../../config/config';
 import React from 'react';
 import { LogInStatus } from '../App';
 
@@ -12,23 +12,23 @@ axios.defaults.withCredentials = true;
 function SocialSignIn(props) {
   const isLogIn = React.useContext(LogInStatus);
 
-  const googleRes = async (res) => {
-    console.log(res);
-    await axios({
-      method: 'post',
-      url: 'https://buenosvinosserver.ga/auth/login/google',
-      data: {
-        tokenId: res.tokenId,
-      },
-    })
-      .then((res) => {
-        console.log(res.data);
-        isLogIn.setState({ status: true, id: res.data.userId });
-        alert('로그인 성공');
-        props.signInClose();
-      })
-      .catch((err) => console.error(err));
-  };
+  // const googleRes = async (res) => {
+  //   console.log(res);
+  //   await axios({
+  //     method: 'post',
+  //     url: 'https://buenosvinosserver.ga/auth/login/google',
+  //     data: {
+  //       tokenId: res.tokenId,
+  //     },
+  //   })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       isLogIn.setState({ status: true, id: res.data.userId });
+  //       alert('로그인 성공');
+  //       props.signInClose();
+  //     })
+  //     .catch((err) => console.error(err));
+  // };
 
   const kakaoRes = (res) => {
     console.log(res);
@@ -47,13 +47,13 @@ function SocialSignIn(props) {
 
   return (
     <Container>
-      <GoogleLogin
+      {/* <GoogleLogin
         clientId={Google_ClientId}
         buttonText="구글로 로그인하기"
         onSuccess={googleRes}
         onFailure={failRes}
       />
-      <KakaoLogin token={KakaoKey} onSuccess={kakaoRes} onFail={failRes} />
+      <KakaoLogin token={KakaoKey} onSuccess={kakaoRes} onFail={failRes} /> */}
     </Container>
   );
 }

@@ -7,32 +7,14 @@ import Wrapper from '../utility/Wrapper';
 import useFetch from '../utility/useFetch';
 import axios from 'axios';
 import sortDesc from '../utility/sortDesc';
+import chunkedDatas from '../utility/chunkedData';
 
 export default function Recommended() {
   const [wines, setWines] = useState([]);
   const loading = useFetch(setWines, axios.get('https://buenosvinosserver.ga/wine'));
-
   const sortedList = sortDesc(wines, 'rating');
+  const chunkedWines = chunkedDatas(sortedList, 5);
 
-  function makeChunkedWines(wines) {
-    const chunkedWines = [];
-    let tempWines = [];
-    for (let i = 1; i < wines.length + 1; i++) {
-      tempWines.push(wines[i - 1]);
-      if (i % 5 === 0) {
-        chunkedWines.push(tempWines);
-        tempWines = [];
-      }
-    }
-
-    if (tempWines.length !== 0) {
-      chunkedWines.push(tempWines);
-    }
-
-    return chunkedWines;
-  }
-
-  const chunkedWines = makeChunkedWines(sortedList);
   return (
     <>
       <React.Fragment>

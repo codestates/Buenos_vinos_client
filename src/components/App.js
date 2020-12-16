@@ -23,18 +23,17 @@ export const LogInStatus = React.createContext();
 function App() {
   const [isLogin, setLogin] = React.useState({ status: false, id: '' });
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-    }, 3000);
+    }, 6000);
   }, []);
 
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         {isLoading ? (
-          <ProgressBar done={'100'} />
+          <ProgressBar />
         ) : (
           <LogInStatus.Provider value={{ state: isLogin, setState: setLogin }}>
             <Nav />

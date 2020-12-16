@@ -31,24 +31,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProgressBar = ({ done }) => {
+const ProgressBar = () => {
   // done => 100 수치를 뜻함 일단 수정 필요
-  const [style, setStyle] = useState({});
+  const [done, setDone] = useState(0);
   const classes = useStyles();
   useEffect(() => {
-    setTimeout(() => {
-      const newStyle = {
-        opacity: 1,
-        width: `${done}%`,
-      };
-      return setStyle(newStyle);
-    }, 500);
-  }, []);
+    if (done < 100) {
+      setTimeout(() => setDone((done) => done + 20), 700);
+    }
+
+    return () => clearTimeout(done);
+  }, [done]);
   return (
     <div className={classes.layout}>
       <div className={classes.progress}>
-        <div className={classes.progressDone} style={style}>
-          {done}%
+        <div className={classes.progressDone} style={{ opacity: 1, width: `${done}%` }}>
+          {done > 0 ? `${done}%` : null}
         </div>
       </div>
     </div>
