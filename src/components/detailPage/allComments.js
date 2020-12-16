@@ -5,7 +5,7 @@ import Rating from '@material-ui/lab/Rating';
 import SlideToggle from 'react-slide-toggle';
 import SortAsce from '../utility/sortAsce';
 import SortDesc from '../utility/sortDesc';
-import chunkedData from '../utility/chunkedData';
+import addReview from '../utility/addReview';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,14 +45,13 @@ function AllComments({ comments }) {
   const classes = useStyles();
   const [descOrder, setDescOrder] = useState(true);
   const [asceOrder, setAsceOrder] = useState(false);
+  // 코멘트 등급 순서 별 로직
   const hadleDescClick = () => {
-    console.log('desc click');
     setDescOrder(true);
     setAsceOrder(false);
   };
 
   const hadleAsceClick = () => {
-    console.log('asce click');
     setDescOrder(false);
     setAsceOrder(true);
   };
@@ -64,11 +63,7 @@ function AllComments({ comments }) {
     sortedComments = SortAsce(comments, 'rating');
   }
 
-  let chunkedDatas = chunkedData(sortedComments, 4);
-  console.log(chunkedDatas);
-
-  console.log(descOrder, asceOrder);
-
+  let chunkedDatas = addReview(sortedComments, 4);
   return (
     <div style={{ marginTop: '3vh' }}>
       {comments.length ? (

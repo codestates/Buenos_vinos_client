@@ -38,7 +38,7 @@ export default function Item({ wine }) {
   };
   return (
     <>
-      <Grid item xs={2} style={{ padding: '5px', cursor: 'pointer' }}>
+      <Grid item xs={2} style={{ padding: '5px', cursor: 'pointer' }} onClick={() => onClick(wine)}>
         <Paper className={classes.paper}>
           <Grid container spacing={1} style={{ height: '400px' }}>
             <Grid
@@ -50,7 +50,6 @@ export default function Item({ wine }) {
                 borderTopRightRadius: '15px',
                 borderTopLeftRadius: '15px',
               }}
-              onClick={() => onClick(wine)}
             >
               <Grid item style={{ margin: 'auto', display: 'block' }}>
                 <img
@@ -75,7 +74,7 @@ export default function Item({ wine }) {
                   backgroundColor: '#FAF6EE',
                 }}
               >
-                <Typography variant="body2" gutterBottom />
+                <Typography variant="body1" gutterBottom />
                 <WineRating rating={wine.rating} />
               </Grid>
               <Grid
@@ -92,12 +91,12 @@ export default function Item({ wine }) {
               >
                 <Grid item xs container direction="column" spacing={2}>
                   <Grid item xs>
-                    <Typography variant="body2" gutterBottom style={{ textAlign: 'center' }}>
+                    <Typography variant="body1" gutterBottom style={{ textAlign: 'center' }}>
                       <b>{wine.name}</b>
                       <br /> {<small>({wine.name_en})</small>}
                     </Typography>
                     <Typography
-                      variant="body2"
+                      variant="body1"
                       color="textSecondary"
                       style={{ textAlign: 'center' }}
                     >

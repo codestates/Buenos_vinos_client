@@ -5,7 +5,6 @@ import Fade from '@material-ui/core/Fade';
 import { Grid, makeStyles, Typography, Button, Paper } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -52,35 +51,50 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TransitionsModal({ reviewInClose, toReview, setToReview, wineInfo }) {
+export default function ReviewModal({
+  reviewInClose,
+  toReview,
+  setToReview,
+  wineInfo,
+  setCommentNum,
+  commentNum,
+}) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(2);
+  const [value, setValue] = React.useState(3);
   const [review, setReview] = React.useState('');
+
   const closeBtn = () => {
     setToReview(false);
   };
+  // 리뷰 내용 받는 함수
   const handleChange = (e) => {
     setReview(e.target.value);
   };
-  console.log(Cookies.get('authorization'));
+  // 리뷰 등록
   const handleSubmit = async (e) => {
     console.log('submit click');
-    e.preventDefault();
+    // e.preventDefault();
     await axios({
       method: 'POST',
       url: 'https://buenosvinosserver.ga/comment',
       data: {
         wineId: wineInfo,
-        comment: review,
+        content: review,
         rating: value,
       },
       withCredentials: true,
     })
       .then((res) => {
+        //res가 있으면 comment의 길이 변경을 알아 차린 후 다시 렌더링한다.
+        if (res) {
+          setCommentNum(commentNum + 1);
+        }
         console.log(res);
       })
       .catch((err) => console.log(err));
+    setReview('');
   };
+
   return (
     <div>
       <Modal
@@ -146,7 +160,13 @@ export default function TransitionsModal({ reviewInClose, toReview, setToReview,
             </Paper>
 
             <div className={classes.root} style={{ display: 'flex', justify: 'text-end' }}>
-              <Button variant="outlined" onClick={handleSubmit}>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  handleSubmit();
+                  reviewInClose();
+                }}
+              >
                 와인 리뷰 남기기
               </Button>
             </div>
