@@ -6,6 +6,7 @@ import {
   makeStyles,
   Backdrop,
   IconButton,
+  Divider,
 } from '@material-ui/core';
 import React from 'react';
 import SignIn from './SignIn';
@@ -23,12 +24,17 @@ const useStyles = makeStyles((theme) => ({
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    width: '30%',
-    height: '50%',
+    width: '400px',
+    height: '460px',
   },
   signBtn: {
     fontWeight: '700',
     fontSize: '1.5rem',
+  },
+  disabledSignBtn: {
+    fontWeight: '700',
+    fontSize: '1.5rem',
+    filter: 'opacity(50%)',
   },
 }));
 
@@ -61,11 +67,19 @@ function SignModal(props) {
       <Fade in={props.signInModal}>
         <div className={classes.paper}>
           <Typography variant="h3">
-            <Button name="signIn" onClick={handleClick} className={classes.signBtn}>
+            <Button
+              name="signIn"
+              onClick={handleClick}
+              className={togleSignUp ? classes.disabledSignBtn : classes.signBtn}
+            >
               로그인
             </Button>
             |
-            <Button name="signUp" onClick={handleClick} className={classes.signBtn}>
+            <Button
+              name="signUp"
+              onClick={handleClick}
+              className={togleSignUp ? classes.signBtn : classes.disabledSignBtn}
+            >
               회원가입
             </Button>
             <IconButton
