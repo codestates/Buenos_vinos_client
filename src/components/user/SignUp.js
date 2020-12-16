@@ -72,7 +72,7 @@ function SignUp() {
         label="이메일"
         name="email"
         type="email"
-        // placeholder="이메일을 입력해주세요"
+        placeholder="이메일을 입력해주세요"
         value={values.email}
         className={classes.textBox}
         InputProps={{
@@ -89,6 +89,7 @@ function SignUp() {
         onChange={handleChange}
         label="닉네임"
         name="nickname"
+        placeholder="닉네임을 입력해주세요"
         value={values.nickname}
         className={classes.textBox}
         InputProps={{
@@ -108,6 +109,7 @@ function SignUp() {
         }
         onChange={handleChange}
         label="비밀번호"
+        placeholder="비밀번호를 입력해주세요"
         name="password"
         type="password"
         value={values.password}
@@ -129,6 +131,7 @@ function SignUp() {
         }
         onChange={handleChange}
         label="비밀번호 확인"
+        placeholder="비밀번호를 다시 입력해주세요"
         name="passwordCorrect"
         type="password"
         value={values.passwordCorrect}

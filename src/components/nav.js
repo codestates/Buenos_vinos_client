@@ -67,12 +67,35 @@ function Nav() {
   const [searchWine, setSearchWine] = React.useState('');
   const [signInModal, setSignModal] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  const isLogIn = React.useContext(LogInStatus);
   const anchorRef = React.useRef(null);
 
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+  const handleToggle = async () => {
+    await axios({
+      method: 'get',
+      url: 'https://buenosvinosserver.ga/auth',
+      withCredentials: true,
+    })
+      .then((res) => {
+        console.log('로그인된 상태');
+        setOpen((prevOpen) => !prevOpen);
+      })
+      .catch((err) => {
+        console.log('로그인 안된 상태');
+        setSignModal(true);
+      });
   };
+  // 유저 아이콘 클릭시 마이페이지와 로그아웃 버튼이 있는 드롭다운 메뉴를 보여줌
+  // 로그인 여부에 따라 드롭다운 메뉴를 보여주거나 로그인 모달창을 띄움
+
+  const signInOpen = () => {
+    setSignModal(true);
+    console.log('click');
+  };
+
+  const signInClose = () => {
+    setSignModal(false);
+  };
+  // 로그인 모달창을 닫을 때 사용되는 함수
 
   const handleClose = (e) => {
     if (e.target.id) {
@@ -83,7 +106,6 @@ function Nav() {
         })
           .then((res) => {
             console.log(res);
-            isLogIn.setState({ status: false, id: '' });
           })
           .catch((err) => console.error(err));
         // history.push('/');
@@ -161,14 +183,6 @@ function Nav() {
     setSearchWine('');
   };
 
-  const signInOpen = () => {
-    setSignModal(true);
-    console.log('click');
-  };
-  const signInClose = () => {
-    setSignModal(false);
-  };
-
   const handleClickToMain = () => {
     history.push('./');
   };
@@ -233,7 +247,8 @@ function Nav() {
                   ref={anchorRef}
                   aria-controls={open ? 'menu-list-grow' : undefined}
                   aria-haspopup="true"
-                  onClick={isLogIn.state.status ? handleToggle : signInOpen}
+                  // onClick={isLogIn.state.status ? handleToggle : signInOpen}
+                  onClick={handleToggle}
                 >
                   <FaceIcon />
                 </IconButton>

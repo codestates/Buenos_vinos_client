@@ -35,9 +35,9 @@ function SocialSignIn(props) {
     console.log(res);
     await axios({
       method: 'post',
-      url: 'https://buenosvinosserver.ga/auth/login/google',
+      url: 'https://buenosvinosserver.ga/auth/login',
       data: {
-        tokenId: res.tokenId,
+        google: res.tokenId,
       },
     })
       .then((res) => {
@@ -49,19 +49,39 @@ function SocialSignIn(props) {
       .catch((err) => console.error(err));
   };
 
-  const kakaoRes = (res) => {
+  const kakaoRes = async (res) => {
     console.log(res);
-    // setValues({
-    //   id: res.profile.id,
-    //   email: res.profile.kakao_account.email,
-    //   nickname: res.profile.properties.nickname,
-    //   provider: 'kakao',
-    //   accessToken: res.response.access_token,
-    // });
+    await axios({
+      method: 'post',
+      url: 'https://buenosvinosserver.ga/auth/login',
+      data: {
+        kakao: res.response.access_token,
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+        alert('로그인 성공');
+        props.signInClose();
+      })
+      .catch((err) => console.error(err));
   };
 
-  const facebookRes = (res) => {
+  const facebookRes = async (res) => {
     console.log(res);
+    await axios({
+      method: 'post',
+      url: 'https://buenosvinosserver.ga/auth/login',
+      data: {
+        faceboodId: res.id,
+        facebookToken: res.accessToken,
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+        alert('로그인 성공');
+        props.signInClose();
+      })
+      .catch((err) => console.error(err));
   };
 
   const failRes = (err) => {
