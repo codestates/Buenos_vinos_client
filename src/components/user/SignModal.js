@@ -1,7 +1,16 @@
-import { Button, Fade, Modal, Typography, makeStyles, Backdrop } from '@material-ui/core';
+import {
+  Button,
+  Fade,
+  Modal,
+  Typography,
+  makeStyles,
+  Backdrop,
+  IconButton,
+} from '@material-ui/core';
 import React from 'react';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -14,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    width: ' 30%',
-    height: '70%',
+    width: '30%',
+    height: '50%',
   },
   signBtn: {
     fontWeight: '700',
@@ -52,26 +61,21 @@ function SignModal(props) {
       <Fade in={props.signInModal}>
         <div className={classes.paper}>
           <Typography variant="h3">
-            <Button name="signIn" onClick={handleClick} classNa me={classes.signBtn}>
+            <Button name="signIn" onClick={handleClick} className={classes.signBtn}>
               로그인
             </Button>
             |
             <Button name="signUp" onClick={handleClick} className={classes.signBtn}>
               회원가입
             </Button>
-            <Button
-              type="button"
+            <IconButton
               onClick={props.signInClose}
               style={{
-                backgroundColor: 'transparent',
-                border: '0',
                 float: 'right',
-                fontSize: '1.5rem',
-                fontWeight: '700',
               }}
             >
-              x
-            </Button>
+              <CloseIcon />
+            </IconButton>
           </Typography>
           {togleSignUp ? <SignUp /> : <SignIn signInClose={props.signInClose} />}
         </div>
