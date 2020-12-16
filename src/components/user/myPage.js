@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Grid, Typography, Box } from '@material-ui/core';
-import axios from 'axios';
+import React from 'react';
+import { Container, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { userData } from '../../userData';
 
-export default function MyProfile() {
+export default function MyProfile(props) {
   const useStyles = makeStyles({
     nickName: {
       fontSize: '30px',
@@ -15,27 +13,6 @@ export default function MyProfile() {
       marginLeft: '10px',
     },
   });
-
-  const [userInfo, setUserInfo] = useState('');
-  const fetchData = () => {
-    axios(
-      {
-        method: 'get',
-        url: 'http://54.180.150.63:3000/user',
-      },
-      { withCredentials: true },
-    )
-      .then((res) => {
-        setUserInfo(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const classes = useStyles();
   return (
@@ -56,7 +33,7 @@ export default function MyProfile() {
       >
         <Grid container direction="column" alignItems="center" className={classes.myInfo}>
           <img src="https://penzim.synology.me/image/finalProject/profile/profile.png" />
-          <Typography className={classes.nickName}>{userData[0].nickname} 님</Typography>
+          <Typography className={classes.nickName}>{props.userInfo.nickname} 님</Typography>
         </Grid>
       </Container>
     </>
