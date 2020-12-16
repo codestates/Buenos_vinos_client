@@ -20,7 +20,7 @@ import FaceIcon from '@material-ui/icons/Face';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import SignModal from './user/SignModal';
-import Cookies from 'js-cookie';
+import { LogInStatus } from './App';
 
 axios.defaults.withCredentials = true;
 
@@ -66,20 +66,50 @@ function Nav() {
   const [wineNames, setWineNames] = React.useState([]);
   const [searchWine, setSearchWine] = React.useState('');
   const [signInModal, setSignModal] = React.useState(false);
-
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+  const handleToggle = async () => {
+    await axios({
+      method: 'get',
+      url: 'https://buenosvinosserver.ga/auth',
+      withCredentials: true,
+    })
+      .then((res) => {
+        console.log('로그인된 상태');
+        setOpen((prevOpen) => !prevOpen);
+      })
+      .catch((err) => {
+        console.log('로그인 안된 상태');
+        setSignModal(true);
+      });
   };
+  // 유저 아이콘 클릭시 마이페이지와 로그아웃 버튼이 있는 드롭다운 메뉴를 보여줌
+  // 로그인 여부에 따라 드롭다운 메뉴를 보여주거나 로그인 모달창을 띄움
+
+  const signInOpen = () => {
+    setSignModal(true);
+    console.log('click');
+  };
+
+  const signInClose = () => {
+    setSignModal(false);
+  };
+  // 로그인 모달창을 닫을 때 사용되는 함수
 
   const handleClose = (e) => {
     if (e.target.id) {
       if (e.target.id === 'signout') {
-        Cookies.remove('authorization');
-        Cookies.remove('userId');
-        history.push('/');
+        axios({
+          method: 'get',
+          url: 'https://buenosvinosserver.ga/user/logout',
+        })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => console.error(err));
+        // history.push('/');
+        window.location.href = '/';
       }
       // 로그아웃 버튼 클릭시 쿠키를 삭제하고 메인페이지로 이동
 
@@ -153,14 +183,6 @@ function Nav() {
     setSearchWine('');
   };
 
-  const signInOpen = () => {
-    setSignModal(true);
-    console.log('click');
-  };
-  const signInClose = () => {
-    setSignModal(false);
-  };
-
   const handleClickToMain = () => {
     history.push('./');
   };
@@ -225,7 +247,8 @@ function Nav() {
                   ref={anchorRef}
                   aria-controls={open ? 'menu-list-grow' : undefined}
                   aria-haspopup="true"
-                  onClick={Cookies.get('authorization') ? handleToggle : signInOpen}
+                  // onClick={isLogIn.state.status ? handleToggle : signInOpen}
+                  onClick={handleToggle}
                 >
                   <FaceIcon />
                 </IconButton>
