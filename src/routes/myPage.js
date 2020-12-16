@@ -1,8 +1,30 @@
 import MyProfile from '../components/user/myPage';
 import MyTraking from '../components/user/myTracking';
 import { Grid } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function MyPage() {
+  const [userInfo, setUserInfo] = useState('');
+
+  const fetchData = () => {
+    axios({
+      method: 'get',
+      url: 'https://buenosvinosserver.ga/user',
+      withCredentials: true,
+    })
+      .then((res) => {
+        setUserInfo(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <Grid
       container
@@ -16,8 +38,8 @@ function MyPage() {
         position: 'relative',
       }}
     >
-      <MyProfile></MyProfile>
-      <MyTraking></MyTraking>
+      <MyProfile userInfo={userInfo} fetchData={fetchData}></MyProfile>
+      <MyTraking userInfo={userInfo} fetchData={fetchData}></MyTraking>
     </Grid>
   );
 }

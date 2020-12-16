@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Container, Box, Button, Grid, Link } from '@material-ui/core';
-import { userData } from '../../userData';
+import { Typography, Container, Box, Grid, Link } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import EditInfo from '../../components/user/editMyInfo';
-import axios from 'axios';
 
-export default function MyTracking() {
+export default function MyTracking(props) {
   const useStyles = makeStyles({
     selectedBtn: {
       color: '#8e041a',
@@ -58,6 +56,10 @@ export default function MyTracking() {
       backgroundColor: 'white',
     },
   });
+
+  //useEffect(() => {
+  //  props.fetchData();
+  //}, []);
 
   const [btn, setBtn] = useState({
     comment: false,
@@ -134,7 +136,7 @@ export default function MyTracking() {
         </Link>
         <hr />
         {btn.comment
-          ? userData[0].comment.map(function (el) {
+          ? props.userInfo.comment.map(function (el) {
               return (
                 <Grid className={classes.commentBox} container direction="row">
                   <Box p={1} className={classes.itemBox}>
@@ -150,7 +152,7 @@ export default function MyTracking() {
             })
           : ''}
         {btn.myWines
-          ? userData[0].wishlist.map(function (el) {
+          ? props.userInfo.wishlist.map(function (el) {
               return (
                 <Grid container direction="row" className={classes.wishBox}>
                   <Box className={classes.wishlistImg}>
@@ -183,7 +185,7 @@ export default function MyTracking() {
               );
             })
           : ''}
-        {btn.editInfo ? <EditInfo /> : ''}
+        {btn.editInfo ? <EditInfo userInfo={props.userInfo} fetchData={props.fetchData} /> : ''}
       </Container>
     </>
   );
