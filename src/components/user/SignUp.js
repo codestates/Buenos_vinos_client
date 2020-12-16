@@ -16,6 +16,11 @@ const useStyles = makeStyles({
     minHeight: '70px',
     maxWidth: '250px',
   },
+  signUpBtn: {
+    width: 'auto',
+    minWidth: '250px',
+    borderRadius: 5,
+  },
 });
 
 function SignUp() {
@@ -72,7 +77,7 @@ function SignUp() {
         label="이메일"
         name="email"
         type="email"
-        placeholder="이메일을 입력해주세요"
+        placeholder="ex) youremail@domain.com"
         value={values.email}
         className={classes.textBox}
         InputProps={{
@@ -89,7 +94,7 @@ function SignUp() {
         onChange={handleChange}
         label="닉네임"
         name="nickname"
-        placeholder="닉네임을 입력해주세요"
+        placeholder="ex) 드숑마숑"
         value={values.nickname}
         className={classes.textBox}
         InputProps={{
@@ -109,7 +114,7 @@ function SignUp() {
         }
         onChange={handleChange}
         label="비밀번호"
-        placeholder="비밀번호를 입력해주세요"
+        placeholder="ex) 123456a!"
         name="password"
         type="password"
         value={values.password}
@@ -131,7 +136,7 @@ function SignUp() {
         }
         onChange={handleChange}
         label="비밀번호 확인"
-        placeholder="비밀번호를 다시 입력해주세요"
+        placeholder="ex) 123456a!"
         name="passwordCorrect"
         type="password"
         value={values.passwordCorrect}
@@ -145,7 +150,12 @@ function SignUp() {
         }}
       />
       <div>
-        <Button type="submit" variant="outlined" disabled={!isAllVaild()}>
+        <Button
+          className={classes.signUpBtn}
+          type="submit"
+          variant="outlined"
+          disabled={!isAllVaild()}
+        >
           회원가입
         </Button>
       </div>

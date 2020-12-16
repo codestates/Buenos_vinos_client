@@ -152,5 +152,3 @@ function SocialSignIn(props) {
   );
 }
 export default SocialSignIn;
-
-
