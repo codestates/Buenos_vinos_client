@@ -62,52 +62,58 @@ export default function Item({ article }) {
   const size = useWindowSize();
   return (
     <>
-      <div className={classes.paper}>
-        <Grid container>
-          <Grid
-            container
-            style={{
-              height: '250px',
-              backgroundImage: `url(${fakeData[randomId].image})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              borderRadius: '15px',
-              backgroundColor: '#FAF6EE',
-            }}
-          ></Grid>
-          <Grid
-            container
-            style={{
-              padding: '15px',
-              height: '80px',
-              backgroundColor: '#FAF6EE',
-              textAlign: 'center',
-            }}
-          >
-            <Grid container spacing={1} justify="center" alignItems="center">
-              <Typography variant="h6">{article.title}</Typography>
+      <a
+        href={article.link}
+        target="_blank"
+        style={{ cursor: 'pointer', color: 'black', textDecoration: 'none' }}
+      >
+        <div className={classes.paper}>
+          <Grid container>
+            <Grid
+              container
+              style={{
+                height: '250px',
+                backgroundImage: `url(${fakeData[randomId].image})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                borderRadius: '15px',
+                backgroundColor: '#FAF6EE',
+              }}
+            ></Grid>
+            <Grid
+              container
+              style={{
+                padding: '15px',
+                height: '80px',
+                backgroundColor: '#FAF6EE',
+                textAlign: 'center',
+              }}
+            >
+              <Grid container spacing={1} justify="center" alignItems="center">
+                <Typography variant="h6">{article.title}</Typography>
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              style={{
+                paddingTop: '3px',
+                height: '210px',
+                backgroundColor: '#FAF6EE',
+                borderBottomRightRadius: '15px',
+                borderBottomLeftRadius: '15px',
+                padding: 10,
+              }}
+            >
+              <Grid item xs>
+                <Typography variant="body2" gutterBottom style={{ textAlign: 'center' }}>
+                  {size.width < 1273 ? article.description.slice(0, 200) : article.description}
+                  ...
+                </Typography>
+              </Grid>
             </Grid>
           </Grid>
-          <Grid
-            container
-            style={{
-              paddingTop: '3px',
-              height: '210px',
-              backgroundColor: '#FAF6EE',
-              borderBottomRightRadius: '15px',
-              borderBottomLeftRadius: '15px',
-              padding: 10,
-            }}
-          >
-            <Grid item xs>
-              <Typography variant="body2" gutterBottom style={{ textAlign: 'center' }}>
-                {size.width < 1273 ? article.description.slice(0, 200) : article.description}
-                ...
-              </Typography>
-            </Grid>
-          </Grid>
-        </Grid>
-      </div>
+        </div>
+      </a>
     </>
   );
 }

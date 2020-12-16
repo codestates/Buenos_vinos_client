@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 const FlavorBar = ({ done, flavor }) => {
   const [style, setStyle] = useState({});
-
+  const [value, setValue] = useState('');
   useEffect(() => {
     setTimeout(() => {
       const newStyle = {
@@ -36,15 +36,18 @@ const FlavorBar = ({ done, flavor }) => {
 
       setStyle(newStyle);
     }, 500);
+    let nameOfBar = flavor + done / 20;
+    setTimeout(() => {
+      setValue(nameOfBar);
+    }, 1500);
   }, []);
 
   const classes = useStyles();
-
+  setTimeout(() => {}, 1000);
   return (
     <div className={classes.progress}>
       <div className={classes.progressDone} style={style}>
-        {flavor}
-        {done / 20}
+        {value}
       </div>
     </div>
   );

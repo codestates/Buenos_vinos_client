@@ -6,26 +6,6 @@ function SelectedOneDef({ universalDef }) {
       padding: '15px',
       margin: '10px',
     },
-    listbox: {
-      margin: '7px',
-    },
-    image: {
-      marginRight: 5,
-      width: '30px',
-      height: '30px',
-      verticalAlign: '-5pt',
-    },
-    lineName: {
-      border: '1px solid black',
-      fontSize: '1.5rem',
-      padding: '10px 20px',
-    },
-    lineInfo: {
-      border: '1px solid black',
-      fontSize: '1.5rem',
-      maxWidth: '998px',
-      padding: '10px 20px 10px 20px',
-    },
     font: {
       fontSize: '1.2rem',
     },

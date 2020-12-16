@@ -4,54 +4,78 @@ import SelectedOnePairings from '../components/detailPage/selectedOnePairings';
 import { useLocation } from 'react-router-dom';
 import { Grid, makeStyles, Typography, Button } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DetailInfo from '../components/detailPage/detailInfo';
 import ShowFlavor from '../components/detailPage/showFlavor';
-import GolfCourseIcon from '@material-ui/icons/GolfCourse';
 import AllComments from '../components/detailPage/allComments';
 import SignModal from '../components/user/SignModal';
+import axios from 'axios';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import { LogInStatus } from '../components/App';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  text: {
+    padding: '15px',
+    margin: '10px',
+  },
+  button: {
+    display: 'inline',
+    cursor: 'pointer',
+  },
+}));
 
 function SelectedOnePage() {
   //검색결과 데이터 가져오기
   const location = useLocation();
-  const searchResult = location.state;
-  console.log(searchResult);
-
+  const [searchResult, setSearchResult] = useState(location.state);
   // 버튼 구현
   const [styleAndPairingsInfo, setStyleAndPairingsInfo] = useState(true);
   const [wineInfo, setWineInfo] = useState(false);
   const [flavorInfo, setFlavorInfo] = useState(false);
   const [wineDetailInfo, setWineDetailInfo] = useState(false);
   const [showReview, setShowReview] = useState(false);
-
+  const [commentNum, setCommentNum] = useState(searchResult.comment.length);
+  // 즐겨찾기 추가
+  const [favorite, setFavorite] = useState(false);
   // 로그인 모달 구현
   const [signInModal, setSignModal] = useState(false);
-
   const signInOpen = () => {
     setSignModal(true);
-    console.log('click');
   };
   const signInClose = () => {
     setSignModal(false);
   };
+  // 즐겨찾기 구현
+  const favoriteCheck = () => {
+    setFavorite(true);
+  };
+  const favoriteRemove = () => {
+    setFavorite(false);
+  };
+  console.log(searchResult);
 
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      '& > *': {
-        margin: theme.spacing(1),
-      },
-    },
-    text: {
-      padding: '15px',
-      margin: '10px',
-    },
-    button: {
-      display: 'inline',
-      cursor: 'pointer',
-    },
-  }));
   const classes = useStyles();
+  const getSearchResult = async (search) => {
+    const response = await axios.get(`https://buenosvinosserver.ga/wine?name=${search}`);
+    console.log(response.data);
+    location.state = response.data[0];
+    setSearchResult(location.state);
+  };
 
+  useEffect(() => {
+    if (commentNum !== searchResult.comment.length) {
+      console.log(' different num');
+      getSearchResult(searchResult.name_en);
+    }
+  }, [commentNum]);
+  const isLogIn = React.useContext(LogInStatus);
+  console.log(isLogIn.state);
   return (
     <>
       <Grid
@@ -122,16 +146,32 @@ function SelectedOnePage() {
               <Typography style={{ display: 'inline-block', marginTop: 50 }}>
                 <Rating defaultValue={searchResult.rating} precision={0.1} readOnly />
               </Typography>
-              <div className={classes.root} onClick={signInOpen}>
-                <Button>
-                  <GolfCourseIcon />
-                  위시리스트에 추가하기
-                </Button>
+              <div
+                className={classes.root}
+                onClick={
+                  isLogIn.state.status ? (favorite ? favoriteRemove : favoriteCheck) : signInOpen
+                }
+              >
+                {favorite ? (
+                  <Button>
+                    <FavoriteIcon />
+                    위시리스트에 해제하기
+                  </Button>
+                ) : (
+                  <Button>
+                    <FavoriteBorderIcon />
+                    위시리스트에 추가하기
+                  </Button>
+                )}
               </div>
-              {localStorage.logging ? null : (
-                <SignModal signInModal={signInModal} signInClose={signInClose} />
-              )}
-              <Comment wineInfo={searchResult.id} comments={searchResult.comment} />
+              <SignModal signInModal={signInModal} signInClose={signInClose} />
+              <Comment
+                wineInfo={searchResult.id}
+                comments={searchResult.comment}
+                setCommentNum={setCommentNum}
+                commentNum={commentNum}
+                setSearchResult={setSearchResult}
+              />
             </Grid>
             <Grid
               item
