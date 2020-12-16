@@ -6,12 +6,11 @@ import KakaoLogin from 'react-kakao-login';
 import { FaceBookAppId, Google_ClientId, KakaoKey } from '../../config/config';
 import React from 'react';
 import { LogInStatus } from '../App';
-
 axios.defaults.withCredentials = true;
 const useStyles = makeStyles({
   root: {
     textAlign: '-webkit-center',
-    padding: 0,
+    // padding: 0,
   },
   socialBtn: {
     cursor: 'pointer',
@@ -27,11 +26,9 @@ const useStyles = makeStyles({
     margin: '4px',
   },
 });
-
 function SocialSignIn(props) {
   const isLogIn = React.useContext(LogInStatus);
   const classes = useStyles();
-
   const googleRes = async (res) => {
     console.log(res);
     await axios({
@@ -49,7 +46,6 @@ function SocialSignIn(props) {
       })
       .catch((err) => console.error(err));
   };
-
   const kakaoRes = async (res) => {
     console.log(res);
     await axios({
@@ -66,7 +62,6 @@ function SocialSignIn(props) {
       })
       .catch((err) => console.error(err));
   };
-
   const facebookRes = async (res) => {
     console.log(res);
     await axios({
@@ -84,11 +79,9 @@ function SocialSignIn(props) {
       })
       .catch((err) => console.error(err));
   };
-
   const failRes = (err) => {
     console.error(err);
   };
-
   return (
     <Container maxWidth="sm" className={classes.root}>
       <GoogleLogin
@@ -158,5 +151,4 @@ function SocialSignIn(props) {
     </Container>
   );
 }
-
 export default SocialSignIn;
