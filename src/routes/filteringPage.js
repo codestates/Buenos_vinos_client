@@ -5,6 +5,7 @@ import FilteredList from '../components/filteringPage/filteredList';
 import React from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import NoResearch from '../components/utility/noResearch';
 
 function FilteringPage() {
   const [filteredWines, setFilteredWines] = React.useState([]);
@@ -134,7 +135,7 @@ function FilteringPage() {
       });
     }
     // 메인페이지 네비메뉴에서 선택한 값들을 반영시킨다
-  }, []);
+  }, [mainPageState]);
 
   React.useEffect(() => {
     const getFilterdList = async () => {
@@ -181,7 +182,7 @@ function FilteringPage() {
         handleRatingChange={handleRatingChange}
         handleRatingChangeHover={handleRatingChangeHover}
       />
-      <FilteredList filteredWines={filteredWines} />
+      {filteredWines.length ? <FilteredList filteredWines={filteredWines} /> : <NoResearch />}
     </Grid>
   );
 }
