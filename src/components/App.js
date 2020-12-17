@@ -10,7 +10,6 @@ import Nav from './nav';
 import Footer from './footer';
 import Explanation from './explanation';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import ProgressBar from '../components/utility/progressBar';
 
 const theme = createMuiTheme({
   typography: {
@@ -22,31 +21,21 @@ export const LogInStatus = React.createContext();
 
 function App() {
   const [isLogin, setLogin] = React.useState({ status: false, id: '' });
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 6000);
-  }, []);
 
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        {isLoading ? (
-          <ProgressBar />
-        ) : (
-          <LogInStatus.Provider value={{ state: isLogin, setState: setLogin }}>
-            <Nav />
-            <Route path="/" exact={true} component={MainPage} />
-            <Route path="/users" exact={true} component={MyPage} />
-            <Route path="/editinfo" exact={true} component={EditInfoPage} />
-            <Route path="/filter" exact={true} component={FilteringPage} />
-            <Route path="/result" exact={true} component={SearchResultPage} />
-            <Route path="/select" exact={true} component={SelectedOnePage} />
-            <Explanation />
-            <Footer />
-          </LogInStatus.Provider>
-        )}
+        <LogInStatus.Provider value={{ state: isLogin, setState: setLogin }}>
+          <Nav />
+          <Route path="/" exact={true} component={MainPage} />
+          <Route path="/users" exact={true} component={MyPage} />
+          <Route path="/editinfo" exact={true} component={EditInfoPage} />
+          <Route path="/filter" exact={true} component={FilteringPage} />
+          <Route path="/result" exact={true} component={SearchResultPage} />
+          <Route path="/select" exact={true} component={SelectedOnePage} />
+          <Explanation />
+          <Footer />
+        </LogInStatus.Provider>
       </BrowserRouter>
     </ThemeProvider>
   );
