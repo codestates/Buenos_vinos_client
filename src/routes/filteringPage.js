@@ -9,6 +9,7 @@ import NoResearch from '../components/utility/noResearch';
 import sortAsce from '../components/utility/sortAsce';
 import sortDesc from '../components/utility/sortDesc';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import { ToggleFillterNav } from '../components/App';
 
 const useStyles = makeStyles({
   '@keyframes arrowSlide': {
@@ -29,7 +30,7 @@ const useStyles = makeStyles({
     animationDirection: 'alternate',
     animationIterationCount: 'infinite',
   },
-  filterNav: {
+  filterNavText: {
     position: 'fixed',
     top: `${window.innerHeight / 2}px`,
     left: 0,
@@ -41,7 +42,8 @@ function FilteringPage() {
   const [filteredWines, setFilteredWines] = React.useState([]);
   const [ratingValue, setRatingValue] = React.useState(3);
   const [ratingHover, setRatingHover] = React.useState(-1);
-  const [toggleFillter, setToggleFillter] = React.useState(false);
+
+  const fillterNav = React.useContext(ToggleFillterNav);
 
   const [countryState, setCountryState] = React.useState({
     argentina: [false, '아르헨티나'],
@@ -155,7 +157,7 @@ function FilteringPage() {
   };
   // 레이팅 기준 내림차순 정렬
   const handleMouseEnter = () => {
-    setToggleFillter(true);
+    fillterNav.setState(true);
   };
   // 마우스가 화살표 아이콘 위로 호버됐을때 필터링 메뉴를 보여주기 위한 함수
   React.useEffect(() => {
@@ -214,7 +216,7 @@ function FilteringPage() {
 
   return (
     <Grid container direction="row" justify="center" alignItems="stretch">
-      <div onMouseEnter={handleMouseEnter} className={classes.filterNav}>
+      <div onMouseEnter={handleMouseEnter} className={classes.filterNavText}>
         <Typography>
           필터를 보시려면
           <br />
@@ -236,8 +238,6 @@ function FilteringPage() {
         ratingValue={ratingValue}
         handleRatingChange={handleRatingChange}
         handleRatingChangeHover={handleRatingChangeHover}
-        toggleFillter={toggleFillter}
-        setToggleFillter={setToggleFillter}
       />
       {filteredWines.length ? (
         <FilteredList

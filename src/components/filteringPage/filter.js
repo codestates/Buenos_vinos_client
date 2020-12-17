@@ -1,25 +1,13 @@
 import { Grid, makeStyles } from '@material-ui/core';
-import useScroll from '../utility/useScroll';
+import { ToggleFillterNav } from '../App';
 import Country from './country';
 import Flavor from './flavor';
 import PairingsButton from './pairingsButton';
 import Ratings from './ratings';
 import WineTypes from './wineTypes';
+import React from 'react';
 
 const useStyles = makeStyles({
-  // filteringBar: {
-  //   width: 250,
-  //   padding: 5,
-  //   position: 'fixed',
-  //   left: '1.5rem',
-  //   top: 0,
-  // },
-  // filteringBarAbs: {
-  //   width: 250,
-  //   padding: 5,
-  //   position: 'absolute',
-  //   left: '1.5rem',
-  // },
   text: {
     fontSize: '1.4rem',
     margin: 8,
@@ -36,7 +24,7 @@ const useStyles = makeStyles({
     overflowY: 'hidden',
     float: 'left',
     background: '#FAF6EE',
-    transition: '0.2s',
+    transition: '0.4s',
     placeContent: 'center',
     placeItems: 'center',
     textAlign: 'center',
@@ -53,7 +41,7 @@ const useStyles = makeStyles({
     overflowY: 'hidden',
     float: 'left',
     background: '#FAF6EE',
-    transition: '0.2s',
+    transition: '0.4s',
     placeContent: 'center',
     placeItems: 'center',
     textAlign: 'center',
@@ -61,15 +49,17 @@ const useStyles = makeStyles({
 });
 
 function Filter(props) {
+  const fillterNav = React.useContext(ToggleFillterNav);
+
   const handleMouseLeave = () => {
-    props.setToggleFillter(false);
+    fillterNav.setState(false);
   };
 
   const classes = useStyles();
 
   return (
     <div onMouseLeave={handleMouseLeave}>
-      <Grid item xs={2} className={props.toggleFillter ? classes.sideNav : classes.sideNavClosed}>
+      <Grid item xs={2} className={fillterNav.state ? classes.sideNav : classes.sideNavClosed}>
         <p className={classes.text}>와인 종류</p>
         <WineTypes selectWines={props.selectWines} wineState={props.wineState} />
         <p className={classes.text}>맛 선택</p>
