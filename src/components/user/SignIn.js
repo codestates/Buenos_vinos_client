@@ -72,6 +72,7 @@ export default function Signin(props) {
         console.log('응답', res.data);
         alert('로그인 성공');
         isLogIn.setState({ status: true, id: res.data.userId });
+        Cookies.set('id', res.data.userId);
         console.log(isLogIn.state);
         props.signInClose();
       })
