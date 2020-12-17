@@ -10,7 +10,7 @@ axios.defaults.withCredentials = true;
 const useStyles = makeStyles({
   root: {
     textAlign: '-webkit-center',
-    // padding: 0,
+    padding: 0,
   },
   socialBtn: {
     cursor: 'pointer',

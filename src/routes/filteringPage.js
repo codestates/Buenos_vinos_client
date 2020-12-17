@@ -1,15 +1,47 @@
-import { Grid } from '@material-ui/core';
+import { Grid, makeStyles, Typography } from '@material-ui/core';
 import useDebounce from '../components/utility/useDebounce';
 import Filter from '../components/filteringPage/filter';
 import FilteredList from '../components/filteringPage/filteredList';
 import React from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import NoResearch from '../components/utility/noResearch';
+import sortAsce from '../components/utility/sortAsce';
+import sortDesc from '../components/utility/sortDesc';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+
+const useStyles = makeStyles({
+  '@keyframes arrowSlide': {
+    '0%': {
+      left: 0,
+      filter: 'opacity(50%)',
+    },
+    '100%': {
+      left: 10,
+      filter: 'opacity(100%)',
+    },
+  },
+  arrow: {
+    position: 'relative',
+    animationName: '$arrowSlide',
+    animationDuration: '0.5s',
+    animationDelay: '0.5s',
+    animationDirection: 'alternate',
+    animationIterationCount: 'infinite',
+  },
+  filterNav: {
+    position: 'fixed',
+    top: `${window.innerHeight / 2}px`,
+    left: 0,
+    textAlign: 'center',
+  },
+});
 
 function FilteringPage() {
   const [filteredWines, setFilteredWines] = React.useState([]);
   const [ratingValue, setRatingValue] = React.useState(3);
   const [ratingHover, setRatingHover] = React.useState(-1);
+  const [toggleFillter, setToggleFillter] = React.useState(false);
 
   const [countryState, setCountryState] = React.useState({
     argentina: [false, '아르헨티나'],
@@ -113,6 +145,19 @@ function FilteringPage() {
   };
   // 호버링할때 마우스 커서가 위치한 곳의 레이팅 값을 변경하는 함수
 
+  const handleSortAsce = () => {
+    setFilteredWines((state) => sortAsce(state, 'rating'));
+  };
+  // 레이팅 기준 오름차순 정렬
+
+  const handleSortDesc = () => {
+    setFilteredWines((state) => sortDesc(state, 'rating'));
+  };
+  // 레이팅 기준 내림차순 정렬
+  const handleMouseEnter = () => {
+    setToggleFillter(true);
+  };
+  // 마우스가 화살표 아이콘 위로 호버됐을때 필터링 메뉴를 보여주기 위한 함수
   React.useEffect(() => {
     if (mainPageState.pairingsState) {
       setPairingsState(mainPageState.pairingsState);
@@ -134,7 +179,7 @@ function FilteringPage() {
       });
     }
     // 메인페이지 네비메뉴에서 선택한 값들을 반영시킨다
-  }, []);
+  }, [mainPageState]);
 
   React.useEffect(() => {
     const getFilterdList = async () => {
@@ -154,7 +199,7 @@ function FilteringPage() {
           },
         });
         console.log(res.data);
-        setFilteredWines(res.data);
+        setFilteredWines(sortDesc(res.data, 'rating'));
       } catch (error) {
         console.error(error);
       }
@@ -165,8 +210,19 @@ function FilteringPage() {
 
   console.log(filteredWines);
 
+  const classes = useStyles();
+
   return (
     <Grid container direction="row" justify="center" alignItems="stretch">
+      <div onMouseEnter={handleMouseEnter} className={classes.filterNav}>
+        <Typography>
+          필터를 보시려면
+          <br />
+          마우스를 올려주세요
+          <br />
+          <ArrowForwardIcon className={classes.arrow} />
+        </Typography>
+      </div>
       <Filter
         selectFlavor={selectFlavor}
         selectPairings={selectPairings}
@@ -180,8 +236,18 @@ function FilteringPage() {
         ratingValue={ratingValue}
         handleRatingChange={handleRatingChange}
         handleRatingChangeHover={handleRatingChangeHover}
+        toggleFillter={toggleFillter}
+        setToggleFillter={setToggleFillter}
       />
-      <FilteredList filteredWines={filteredWines} />
+      {filteredWines.length ? (
+        <FilteredList
+          filteredWines={filteredWines}
+          handleSortAsce={handleSortAsce}
+          handleSortDesc={handleSortDesc}
+        />
+      ) : (
+        <NoResearch />
+      )}
     </Grid>
   );
 }
