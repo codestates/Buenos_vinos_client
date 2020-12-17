@@ -138,7 +138,7 @@ export default function MyTracking(props) {
         {btn.comment
           ? props.userInfo.comment.map(function (el) {
               return (
-                <Grid className={classes.commentBox} container direction="row">
+                <Grid className={classes.commentBox} container direction="row" key={el.id}>
                   <Box p={1} className={classes.itemBox}>
                     <img className={classes.wineImg} src={el.wine.image} />
                     <Typography>{el.wine.name}</Typography>
@@ -154,7 +154,7 @@ export default function MyTracking(props) {
         {btn.myWines
           ? props.userInfo.wishlist.map(function (el) {
               return (
-                <Grid container direction="row" className={classes.wishBox}>
+                <Grid container direction="row" className={classes.wishBox} key={el.id}>
                   <Box className={classes.wishlistImg}>
                     <img src={el.image}></img>
                   </Box>
