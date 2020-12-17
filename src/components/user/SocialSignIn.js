@@ -5,7 +5,6 @@ import GoogleLogin from 'react-google-login';
 import KakaoLogin from 'react-kakao-login';
 import { FaceBookAppId, Google_ClientId, KakaoKey } from '../../config/config';
 import React from 'react';
-import { LogInStatus } from '../App';
 axios.defaults.withCredentials = true;
 const useStyles = makeStyles({
   root: {
@@ -27,7 +26,6 @@ const useStyles = makeStyles({
   },
 });
 function SocialSignIn(props) {
-  const isLogIn = React.useContext(LogInStatus);
   const classes = useStyles();
   const googleRes = async (res) => {
     console.log(res);
@@ -40,7 +38,6 @@ function SocialSignIn(props) {
     })
       .then((res) => {
         console.log(res.data);
-        isLogIn.setState({ status: true, id: res.data.userId });
         alert('로그인 성공');
         props.signInClose();
       })

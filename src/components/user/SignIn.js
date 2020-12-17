@@ -6,7 +6,6 @@ import EmailIcon from '@material-ui/icons/Email';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import SocialSignIn from './SocialSignIn';
-import { LogInStatus } from '../App';
 import Cookies from 'js-cookie';
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Signin(props) {
   const classes = useStyles();
-  const isLogIn = React.useContext(LogInStatus);
   const [values, setValues] = useState({
     email: '',
     password: '',
@@ -71,9 +69,7 @@ export default function Signin(props) {
       .then((res) => {
         console.log('응답', res.data);
         alert('로그인 성공');
-        isLogIn.setState({ status: true, id: res.data.userId });
         Cookies.set('id', res.data.userId);
-        console.log(isLogIn.state);
         props.signInClose();
       })
       .catch((err) => {

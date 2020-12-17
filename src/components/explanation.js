@@ -3,12 +3,23 @@ import { Typography, Box, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import LocalBarIcon from '@material-ui/icons/LocalBar';
 import AOS from 'aos';
+import { ToggleFillterNav } from '../components/App';
 
 AOS.init({
   duration: 1000,
 });
 
 const useStyles = makeStyles({
+  root: {
+    position: 'relative',
+    left: 0,
+    transition: '0.4s',
+  },
+  rootFillterNavOpen: {
+    position: 'relative',
+    left: 300,
+    transition: '0.4s',
+  },
   explain: {
     padding: '1rem',
     whiteSpace: 'nowrap',
@@ -28,9 +39,10 @@ const useStyles = makeStyles({
 });
 
 export default function Explanation() {
+  const filterNav = React.useContext(ToggleFillterNav);
   const classes = useStyles();
   return (
-    <>
+    <div className={filterNav.state ? classes.rootFillterNavOpen : classes.root}>
       <hr
         width="80%"
         style={{
@@ -85,6 +97,6 @@ export default function Explanation() {
           </Grid>
         </Grid>
       </Box>
-    </>
+    </div>
   );
 }

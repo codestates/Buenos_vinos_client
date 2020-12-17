@@ -17,15 +17,15 @@ const theme = createMuiTheme({
   },
 });
 
-export const LogInStatus = React.createContext();
+export const ToggleFillterNav = React.createContext();
 
 function App() {
-  const [isLogin, setLogin] = React.useState({ status: false, id: '' });
+  const [toggleFilter, setToggleFilter] = React.useState(false);
 
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <LogInStatus.Provider value={{ state: isLogin, setState: setLogin }}>
+        <ToggleFillterNav.Provider value={{ state: toggleFilter, setState: setToggleFilter }}>
           <Nav />
           <Route path="/" exact={true} component={MainPage} />
           <Route path="/users" exact={true} component={MyPage} />
@@ -35,7 +35,7 @@ function App() {
           <Route path="/select" exact={true} component={SelectedOnePage} />
           <Explanation />
           <Footer />
-        </LogInStatus.Provider>
+        </ToggleFillterNav.Provider>
       </BrowserRouter>
     </ThemeProvider>
   );
