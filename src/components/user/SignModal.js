@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 function SignModal(props) {
   const classes = useStyles();
-  const [togleSignUp, setTogleSignUp] = React.useState(false);
+  const [toggleSignUp, setTogleSignUp] = React.useState(false);
 
   const handleClick = (e) => {
     if (e.currentTarget.name === 'signIn') {
@@ -70,7 +70,7 @@ function SignModal(props) {
             <Button
               name="signIn"
               onClick={handleClick}
-              className={togleSignUp ? classes.disabledSignBtn : classes.signBtn}
+              className={toggleSignUp ? classes.disabledSignBtn : classes.signBtn}
             >
               로그인
             </Button>
@@ -78,7 +78,7 @@ function SignModal(props) {
             <Button
               name="signUp"
               onClick={handleClick}
-              className={togleSignUp ? classes.signBtn : classes.disabledSignBtn}
+              className={toggleSignUp ? classes.signBtn : classes.disabledSignBtn}
             >
               회원가입
             </Button>
@@ -91,7 +91,11 @@ function SignModal(props) {
               <CloseIcon />
             </IconButton>
           </Typography>
-          {togleSignUp ? <SignUp /> : <SignIn signInClose={props.signInClose} />}
+          {toggleSignUp ? (
+            <SignUp setTogleSignUp={setTogleSignUp} />
+          ) : (
+            <SignIn signInClose={props.signInClose} />
+          )}
         </div>
       </Fade>
     </Modal>

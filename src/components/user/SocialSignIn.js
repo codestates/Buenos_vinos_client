@@ -5,7 +5,10 @@ import GoogleLogin from 'react-google-login';
 import KakaoLogin from 'react-kakao-login';
 import { FaceBookAppId, Google_ClientId, KakaoKey } from '../../config/config';
 import React from 'react';
+import Cookies from 'js-cookie';
+
 axios.defaults.withCredentials = true;
+
 const useStyles = makeStyles({
   root: {
     textAlign: '-webkit-center',
@@ -39,6 +42,7 @@ function SocialSignIn(props) {
       .then((res) => {
         console.log(res.data);
         alert('로그인 성공');
+        Cookies.set('id', res.data.userId);
         props.signInClose();
       })
       .catch((err) => console.error(err));
@@ -55,6 +59,7 @@ function SocialSignIn(props) {
       .then((res) => {
         console.log(res.data);
         alert('로그인 성공');
+        Cookies.set('id', res.data.userId);
         props.signInClose();
       })
       .catch((err) => console.error(err));
@@ -72,6 +77,7 @@ function SocialSignIn(props) {
       .then((res) => {
         console.log(res.data);
         alert('로그인 성공');
+        Cookies.set('id', res.data.userId);
         props.signInClose();
       })
       .catch((err) => console.error(err));

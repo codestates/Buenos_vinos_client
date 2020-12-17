@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Button, Container, InputAdornment } from '@material-ui/core';
+import { Grid, Button, Container, InputAdornment, Typography } from '@material-ui/core';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import EmailIcon from '@material-ui/icons/Email';
 import TextField from '@material-ui/core/TextField';
@@ -40,6 +40,12 @@ const useStyles = makeStyles((theme) => ({
   social: {
     marginTop: '20px',
   },
+  errText: {
+    textAlign: 'center',
+    color: '#b2102f',
+    height: 10,
+    fontSize: 14,
+  },
 }));
 
 export default function Signin(props) {
@@ -48,6 +54,7 @@ export default function Signin(props) {
     email: '',
     password: '',
   });
+  const [error, setError] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -73,7 +80,9 @@ export default function Signin(props) {
         props.signInClose();
       })
       .catch((err) => {
-        alert('아이디 비밀번호를 다시 확인해주세요');
+        // alert('아이디 비밀번호를 다시 확인해주세요');
+        // console.error(err);
+        setError(true);
       });
   };
 
@@ -116,6 +125,9 @@ export default function Signin(props) {
           </Button>
         </Grid>
       </form>
+      <Typography className={classes.errText}>
+        {error && '이메일 혹은 비밀번호를 확인해주세요'}
+      </Typography>
       <div className={classes.social}>
         <SocialSignIn signInClose={props.signInClose} />
       </div>
