@@ -30,7 +30,7 @@ export default function MyTracking(props) {
       backgroundColor: '#fffcf8',
     },
     wineImg: {
-      height: '13.5vh',
+      height: '15vh',
     },
     commentTitle: {
       marginLeft: '10vh',
@@ -69,16 +69,12 @@ export default function MyTracking(props) {
   });
 
   const tabBtn = (key) => (e) => {
-    if (btn[key]) {
-      setBtn({ [key]: false });
-    } else {
-      setBtn({ [key]: true });
-    }
+    setBtn({ [key]: true });
   };
 
   //페이지네이션
   const [currentPage, setCurrentPage] = useState(1); //현재페이지
-  const [postsPerPage, setPostsPerPage] = useState(3); // 한페이지에 보여줄 데이터의개수
+  const [postsPerPage] = useState(3); // 한페이지에 보여줄 데이터의개수
 
   const indexOfLast = currentPage * postsPerPage;
   const indexOfFirst = indexOfLast - postsPerPage;
@@ -175,13 +171,12 @@ export default function MyTracking(props) {
         ) : (
           ''
         )}
-
         {btn.myWines
-          ? props.userInfo.wishlist.map(function (el) {
+          ? currentPosts(props.userInfo.wishlist).map(function (el) {
               return (
-                <Grid container direction="row" className={classes.wishBox}>
+                <Grid container direction="row" className={classes.wishBox} key={el.id}>
                   <Box className={classes.wishlistImg}>
-                    <img src={el.image}></img>
+                    <img src={el.image} className={classes.wineImg}></img>
                   </Box>
                   <Grid className={classes.nameRaing} item xs={12} sm={4}>
                     <Typography>{el.name}</Typography>
@@ -210,6 +205,7 @@ export default function MyTracking(props) {
               );
             })
           : ''}
+
         {btn.myWines ? (
           <Pagination
             postsPerPage={postsPerPage}
