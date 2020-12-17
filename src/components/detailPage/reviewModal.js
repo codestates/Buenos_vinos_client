@@ -63,7 +63,8 @@ export default function ReviewModal({
   const [value, setValue] = React.useState(3);
   const [review, setReview] = React.useState('');
 
-  const closeBtn = () => {
+  const closeBtn = (e) => {
+    e.preventDefault();
     setToReview(false);
   };
   // 리뷰 내용 받는 함수
@@ -72,8 +73,8 @@ export default function ReviewModal({
   };
   // 리뷰 등록
   const handleSubmit = async (e) => {
+    e.preventDefault();
     console.log('submit click');
-    // e.preventDefault();
     await axios({
       method: 'POST',
       url: 'https://buenosvinosserver.ga/comment',
@@ -93,6 +94,7 @@ export default function ReviewModal({
       })
       .catch((err) => console.log(err));
     setReview('');
+    reviewInClose();
   };
 
   return (
@@ -133,43 +135,45 @@ export default function ReviewModal({
               별점
             </Typography>
 
-            <Grid item xs={4} md={4} className={classes.gridLayout}>
-              <Rating
-                name="simple-controlled"
-                value={value}
-                onChange={(event, newValue) => {
-                  setValue(newValue);
-                }}
-              />
-            </Grid>
-            <Typography variant="h6">리뷰</Typography>
-            <Paper className={classes.layout}>
-              <Grid container>
-                <textarea
-                  name="comment"
-                  placeholder="와인에 대한 평가를 남겨주세요."
-                  rows="4"
-                  cols="50"
-                  maxLength="100"
-                  style={{ border: 'none', resize: 'none', outline: 'none' }}
-                  required
-                  onChange={handleChange}
-                  value={review}
+            <form
+              name="review"
+              onSubmit={() => {
+                handleSubmit();
+                reviewInClose();
+              }}
+            >
+              <Grid item xs={4} md={4} className={classes.gridLayout}>
+                <Rating
+                  name="simple-controlled"
+                  value={value ? value : null}
+                  onChange={(event, newValue) => {
+                    setValue(newValue);
+                  }}
                 />
               </Grid>
-            </Paper>
+              <Typography variant="h6">리뷰</Typography>
+              <Paper className={classes.layout}>
+                <Grid container>
+                  <textarea
+                    name="comment"
+                    placeholder="와인에 대한 평가를 남겨주세요."
+                    rows="4"
+                    cols="50"
+                    maxLength="100"
+                    style={{ border: 'none', resize: 'none', outline: 'none' }}
+                    required
+                    onChange={handleChange}
+                    value={review}
+                  />
+                </Grid>
+              </Paper>
 
-            <div className={classes.root} style={{ display: 'flex', justify: 'text-end' }}>
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  handleSubmit();
-                  reviewInClose();
-                }}
-              >
-                와인 리뷰 남기기
-              </Button>
-            </div>
+              <div className={classes.root} style={{ display: 'flex', justify: 'text-end' }}>
+                <Button variant="outlined" type="submit" onClick={handleSubmit}>
+                  와인 리뷰 남기기
+                </Button>
+              </div>
+            </form>
           </div>
         </Fade>
       </Modal>

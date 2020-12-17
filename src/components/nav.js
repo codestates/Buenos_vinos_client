@@ -158,12 +158,7 @@ function Nav() {
   for (let i in wineNames) {
     krAndEnName.push(wineNames[i].name_en);
   }
-
   const classes = useStyles();
-
-  const changeInputData = (e) => {
-    setSearchWine(e.target.value);
-  };
 
   // 와인 검색 엔터 기능
   const searchWines = (e) => {
@@ -220,12 +215,17 @@ function Nav() {
               <div style={{ width: 200, height: 30 }}>
                 <Autocomplete
                   freeSolo
-                  id="free-solo-2-demo"
-                  disableClearable
+                  id="search-wine"
                   options={krAndEnName}
+                  disableClearable
                   autoComplete={true}
-                  onChange={changeInputData}
+                  getOptionLabel={(wine) => {
+                    return wine;
+                  }}
                   onKeyPress={searchWines}
+                  onChange={(e, wine) => {
+                    setSearchWine(wine);
+                  }}
                   value={searchWine}
                   renderInput={(params) => (
                     <TextField

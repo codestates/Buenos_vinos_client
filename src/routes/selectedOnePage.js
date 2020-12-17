@@ -13,6 +13,7 @@ import axios from 'axios';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { LogInStatus } from '../components/App';
+import Cookies from 'js-cookie';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,9 +43,20 @@ function SelectedOnePage() {
   const [showReview, setShowReview] = useState(false);
   const [commentNum, setCommentNum] = useState(searchResult.comment.length);
   // 즐겨찾기 추가
-  const [favorite, setFavorite] = useState(false);
+  let confirmId = Cookies.get('id');
+  function checkWishlist(wine, confirmId) {
+    for (let i = 0; i < searchResult.wishlist.length; i++) {
+      if (searchResult.wishlist[i].id === Number(confirmId)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+  const [favorite, setFavorite] = useState(checkWishlist(searchResult, confirmId));
   // 로그인 모달 구현
   const [signInModal, setSignModal] = useState(false);
+  console.log('쿠키 확인', confirmId, '와인 id', searchResult.id);
   const signInOpen = () => {
     setSignModal(true);
   };
@@ -74,8 +86,66 @@ function SelectedOnePage() {
       getSearchResult(searchResult.name_en);
     }
   }, [commentNum]);
-  const isLogIn = React.useContext(LogInStatus);
-  console.log(isLogIn.state);
+
+  const handleCheckLogin = async () => {
+    await axios({
+      method: 'get',
+      url: 'https://buenosvinosserver.ga/auth',
+      withCredentials: true,
+    })
+      .then((res) => {
+        console.log('로그인된 상태');
+        if (favorite) {
+          //위시리스트가 아닌경우
+          setFavorite(false);
+        } else {
+          // 위시리스트인 경우
+          setFavorite(true);
+        }
+      })
+      .catch((err) => {
+        console.log('로그인 안된 상태');
+        setSignModal(true);
+      });
+  };
+
+  // 위시리스트 추가
+  const handleAddWishItem = async (e) => {
+    await axios({
+      method: 'post',
+      url: `https://buenosvinosserver.ga/wine/wishlist/${searchResult.id}`,
+      params: {
+        id: searchResult.id,
+      },
+      withCredentials: true,
+    })
+      .then((res) => {
+        setFavorite(true);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  // 위시리스트 삭제
+  const handleDeleteWishItem = async (e) => {
+    await axios({
+      method: 'delete',
+      url: `https://buenosvinosserver.ga/wine/wishlist/${searchResult.id}`,
+      params: {
+        id: searchResult.id,
+      },
+      withCredentials: true,
+    })
+      .then((res) => {
+        setFavorite(false);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <Grid
@@ -146,21 +216,26 @@ function SelectedOnePage() {
               <Typography style={{ display: 'inline-block', marginTop: 50 }}>
                 <Rating defaultValue={searchResult.rating} precision={0.1} readOnly />
               </Typography>
-              <div
-                className={classes.root}
-                onClick={
-                  isLogIn.state.status ? (favorite ? favoriteRemove : favoriteCheck) : signInOpen
-                }
-              >
+              <div className={classes.root}>
                 {favorite ? (
-                  <Button>
+                  <Button
+                    onClick={() => {
+                      handleCheckLogin();
+                      handleDeleteWishItem();
+                    }}
+                  >
                     <FavoriteIcon />
-                    위시리스트에 해제하기
+                    위시리스트 해제하기
                   </Button>
                 ) : (
-                  <Button>
+                  <Button
+                    onClick={() => {
+                      handleCheckLogin();
+                      handleAddWishItem();
+                    }}
+                  >
                     <FavoriteBorderIcon />
-                    위시리스트에 추가하기
+                    위시리스트 추가하기
                   </Button>
                 )}
               </div>
