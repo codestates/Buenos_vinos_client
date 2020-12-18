@@ -12,7 +12,6 @@ import SignModal from '../components/user/SignModal';
 import axios from 'axios';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import { LogInStatus } from '../components/App';
 import Cookies from 'js-cookie';
 
 const useStyles = makeStyles((theme) => ({

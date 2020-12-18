@@ -5,12 +5,14 @@ import GoogleLogin from 'react-google-login';
 import KakaoLogin from 'react-kakao-login';
 import { FaceBookAppId, Google_ClientId, KakaoKey } from '../../config/config';
 import React from 'react';
-import { LogInStatus } from '../App';
+import Cookies from 'js-cookie';
+
 axios.defaults.withCredentials = true;
+
 const useStyles = makeStyles({
   root: {
     textAlign: '-webkit-center',
-    // padding: 0,
+    padding: 0,
   },
   socialBtn: {
     cursor: 'pointer',
@@ -27,7 +29,6 @@ const useStyles = makeStyles({
   },
 });
 function SocialSignIn(props) {
-  const isLogIn = React.useContext(LogInStatus);
   const classes = useStyles();
   const googleRes = async (res) => {
     console.log(res);
@@ -40,8 +41,8 @@ function SocialSignIn(props) {
     })
       .then((res) => {
         console.log(res.data);
-        isLogIn.setState({ status: true, id: res.data.userId });
         alert('로그인 성공');
+        Cookies.set('id', res.data.userId);
         props.signInClose();
       })
       .catch((err) => console.error(err));
@@ -58,6 +59,7 @@ function SocialSignIn(props) {
       .then((res) => {
         console.log(res.data);
         alert('로그인 성공');
+        Cookies.set('id', res.data.userId);
         props.signInClose();
       })
       .catch((err) => console.error(err));
@@ -75,6 +77,7 @@ function SocialSignIn(props) {
       .then((res) => {
         console.log(res.data);
         alert('로그인 성공');
+        Cookies.set('id', res.data.userId);
         props.signInClose();
       })
       .catch((err) => console.error(err));
@@ -127,7 +130,7 @@ function SocialSignIn(props) {
             페이스북으로 계속 진행
           </Button>
         )}
-      />npm
+      />
       <KakaoLogin
         token={KakaoKey}
         onSuccess={kakaoRes}
