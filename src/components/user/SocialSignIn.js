@@ -1,9 +1,9 @@
 import { Button, Container, makeStyles } from '@material-ui/core';
 import axios from 'axios';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import GoogleLogin from 'react-google-login';
-import KakaoLogin from 'react-kakao-login';
-import { FaceBookAppId, Google_ClientId, KakaoKey } from '../../config/config';
+// import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+// import GoogleLogin from 'react-google-login';
+// import KakaoLogin from 'react-kakao-login';
+// import { FaceBookAppId, Google_ClientId, KakaoKey } from '../../config/config';
 import React from 'react';
 import { LogInStatus } from '../App';
 axios.defaults.withCredentials = true;
@@ -27,64 +27,64 @@ const useStyles = makeStyles({
   },
 });
 function SocialSignIn(props) {
-  const isLogIn = React.useContext(LogInStatus);
+  // const isLogIn = React.useContext(LogInStatus);
   const classes = useStyles();
-  const googleRes = async (res) => {
-    console.log(res);
-    await axios({
-      method: 'post',
-      url: 'https://buenosvinosserver.ga/auth/login',
-      data: {
-        google: res.tokenId,
-      },
-    })
-      .then((res) => {
-        console.log(res.data);
-        isLogIn.setState({ status: true, id: res.data.userId });
-        alert('로그인 성공');
-        props.signInClose();
-      })
-      .catch((err) => console.error(err));
-  };
-  const kakaoRes = async (res) => {
-    console.log(res);
-    await axios({
-      method: 'post',
-      url: 'https://buenosvinosserver.ga/auth/login',
-      data: {
-        kakao: res.response.access_token,
-      },
-    })
-      .then((res) => {
-        console.log(res.data);
-        alert('로그인 성공');
-        props.signInClose();
-      })
-      .catch((err) => console.error(err));
-  };
-  const facebookRes = async (res) => {
-    console.log(res);
-    await axios({
-      method: 'post',
-      url: 'https://buenosvinosserver.ga/auth/login',
-      data: {
-        faceboodId: res.id,
-        facebookToken: res.accessToken,
-      },
-    })
-      .then((res) => {
-        console.log(res.data);
-        alert('로그인 성공');
-        props.signInClose();
-      })
-      .catch((err) => console.error(err));
-  };
+  // const googleRes = async (res) => {
+  //   console.log(res);
+  //   await axios({
+  //     method: 'post',
+  //     url: 'https://buenosvinosserver.ga/auth/login',
+  //     data: {
+  //       google: res.tokenId,
+  //     },
+  //   })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       isLogIn.setState({ status: true, id: res.data.userId });
+  //       alert('로그인 성공');
+  //       props.signInClose();
+  //     })
+  //     .catch((err) => console.error(err));
+  // };
+  // const kakaoRes = async (res) => {
+  //   console.log(res);
+  //   await axios({
+  //     method: 'post',
+  //     url: 'https://buenosvinosserver.ga/auth/login',
+  //     data: {
+  //       kakao: res.response.access_token,
+  //     },
+  //   })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       alert('로그인 성공');
+  //       props.signInClose();
+  //     })
+  //     .catch((err) => console.error(err));
+  // };
+  // const facebookRes = async (res) => {
+  //   console.log(res);
+  //   await axios({
+  //     method: 'post',
+  //     url: 'https://buenosvinosserver.ga/auth/login',
+  //     data: {
+  //       faceboodId: res.id,
+  //       facebookToken: res.accessToken,
+  //     },
+  //   })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       alert('로그인 성공');
+  //       props.signInClose();
+  //     })
+  //     .catch((err) => console.error(err));
+  // };
   const failRes = (err) => {
     console.error(err);
   };
   return (
     <Container maxWidth="sm" className={classes.root}>
-      <GoogleLogin
+      {/* <GoogleLogin
         clientId={Google_ClientId}
         buttonText="구글로 로그인하기"
         onSuccess={googleRes}
@@ -127,7 +127,7 @@ function SocialSignIn(props) {
             페이스북으로 계속 진행
           </Button>
         )}
-      />
+      />npm
       <KakaoLogin
         token={KakaoKey}
         onSuccess={kakaoRes}
@@ -146,8 +146,8 @@ function SocialSignIn(props) {
             />
             카카오톡으로 계속 진행
           </Button>
-        )}
-      />
+        )} */}
+      {/* /> */}
     </Container>
   );
 }

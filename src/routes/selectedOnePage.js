@@ -45,14 +45,15 @@ function SelectedOnePage() {
   // 즐겨찾기 추가
   let confirmId = Cookies.get('id');
   function checkWishlist(wine, confirmId) {
-    for (let i = 0; i < searchResult.wishlist.length; i++) {
-      if (searchResult.wishlist[i].id === Number(confirmId)) {
+    for (let i = 0; i < wine.wishlist.length; i++) {
+      if (wine.wishlist[i].id === Number(confirmId)) {
         return true;
       } else {
         return false;
       }
     }
   }
+  console.log(checkWishlist(searchResult, confirmId));
   const [favorite, setFavorite] = useState(checkWishlist(searchResult, confirmId));
   // 로그인 모달 구현
   const [signInModal, setSignModal] = useState(false);
