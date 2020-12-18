@@ -48,6 +48,7 @@ const useStyles = makeStyles({
     border: '5px solid #ffffff',
     width: ' 50%',
     height: '50%',
+    textAlign: 'center',
   },
   modalTitle: {
     alignItems: 'center',
@@ -165,26 +166,33 @@ function Footer() {
                   alt="nodeLogo"
                 />
               </Grid>
+              <Grid item xs={12} sm={3}>
+                <img
+                  src="https://penzim.synology.me/image/finalProject/footer/logo/mariadb.png"
+                  width="50%"
+                  alt="nodeLogo"
+                />
+              </Grid>
             </Grid>
             <Typography variant="h3" className={classes.modalTitle}>
               Front-End
             </Typography>
             <Grid container spacing={1}>
-              <Grid item xs={9} sm={3}>
+              <Grid item xs={12} sm={4}>
                 <img
                   src="https://penzim.synology.me/image/finalProject/footer/logo/javascript.png"
                   width="50%"
                   alt="typescriptLogo"
                 />
               </Grid>
-              <Grid item xs={9} sm={3}>
+              <Grid item xs={12} sm={4}>
                 <img
                   src="https://penzim.synology.me/image/finalProject/footer/logo/materialui.png"
                   width="50%"
                   alt="awsLogo"
                 />
               </Grid>
-              <Grid item xs={9} sm={3}>
+              <Grid item xs={12} sm={4}>
                 <img
                   src="https://penzim.synology.me/image/finalProject/footer/logo/react.png"
                   width="80%"
