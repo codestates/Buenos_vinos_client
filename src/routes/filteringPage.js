@@ -58,9 +58,9 @@ function FilteringPage() {
   });
 
   const [flavorState, setFlavorState] = React.useState({
-    sweet: [2, 4],
-    acidic: [2, 4],
-    body: [2, 4],
+    sweet: [1, 5],
+    acidic: [1, 5],
+    body: [1, 5],
   });
 
   const [pairingsState, setPairingsState] = React.useState({
