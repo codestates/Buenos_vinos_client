@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   },
 });
 
-function SignUp() {
+function SignUp(props) {
   const [values, setValues] = React.useState({
     email: '',
     isEmailVaild: false,
@@ -62,8 +62,13 @@ function SignUp() {
     })
       .then((res) => {
         console.log(res);
+        alert('회원가입 되셨습니다!');
+        props.setTogleSignUp(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        alert('이미 가입된 이메일입니다!');
+        console.log(err);
+      });
   };
 
   const classes = useStyles();

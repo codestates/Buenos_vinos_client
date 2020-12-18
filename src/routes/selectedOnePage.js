@@ -42,6 +42,7 @@ function SelectedOnePage() {
   const [wineDetailInfo, setWineDetailInfo] = useState(false);
   const [showReview, setShowReview] = useState(false);
   const [commentNum, setCommentNum] = useState(searchResult.comment.length);
+
   // 즐겨찾기 추가
   let confirmId = Cookies.get('id');
   function checkWishlist(wine, confirmId) {
@@ -215,7 +216,12 @@ function SelectedOnePage() {
                 {searchResult.rating.toFixed(1)}
               </Typography>
               <Typography style={{ display: 'inline-block', marginTop: 50 }}>
-                <Rating defaultValue={searchResult.rating} precision={0.1} readOnly />
+                <Rating
+                  value={searchResult.rating ? searchResult.rating : null}
+                  // defaultValue={searchResult.rating ? searchResult.rating : null}
+                  precision={0.1}
+                  readOnly
+                />
               </Typography>
               <div className={classes.root}>
                 {favorite ? (

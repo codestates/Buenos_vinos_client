@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Button, Container, InputAdornment } from '@material-ui/core';
+import { Grid, Button, Container, InputAdornment, Typography } from '@material-ui/core';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import EmailIcon from '@material-ui/icons/Email';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import SocialSignIn from './SocialSignIn';
-import { LogInStatus } from '../App';
 import Cookies from 'js-cookie';
 
 const useStyles = makeStyles((theme) => ({
@@ -41,15 +40,21 @@ const useStyles = makeStyles((theme) => ({
   social: {
     marginTop: '20px',
   },
+  errText: {
+    textAlign: 'center',
+    color: '#b2102f',
+    height: 10,
+    fontSize: 14,
+  },
 }));
 
 export default function Signin(props) {
   const classes = useStyles();
-  const isLogIn = React.useContext(LogInStatus);
   const [values, setValues] = useState({
     email: '',
     password: '',
   });
+  const [error, setError] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,13 +76,13 @@ export default function Signin(props) {
       .then((res) => {
         console.log('응답', res.data);
         alert('로그인 성공');
-        isLogIn.setState({ status: true, id: res.data.userId });
         Cookies.set('id', res.data.userId);
-        console.log(isLogIn.state);
         props.signInClose();
       })
       .catch((err) => {
-        alert('아이디 비밀번호를 다시 확인해주세요');
+        // alert('아이디 비밀번호를 다시 확인해주세요');
+        // console.error(err);
+        setError(true);
       });
   };
 
@@ -120,6 +125,9 @@ export default function Signin(props) {
           </Button>
         </Grid>
       </form>
+      <Typography className={classes.errText}>
+        {error && '이메일 혹은 비밀번호를 확인해주세요'}
+      </Typography>
       <div className={classes.social}>
         <SocialSignIn signInClose={props.signInClose} />
       </div>

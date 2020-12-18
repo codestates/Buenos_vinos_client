@@ -60,9 +60,9 @@ export default function ReviewModal({
   commentNum,
 }) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(3);
+  const [value, setValue] = React.useState(null);
   const [review, setReview] = React.useState('');
-
+  console.log(value);
   const closeBtn = (e) => {
     e.preventDefault();
     setToReview(false);
@@ -94,6 +94,7 @@ export default function ReviewModal({
       })
       .catch((err) => console.log(err));
     setReview('');
+    setValue(null);
     reviewInClose();
   };
 
@@ -145,7 +146,8 @@ export default function ReviewModal({
               <Grid item xs={4} md={4} className={classes.gridLayout}>
                 <Rating
                   name="simple-controlled"
-                  value={value ? value : null}
+                  defaultValue={value}
+                  value={value}
                   onChange={(event, newValue) => {
                     setValue(newValue);
                   }}
