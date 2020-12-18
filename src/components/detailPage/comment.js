@@ -50,7 +50,7 @@ function Comment({ comments, wineInfo, setCommentNum, commentNum, setSearchResul
   // 데이터 가공
   let sortedComments = SortDesc(comments, 'rating');
   let reviews = AddReview(sortedComments, 2);
-  console.log(AddReview(sortedComments, 2));
+  // console.log(AddReview(sortedComments, 2));
   // 모달창 구현
   const [signInModal, setSignModal] = useState(false);
 
