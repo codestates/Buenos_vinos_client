@@ -7,8 +7,10 @@ Buenos Vinos에서는 가성비 좋은 와인을 소개해드립니다. 또 어�
 
 # 사용한 스택
 ## FRONT
-
+![front](https://user-images.githubusercontent.com/53219593/103077340-f47b2980-4612-11eb-8e79-a3fc11403e84.png)
 
 ## BACK
 ![백엔드스택](https://user-images.githubusercontent.com/67915192/102738606-fa140d80-438d-11eb-8461-337a58d8b721.png)
 
+## DEPLOY
+![deploy](https://user-images.githubusercontent.com/53219593/103077392-065ccc80-4613-11eb-989c-2a62ab26b156.png)
