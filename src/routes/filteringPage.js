@@ -1,4 +1,4 @@
-import { Grid, makeStyles, Typography } from '@material-ui/core';
+import { CircularProgress, Grid, makeStyles, Typography } from '@material-ui/core';
 import useDebounce from '../components/utility/useDebounce';
 import Filter from '../components/filteringPage/filter';
 import FilteredList from '../components/filteringPage/filteredList';
@@ -42,6 +42,7 @@ function FilteringPage() {
   const [filteredWines, setFilteredWines] = React.useState([]);
   const [ratingValue, setRatingValue] = React.useState(3);
   const [ratingHover, setRatingHover] = React.useState(-1);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const fillterNav = React.useContext(ToggleFillterNav);
 
@@ -57,23 +58,36 @@ function FilteringPage() {
     usa: [false, '미국'],
   });
 
-  const [flavorState, setFlavorState] = React.useState({
-    sweet: [1, 5],
-    acidic: [1, 5],
-    body: [1, 5],
-  });
+  const location = useLocation();
+  let mainPageState = location.state;
+  console.log(mainPageState);
 
-  const [pairingsState, setPairingsState] = React.useState({
-    beef: [false, '소고기'],
-    pork: [false, '돼지고기'],
-    poultry: [false, '가금류'],
-    fish: [false, '생선'],
-    seafood: [false, '해산물'],
-    pasta: [false, '파스타'],
-    cheese: [false, '치즈'],
-    fruit: [false, '과일'],
-    vagetable: [false, '야채'],
-  });
+  const [flavorState, setFlavorState] = React.useState(
+    mainPageState.flavorState
+      ? mainPageState.flavorState
+      : {
+          sweet: [1, 5],
+          acidic: [1, 5],
+          body: [1, 5],
+        },
+  );
+
+  const [pairingsState, setPairingsState] = React.useState(
+    mainPageState.pairingsState
+      ? mainPageState.pairingsState
+      : {
+          beef: [false, '소고기'],
+          pork: [false, '돼지고기'],
+          poultry: [false, '가금류'],
+          fish: [false, '생선'],
+          seafood: [false, '해산물'],
+          pasta: [false, '파스타'],
+          cheese: [false, '치즈'],
+          fruit: [false, '과일'],
+          vagetable: [false, '야채'],
+        },
+  );
+  // 메인페이지에서 history로 받아온 값이 있으면 해당 값을 사용, 없으면 초기값 사용
 
   const [wineState, setWineState] = React.useState({
     red: [false, '레드'],
@@ -88,12 +102,7 @@ function FilteringPage() {
   const debouncedWinesType = useDebounce(wineState, 500);
   const debouncedRating = useDebounce(ratingValue, 500);
 
-  const location = useLocation();
-
   console.log(debouncedFlavor);
-
-  let mainPageState = location.state;
-  console.log(mainPageState);
 
   const selectFlavor = (e, value) => {
     setFlavorState({ ...flavorState, [e]: value });
@@ -160,16 +169,8 @@ function FilteringPage() {
     fillterNav.setState(true);
   };
   // 마우스가 화살표 아이콘 위로 호버됐을때 필터링 메뉴를 보여주기 위한 함수
+
   React.useEffect(() => {
-    if (mainPageState.pairingsState) {
-      setPairingsState(mainPageState.pairingsState);
-    }
-
-    if (mainPageState.flavorState) {
-      setFlavorState(mainPageState.flavorState);
-    }
-    // 메인페이지에서 history state에 담아 보낸 값들을 반영시킨다
-
     if (mainPageState.selectedWine) {
       setWineState((prevState) => {
         for (let key in wineState) {
@@ -185,6 +186,8 @@ function FilteringPage() {
 
   React.useEffect(() => {
     const getFilterdList = async () => {
+      setIsLoading(true);
+      setFilteredWines([]);
       try {
         const res = await axios.get('https://buenosvinosserver.ga/wine', {
           params: {
@@ -205,6 +208,7 @@ function FilteringPage() {
       } catch (error) {
         console.error(error);
       }
+      setIsLoading(false);
     };
     // API에 현재 state 값들을 params에 담아 보낸다
     getFilterdList();
@@ -245,6 +249,10 @@ function FilteringPage() {
           handleSortAsce={handleSortAsce}
           handleSortDesc={handleSortDesc}
         />
+      ) : isLoading ? (
+        <div style={{ height: 300 }}>
+          <CircularProgress style={{ margin: 50 }} />
+        </div>
       ) : (
         <NoResearch />
       )}
