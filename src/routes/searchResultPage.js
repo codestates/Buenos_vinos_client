@@ -9,7 +9,7 @@ function SearchResultPage() {
   const apiUrl =
     `https://api.rss2json.com/v1/api.json?rss_url=` +
     encodeURIComponent('https://rss.blog.naver.com/wine21com.xml');
-  console.log(apiUrl);
+  // console.log(apiUrl);
   const getRssData = async () => {
     let res = await axios.get(apiUrl, {
       withCredentials: false,
@@ -37,7 +37,7 @@ function SearchResultPage() {
   }
 
   const chunkedDatas = makeChunkedDatas(rssDatas);
-  console.log(chunkedDatas);
+  // console.log(chunkedDatas);
   return (
     <>
       <Search />

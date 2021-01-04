@@ -60,7 +60,7 @@ function FilteringPage() {
 
   const location = useLocation();
   let mainPageState = location.state;
-  console.log(mainPageState);
+  // console.log(mainPageState);
 
   const [flavorState, setFlavorState] = React.useState(
     mainPageState.flavorState
@@ -102,7 +102,7 @@ function FilteringPage() {
   const debouncedWinesType = useDebounce(wineState, 500);
   const debouncedRating = useDebounce(ratingValue, 500);
 
-  console.log(debouncedFlavor);
+  // console.log(debouncedFlavor);
 
   const selectFlavor = (e, value) => {
     setFlavorState({ ...flavorState, [e]: value });
@@ -203,7 +203,7 @@ function FilteringPage() {
             rating: ratingValue,
           },
         });
-        console.log(res.data);
+        // console.log(res.data);
         setFilteredWines(sortDesc(res.data, 'rating'));
       } catch (error) {
         console.error(error);
@@ -214,7 +214,7 @@ function FilteringPage() {
     getFilterdList();
   }, [debouncedWinesType, debouncedCountry, debouncedFlavor, debouncedPairings, debouncedRating]);
 
-  console.log(filteredWines);
+  // console.log(filteredWines);
 
   const classes = useStyles();
 

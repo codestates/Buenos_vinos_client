@@ -62,7 +62,7 @@ export default function ReviewModal({
   const classes = useStyles();
   const [value, setValue] = React.useState(null);
   const [review, setReview] = React.useState('');
-  console.log(value);
+  // console.log(value);
   const closeBtn = (e) => {
     e.preventDefault();
     setToReview(false);
@@ -74,7 +74,7 @@ export default function ReviewModal({
   // 리뷰 등록
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('submit click');
+    // console.log('submit click');
     await axios({
       method: 'POST',
       url: 'https://buenosvinosserver.ga/comment',
@@ -90,9 +90,9 @@ export default function ReviewModal({
         if (res) {
           setCommentNum(commentNum + 1);
         }
-        console.log(res);
+        // console.log(res);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.error(err));
     setReview('');
     setValue(null);
     reviewInClose();

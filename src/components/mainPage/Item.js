@@ -30,7 +30,7 @@ export default function Item({ wine }) {
   const classes = useStyles();
   const history = useHistory();
   const onClick = (wine) => {
-    console.log(wine);
+    // console.log(wine);
     history.push({
       pathname: './select',
       state: wine,

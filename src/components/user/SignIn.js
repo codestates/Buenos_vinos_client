@@ -74,7 +74,7 @@ export default function Signin(props) {
       withCredentials: true,
     })
       .then((res) => {
-        console.log('응답', res.data);
+        // console.log('응답', res.data);
         alert('로그인 성공');
         Cookies.set('id', res.data.userId);
         props.signInClose();

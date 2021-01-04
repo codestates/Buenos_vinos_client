@@ -53,11 +53,11 @@ function SelectedOnePage() {
       }
     }
   }
-  console.log(checkWishlist(searchResult, confirmId));
+  // console.log(checkWishlist(searchResult, confirmId));
   const [favorite, setFavorite] = useState(checkWishlist(searchResult, confirmId));
   // 로그인 모달 구현
   const [signInModal, setSignModal] = useState(false);
-  console.log('쿠키 확인', confirmId, '와인 id', searchResult.id);
+  // console.log('쿠키 확인', confirmId, '와인 id', searchResult.id);
   const signInOpen = () => {
     setSignModal(true);
   };
@@ -71,19 +71,19 @@ function SelectedOnePage() {
   const favoriteRemove = () => {
     setFavorite(false);
   };
-  console.log(searchResult);
+  // console.log(searchResult);
 
   const classes = useStyles();
   const getSearchResult = async (search) => {
     const response = await axios.get(`https://buenosvinosserver.ga/wine?name=${search}`);
-    console.log(response.data);
+    // console.log(response.data);
     location.state = response.data[0];
     setSearchResult(location.state);
   };
 
   useEffect(() => {
     if (commentNum !== searchResult.comment.length) {
-      console.log(' different num');
+      // console.log(' different num');
       getSearchResult(searchResult.name_en);
     }
   }, [commentNum]);
@@ -95,7 +95,7 @@ function SelectedOnePage() {
       withCredentials: true,
     })
       .then((res) => {
-        console.log('로그인된 상태');
+        // console.log('로그인된 상태');
         if (favorite) {
           //위시리스트가 아닌경우
           setFavorite(false);
@@ -105,7 +105,7 @@ function SelectedOnePage() {
         }
       })
       .catch((err) => {
-        console.log('로그인 안된 상태');
+        // console.log('로그인 안된 상태');
         setSignModal(true);
       });
   };
@@ -122,10 +122,10 @@ function SelectedOnePage() {
     })
       .then((res) => {
         setFavorite(true);
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
   // 위시리스트 삭제
@@ -140,10 +140,10 @@ function SelectedOnePage() {
     })
       .then((res) => {
         setFavorite(false);
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 

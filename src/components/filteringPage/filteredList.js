@@ -28,7 +28,7 @@ function FilteredList(props) {
   };
 
   const handleClose = (e) => {
-    console.log(e.currentTarget.id);
+    // console.log(e.currentTarget.id);
     if (e.currentTarget.id === 'desc') {
       props.handleSortDesc();
     }
@@ -45,7 +45,7 @@ function FilteredList(props) {
   // 와인 선택 페이지로 이동
   const history = useHistory();
   const onClick = (wine) => {
-    console.log(wine);
+    // console.log(wine);
     history.push({
       pathname: './select',
       state: wine,
