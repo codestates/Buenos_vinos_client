@@ -1,6 +1,6 @@
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 function SelectedOneDef({ universalDef }) {
-  console.log(universalDef);
+  // console.log(universalDef);
   const useStyles = makeStyles({
     text: {
       padding: '15px',

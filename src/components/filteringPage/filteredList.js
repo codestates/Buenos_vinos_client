@@ -1,25 +1,51 @@
-import { Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Grid, makeStyles, Typography, Button, Menu, MenuItem } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import { useHistory } from 'react-router-dom';
+import React from 'react';
+
+const useStyles = makeStyles({
+  list: {
+    margin: '10px',
+    padding: '15px',
+    borderRadius: '10px',
+  },
+  text: {
+    padding: '15px',
+    margin: '10px',
+  },
+  sortBtn: {
+    float: 'right',
+    left: '10px',
+    marginBottom: '5px',
+  },
+});
 
 function FilteredList(props) {
-  const useStyles = makeStyles({
-    list: {
-      margin: '10px',
-      padding: '15px',
-      borderRadius: '10px',
-    },
-    text: {
-      padding: '15px',
-      margin: '10px',
-    },
-  });
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = (e) => {
+    // console.log(e.currentTarget.id);
+    if (e.currentTarget.id === 'desc') {
+      props.handleSortDesc();
+    }
+    // 평점 높은순으로 버튼 클릭시 높은순으로 정렬
+    if (e.currentTarget.id === 'asce') {
+      props.handleSortAsce();
+    }
+    // 평점 낮은순으로 버튼 클릭시 낮은순으로 정렬
+    setAnchorEl(null);
+    // 메뉴 닫힘
+  };
 
   const classes = useStyles();
   // 와인 선택 페이지로 이동
   const history = useHistory();
   const onClick = (wine) => {
-    console.log(wine);
+    // console.log(wine);
     history.push({
       pathname: './select',
       state: wine,
@@ -34,6 +60,25 @@ function FilteredList(props) {
       style={{ borderRadius: '15px' }}
     >
       <Grid item xs={8} md={8}>
+        <div>
+          <Button
+            aria-controls="simple-menu"
+            aria-haspopup="true"
+            variant="outlined"
+            onClick={handleClick}
+            className={classes.sortBtn}
+          >
+            정렬하기
+          </Button>
+          <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+            <MenuItem onClick={handleClose} id="desc">
+              평점 높은순
+            </MenuItem>
+            <MenuItem onClick={handleClose} id="asce">
+              평점 낮은순
+            </MenuItem>
+          </Menu>
+        </div>
         {props.filteredWines.map((item) => (
           <Grid
             className={classes.text}

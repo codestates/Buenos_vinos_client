@@ -31,7 +31,7 @@ function PairingsButton(props) {
   const pairingsName = Object.keys(props.pairingsState);
 
   const handleClick = (e) => {
-    console.log(e.currentTarget.name);
+    // console.log(e.currentTarget.name);
     props.selectPairings(e.currentTarget.name);
   };
 

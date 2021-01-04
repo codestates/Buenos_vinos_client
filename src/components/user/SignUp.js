@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   },
 });
 
-function SignUp() {
+function SignUp(props) {
   const [values, setValues] = React.useState({
     email: '',
     isEmailVaild: false,
@@ -48,7 +48,7 @@ function SignUp() {
   // 입력된 모든 값이 true인지 확인 후 true or false로 반환
 
   const handleSubmit = async (e) => {
-    console.log('click');
+    // console.log('click');
     e.preventDefault();
     const { email, nickname, password } = values;
     await axios({
@@ -61,9 +61,14 @@ function SignUp() {
       },
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
+        alert('회원가입 되셨습니다!');
+        props.setTogleSignUp(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        alert('이미 가입된 이메일입니다!');
+        console.error(err);
+      });
   };
 
   const classes = useStyles();

@@ -86,12 +86,12 @@ export default function EditInfo(props) {
       },
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         props.fetchData();
         nameClose();
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
@@ -110,13 +110,13 @@ export default function EditInfo(props) {
       },
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         passwordClose();
       })
       .catch((err) => {
         if (err.response.status === 401) {
           setPasswordCheck({ passwordCheck: true });
-          console.log('패스워드체크', passwordCheck);
+          // console.log('패스워드체크', passwordCheck);
         }
       });
   };

@@ -19,12 +19,22 @@ import FaceIcon from '@material-ui/icons/Face';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import SignModal from './user/SignModal';
-import { LogInStatus } from './App';
+import { ToggleFillterNav } from './App';
 
 axios.defaults.withCredentials = true;
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: 'relative',
+    left: 0,
+    transition: '0.4s',
+  },
+  rootFillterNavOpen: {
+    position: 'relative',
+    left: 300,
+    transition: '0.4s',
+  },
+  wineType: {
     '& > *': {
       margin: theme.spacing(2),
     },
@@ -67,6 +77,7 @@ function Nav() {
   const [signInModal, setSignModal] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
+  const filterNav = React.useContext(ToggleFillterNav);
 
   const handleToggle = async () => {
     await axios({
@@ -75,11 +86,11 @@ function Nav() {
       withCredentials: true,
     })
       .then((res) => {
-        console.log('로그인된 상태');
+        // console.log('로그인된 상태');
         setOpen((prevOpen) => !prevOpen);
       })
       .catch((err) => {
-        console.log('로그인 안된 상태');
+        // console.log('로그인 안된 상태');
         setSignModal(true);
       });
   };
@@ -88,7 +99,7 @@ function Nav() {
 
   const signInOpen = () => {
     setSignModal(true);
-    console.log('click');
+    // console.log('click');
   };
 
   const signInClose = () => {
@@ -104,7 +115,7 @@ function Nav() {
           url: 'https://buenosvinosserver.ga/user/logout',
         })
           .then((res) => {
-            console.log(res);
+            // console.log(res);
           })
           .catch((err) => console.error(err));
         // history.push('/');
@@ -158,12 +169,7 @@ function Nav() {
   for (let i in wineNames) {
     krAndEnName.push(wineNames[i].name_en);
   }
-
   const classes = useStyles();
-
-  const changeInputData = (e) => {
-    setSearchWine(e.target.value);
-  };
 
   // 와인 검색 엔터 기능
   const searchWines = (e) => {
@@ -174,7 +180,7 @@ function Nav() {
   // 데이터 전송
   const history = useHistory();
   const onClick = (wine) => {
-    console.log(wine);
+    // console.log(wine);
     history.push({
       pathname: './result',
       search: wine,
@@ -198,7 +204,7 @@ function Nav() {
   // 네비게이션 바의 와인 타입을 누르면 필터링 메뉴로 이동시키는 함수
 
   return (
-    <>
+    <div className={filterNav.state ? classes.rootFillterNavOpen : classes.root}>
       <React.Fragment>
         <CssBaseline />
         <Container maxWidth="xl" style={{ position: 'relative' }}>
@@ -220,12 +226,17 @@ function Nav() {
               <div style={{ width: 200, height: 30 }}>
                 <Autocomplete
                   freeSolo
-                  id="free-solo-2-demo"
-                  disableClearable
+                  id="search-wine"
                   options={krAndEnName}
+                  disableClearable
                   autoComplete={true}
-                  onChange={changeInputData}
+                  getOptionLabel={(wine) => {
+                    return wine;
+                  }}
                   onKeyPress={searchWines}
+                  onChange={(e, wine) => {
+                    setSearchWine(wine);
+                  }}
                   value={searchWine}
                   renderInput={(params) => (
                     <TextField
@@ -286,7 +297,7 @@ function Nav() {
               </Grid>
             </Grid>
             <Grid container spacing={2} item xs={12} style={{ padding: '0px 0px 0px 10vw' }}>
-              <div className={classes.root}>
+              <div className={classes.wineType}>
                 <Link
                   className={classes.wineMenu}
                   onClick={handleClickToFilter}
@@ -297,7 +308,7 @@ function Nav() {
                   레드
                 </Link>
               </div>
-              <div className={classes.root}>
+              <div className={classes.wineType}>
                 <Link
                   className={classes.wineMenu}
                   onClick={handleClickToFilter}
@@ -308,7 +319,7 @@ function Nav() {
                   화이트
                 </Link>
               </div>
-              <div className={classes.root}>
+              <div className={classes.wineType}>
                 <Link
                   className={classes.wineMenu}
                   onClick={handleClickToFilter}
@@ -319,7 +330,7 @@ function Nav() {
                   스파클링
                 </Link>
               </div>
-              <div className={classes.root}>
+              <div className={classes.wineType}>
                 <Link
                   className={classes.wineMenu}
                   onClick={handleClickToFilter}
@@ -342,7 +353,7 @@ function Nav() {
           boxShadow: 'inset 0 12px 12px -12px rgba(0,0,0,0.5)',
         }}
       />
-    </>
+    </div>
   );
 }
 export default Nav;

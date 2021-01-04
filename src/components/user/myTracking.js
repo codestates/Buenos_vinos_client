@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Container, Box, Grid, Link } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import EditInfo from '../../components/user/editMyInfo';
-
+import Pagination from '../utility/pagenation';
 export default function MyTracking(props) {
   const useStyles = makeStyles({
     selectedBtn: {
@@ -15,7 +15,7 @@ export default function MyTracking(props) {
     commentBox: {
       border: '1px solid black',
       borderRadius: '10px',
-      height: '20vh',
+      height: 'auto',
       margin: '20px auto',
       fontSize: '30px',
       backgroundColor: '#fffcf8',
@@ -30,7 +30,7 @@ export default function MyTracking(props) {
       backgroundColor: '#fffcf8',
     },
     wineImg: {
-      height: '13.5vh',
+      height: '15vh',
     },
     commentTitle: {
       marginLeft: '10vh',
@@ -49,11 +49,12 @@ export default function MyTracking(props) {
     },
     itemBox: {
       border: '1px solid #E3DEF7',
-      marginTop: '3.5px',
+      marginTop: '2vh',
       marginLeft: '20px',
       marginBottom: '2vh',
       borderRadius: '10px',
       backgroundColor: 'white',
+      width: '20vh',
     },
   });
 
@@ -68,12 +69,22 @@ export default function MyTracking(props) {
   });
 
   const tabBtn = (key) => (e) => {
-    if (btn[key]) {
-      setBtn({ [key]: false });
-    } else {
-      setBtn({ [key]: true });
-    }
+    setBtn({ [key]: true });
   };
+
+  //페이지네이션
+  const [currentPage, setCurrentPage] = useState(1); //현재페이지
+  const [postsPerPage] = useState(3); // 한페이지에 보여줄 데이터의개수
+
+  const indexOfLast = currentPage * postsPerPage;
+  const indexOfFirst = indexOfLast - postsPerPage;
+  const paginate = (pageNumber) => setCurrentPage(pageNumber); //현재 페이지 설정
+
+  function currentPosts(tmp) {
+    let currentPosts = 0;
+    currentPosts = tmp.slice(indexOfFirst, indexOfLast);
+    return currentPosts;
+  }
 
   const classes = useStyles();
   return (
@@ -136,9 +147,9 @@ export default function MyTracking(props) {
         </Link>
         <hr />
         {btn.comment
-          ? props.userInfo.comment.map(function (el) {
+          ? currentPosts(props.userInfo.comment).map(function (el) {
               return (
-                <Grid className={classes.commentBox} container direction="row">
+                <Grid className={classes.commentBox} container direction="row" key={el.id}>
                   <Box p={1} className={classes.itemBox}>
                     <img className={classes.wineImg} src={el.wine.image} />
                     <Typography>{el.wine.name}</Typography>
@@ -151,12 +162,21 @@ export default function MyTracking(props) {
               );
             })
           : ''}
+        {btn.comment ? (
+          <Pagination
+            postsPerPage={postsPerPage}
+            totalPosts={props.userInfo.comment.length}
+            paginate={paginate}
+          ></Pagination>
+        ) : (
+          ''
+        )}
         {btn.myWines
-          ? props.userInfo.wishlist.map(function (el) {
+          ? currentPosts(props.userInfo.wishlist).map(function (el) {
               return (
-                <Grid container direction="row" className={classes.wishBox}>
+                <Grid container direction="row" className={classes.wishBox} key={el.id}>
                   <Box className={classes.wishlistImg}>
-                    <img src={el.image}></img>
+                    <img src={el.image} className={classes.wineImg}></img>
                   </Box>
                   <Grid className={classes.nameRaing} item xs={12} sm={4}>
                     <Typography>{el.name}</Typography>
@@ -185,6 +205,16 @@ export default function MyTracking(props) {
               );
             })
           : ''}
+
+        {btn.myWines ? (
+          <Pagination
+            postsPerPage={postsPerPage}
+            totalPosts={props.userInfo.wishlist.length}
+            paginate={paginate}
+          ></Pagination>
+        ) : (
+          ''
+        )}
         {btn.editInfo ? <EditInfo userInfo={props.userInfo} fetchData={props.fetchData} /> : ''}
       </Container>
     </>

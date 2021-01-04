@@ -25,7 +25,7 @@ function WineTypes(props) {
 
   const handleClick = (e) => {
     props.selectWines(e.currentTarget.name);
-    console.log(e.currentTarget.name);
+    // console.log(e.currentTarget.name);
   };
 
   const classes = useStyles();

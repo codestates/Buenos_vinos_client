@@ -6,7 +6,8 @@ import React, { useState } from 'react';
 import ReviewModal from './reviewModal';
 import AddReview from '../utility/addReview';
 import SortDesc from '../utility/sortDesc';
-import { LogInStatus } from '../App';
+import axios from 'axios';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
@@ -49,13 +50,13 @@ function Comment({ comments, wineInfo, setCommentNum, commentNum, setSearchResul
   // 데이터 가공
   let sortedComments = SortDesc(comments, 'rating');
   let reviews = AddReview(sortedComments, 2);
-  console.log(AddReview(sortedComments, 2));
+  // console.log(AddReview(sortedComments, 2));
   // 모달창 구현
   const [signInModal, setSignModal] = useState(false);
 
   const signInOpen = () => {
     setSignModal(true);
-    console.log('sigin in click');
+    // console.log('sigin in click');
   };
   const signInClose = () => {
     setSignModal(false);
@@ -65,15 +66,28 @@ function Comment({ comments, wineInfo, setCommentNum, commentNum, setSearchResul
   const [toReview, setToReview] = useState(false);
   const reviewInOpen = () => {
     setToReview(true);
-    console.log('review click');
+    // console.log('review click');
   };
 
   const reviewInClose = () => {
     setToReview(false);
   };
   // 로그인 확인 여부
-  const isLogIn = React.useContext(LogInStatus);
-  console.log(isLogIn.state);
+  const handleCheckLogin = async () => {
+    await axios({
+      method: 'get',
+      url: 'https://buenosvinosserver.ga/auth',
+      withCredentials: true,
+    })
+      .then((res) => {
+        // console.log('로그인된 상태');
+        setToReview(true);
+      })
+      .catch((err) => {
+        // console.log('로그인 안된 상태');
+        setSignModal(true);
+      });
+  };
   return (
     <div style={{ marginTop: '3vh' }}>
       <Typography variant="h6">베스트 리뷰</Typography>
@@ -114,12 +128,10 @@ function Comment({ comments, wineInfo, setCommentNum, commentNum, setSearchResul
         <Typography variant="h6">- 아직 리뷰가 없습니다. -</Typography>
       )}
 
-      <div
-        className={classes.root}
-        style={{ display: 'flex', justify: 'text-end' }}
-        onClick={isLogIn.state.status ? reviewInOpen : signInOpen}
-      >
-        <Button variant="outlined">와인 리뷰 남기기</Button>
+      <div className={classes.root} style={{ display: 'flex', justify: 'text-end' }}>
+        <Button variant="outlined" onClick={handleCheckLogin}>
+          와인 리뷰 남기기
+        </Button>
       </div>
       <ReviewModal
         wineInfo={wineInfo}

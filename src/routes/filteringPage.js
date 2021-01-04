@@ -1,15 +1,50 @@
-import { Grid } from '@material-ui/core';
+import { CircularProgress, Grid, makeStyles, Typography } from '@material-ui/core';
 import useDebounce from '../components/utility/useDebounce';
 import Filter from '../components/filteringPage/filter';
 import FilteredList from '../components/filteringPage/filteredList';
 import React from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import NoResearch from '../components/utility/noResearch';
+import sortAsce from '../components/utility/sortAsce';
+import sortDesc from '../components/utility/sortDesc';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import { ToggleFillterNav } from '../components/App';
+
+const useStyles = makeStyles({
+  '@keyframes arrowSlide': {
+    '0%': {
+      left: 0,
+      filter: 'opacity(50%)',
+    },
+    '100%': {
+      left: 10,
+      filter: 'opacity(100%)',
+    },
+  },
+  arrow: {
+    position: 'relative',
+    animationName: '$arrowSlide',
+    animationDuration: '0.5s',
+    animationDelay: '0.5s',
+    animationDirection: 'alternate',
+    animationIterationCount: 'infinite',
+  },
+  filterNavText: {
+    position: 'fixed',
+    top: `${window.innerHeight / 2}px`,
+    left: 0,
+    textAlign: 'center',
+  },
+});
 
 function FilteringPage() {
   const [filteredWines, setFilteredWines] = React.useState([]);
   const [ratingValue, setRatingValue] = React.useState(3);
   const [ratingHover, setRatingHover] = React.useState(-1);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const fillterNav = React.useContext(ToggleFillterNav);
 
   const [countryState, setCountryState] = React.useState({
     argentina: [false, '아르헨티나'],
@@ -23,23 +58,36 @@ function FilteringPage() {
     usa: [false, '미국'],
   });
 
-  const [flavorState, setFlavorState] = React.useState({
-    sweet: [2, 4],
-    acidic: [2, 4],
-    body: [2, 4],
-  });
+  const location = useLocation();
+  let mainPageState = location.state;
+  // console.log(mainPageState);
 
-  const [pairingsState, setPairingsState] = React.useState({
-    beef: [false, '소고기'],
-    pork: [false, '돼지고기'],
-    poultry: [false, '가금류'],
-    fish: [false, '생선'],
-    seafood: [false, '해산물'],
-    pasta: [false, '파스타'],
-    cheese: [false, '치즈'],
-    fruit: [false, '과일'],
-    vagetable: [false, '야채'],
-  });
+  const [flavorState, setFlavorState] = React.useState(
+    mainPageState.flavorState
+      ? mainPageState.flavorState
+      : {
+          sweet: [1, 5],
+          acidic: [1, 5],
+          body: [1, 5],
+        },
+  );
+
+  const [pairingsState, setPairingsState] = React.useState(
+    mainPageState.pairingsState
+      ? mainPageState.pairingsState
+      : {
+          beef: [false, '소고기'],
+          pork: [false, '돼지고기'],
+          poultry: [false, '가금류'],
+          fish: [false, '생선'],
+          seafood: [false, '해산물'],
+          pasta: [false, '파스타'],
+          cheese: [false, '치즈'],
+          fruit: [false, '과일'],
+          vagetable: [false, '야채'],
+        },
+  );
+  // 메인페이지에서 history로 받아온 값이 있으면 해당 값을 사용, 없으면 초기값 사용
 
   const [wineState, setWineState] = React.useState({
     red: [false, '레드'],
@@ -54,12 +102,7 @@ function FilteringPage() {
   const debouncedWinesType = useDebounce(wineState, 500);
   const debouncedRating = useDebounce(ratingValue, 500);
 
-  const location = useLocation();
-
-  console.log(debouncedFlavor);
-
-  let mainPageState = location.state;
-  console.log(mainPageState);
+  // console.log(debouncedFlavor);
 
   const selectFlavor = (e, value) => {
     setFlavorState({ ...flavorState, [e]: value });
@@ -113,16 +156,21 @@ function FilteringPage() {
   };
   // 호버링할때 마우스 커서가 위치한 곳의 레이팅 값을 변경하는 함수
 
+  const handleSortAsce = () => {
+    setFilteredWines((state) => sortAsce(state, 'rating'));
+  };
+  // 레이팅 기준 오름차순 정렬
+
+  const handleSortDesc = () => {
+    setFilteredWines((state) => sortDesc(state, 'rating'));
+  };
+  // 레이팅 기준 내림차순 정렬
+  const handleMouseEnter = () => {
+    fillterNav.setState(true);
+  };
+  // 마우스가 화살표 아이콘 위로 호버됐을때 필터링 메뉴를 보여주기 위한 함수
+
   React.useEffect(() => {
-    if (mainPageState.pairingsState) {
-      setPairingsState(mainPageState.pairingsState);
-    }
-
-    if (mainPageState.flavorState) {
-      setFlavorState(mainPageState.flavorState);
-    }
-    // 메인페이지에서 history state에 담아 보낸 값들을 반영시킨다
-
     if (mainPageState.selectedWine) {
       setWineState((prevState) => {
         for (let key in wineState) {
@@ -134,10 +182,12 @@ function FilteringPage() {
       });
     }
     // 메인페이지 네비메뉴에서 선택한 값들을 반영시킨다
-  }, []);
+  }, [mainPageState]);
 
   React.useEffect(() => {
     const getFilterdList = async () => {
+      setIsLoading(true);
+      setFilteredWines([]);
       try {
         const res = await axios.get('https://buenosvinosserver.ga/wine', {
           params: {
@@ -153,20 +203,32 @@ function FilteringPage() {
             rating: ratingValue,
           },
         });
-        console.log(res.data);
-        setFilteredWines(res.data);
+        // console.log(res.data);
+        setFilteredWines(sortDesc(res.data, 'rating'));
       } catch (error) {
         console.error(error);
       }
+      setIsLoading(false);
     };
     // API에 현재 state 값들을 params에 담아 보낸다
     getFilterdList();
   }, [debouncedWinesType, debouncedCountry, debouncedFlavor, debouncedPairings, debouncedRating]);
 
-  console.log(filteredWines);
+  // console.log(filteredWines);
+
+  const classes = useStyles();
 
   return (
     <Grid container direction="row" justify="center" alignItems="stretch">
+      <div onMouseEnter={handleMouseEnter} className={classes.filterNavText}>
+        <Typography>
+          필터를 보시려면
+          <br />
+          마우스를 올려주세요
+          <br />
+          <ArrowForwardIcon className={classes.arrow} />
+        </Typography>
+      </div>
       <Filter
         selectFlavor={selectFlavor}
         selectPairings={selectPairings}
@@ -181,7 +243,19 @@ function FilteringPage() {
         handleRatingChange={handleRatingChange}
         handleRatingChangeHover={handleRatingChangeHover}
       />
-      <FilteredList filteredWines={filteredWines} />
+      {filteredWines.length ? (
+        <FilteredList
+          filteredWines={filteredWines}
+          handleSortAsce={handleSortAsce}
+          handleSortDesc={handleSortDesc}
+        />
+      ) : isLoading ? (
+        <div style={{ height: 300 }}>
+          <CircularProgress style={{ margin: 50 }} />
+        </div>
+      ) : (
+        <NoResearch />
+      )}
     </Grid>
   );
 }
