@@ -48,7 +48,7 @@ function SignUp(props) {
   // 입력된 모든 값이 true인지 확인 후 true or false로 반환
 
   const handleSubmit = async (e) => {
-    console.log('click');
+    // console.log('click');
     e.preventDefault();
     const { email, nickname, password } = values;
     await axios({
@@ -61,13 +61,13 @@ function SignUp(props) {
       },
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         alert('회원가입 되셨습니다!');
         props.setTogleSignUp(false);
       })
       .catch((err) => {
         alert('이미 가입된 이메일입니다!');
-        console.log(err);
+        console.error(err);
       });
   };
 

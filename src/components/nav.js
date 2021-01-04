@@ -86,11 +86,11 @@ function Nav() {
       withCredentials: true,
     })
       .then((res) => {
-        console.log('로그인된 상태');
+        // console.log('로그인된 상태');
         setOpen((prevOpen) => !prevOpen);
       })
       .catch((err) => {
-        console.log('로그인 안된 상태');
+        // console.log('로그인 안된 상태');
         setSignModal(true);
       });
   };
@@ -99,7 +99,7 @@ function Nav() {
 
   const signInOpen = () => {
     setSignModal(true);
-    console.log('click');
+    // console.log('click');
   };
 
   const signInClose = () => {
@@ -115,7 +115,7 @@ function Nav() {
           url: 'https://buenosvinosserver.ga/user/logout',
         })
           .then((res) => {
-            console.log(res);
+            // console.log(res);
           })
           .catch((err) => console.error(err));
         // history.push('/');
@@ -180,7 +180,7 @@ function Nav() {
   // 데이터 전송
   const history = useHistory();
   const onClick = (wine) => {
-    console.log(wine);
+    // console.log(wine);
     history.push({
       pathname: './result',
       search: wine,

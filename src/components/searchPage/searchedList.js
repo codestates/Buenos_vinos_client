@@ -12,7 +12,7 @@ function SearchedList({ wines }) {
   });
   const classes = useStyles();
   const onClick = (wine) => {
-    console.log(wine);
+    // console.log(wine);
     history.push({
       pathname: './select',
       state: wine,

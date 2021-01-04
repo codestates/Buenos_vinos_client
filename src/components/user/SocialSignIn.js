@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 function SocialSignIn(props) {
   const classes = useStyles();
   const googleRes = async (res) => {
-    console.log(res);
+    // console.log(res);
     await axios({
       method: 'post',
       url: 'https://buenosvinosserver.ga/auth/login',
@@ -40,7 +40,7 @@ function SocialSignIn(props) {
       },
     })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         alert('로그인 성공');
         Cookies.set('id', res.data.userId);
         props.signInClose();
@@ -48,7 +48,7 @@ function SocialSignIn(props) {
       .catch((err) => console.error(err));
   };
   const kakaoRes = async (res) => {
-    console.log(res);
+    // console.log(res);
     await axios({
       method: 'post',
       url: 'https://buenosvinosserver.ga/auth/login',
@@ -57,7 +57,7 @@ function SocialSignIn(props) {
       },
     })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         alert('로그인 성공');
         Cookies.set('id', res.data.userId);
         props.signInClose();
@@ -65,7 +65,7 @@ function SocialSignIn(props) {
       .catch((err) => console.error(err));
   };
   const facebookRes = async (res) => {
-    console.log(res);
+    // console.log(res);
     await axios({
       method: 'post',
       url: 'https://buenosvinosserver.ga/auth/login',
@@ -75,7 +75,7 @@ function SocialSignIn(props) {
       },
     })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         alert('로그인 성공');
         Cookies.set('id', res.data.userId);
         props.signInClose();

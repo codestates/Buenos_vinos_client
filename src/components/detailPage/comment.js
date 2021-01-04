@@ -56,7 +56,7 @@ function Comment({ comments, wineInfo, setCommentNum, commentNum, setSearchResul
 
   const signInOpen = () => {
     setSignModal(true);
-    console.log('sigin in click');
+    // console.log('sigin in click');
   };
   const signInClose = () => {
     setSignModal(false);
@@ -66,7 +66,7 @@ function Comment({ comments, wineInfo, setCommentNum, commentNum, setSearchResul
   const [toReview, setToReview] = useState(false);
   const reviewInOpen = () => {
     setToReview(true);
-    console.log('review click');
+    // console.log('review click');
   };
 
   const reviewInClose = () => {
@@ -80,11 +80,11 @@ function Comment({ comments, wineInfo, setCommentNum, commentNum, setSearchResul
       withCredentials: true,
     })
       .then((res) => {
-        console.log('로그인된 상태');
+        // console.log('로그인된 상태');
         setToReview(true);
       })
       .catch((err) => {
-        console.log('로그인 안된 상태');
+        // console.log('로그인 안된 상태');
         setSignModal(true);
       });
   };
