@@ -80,7 +80,7 @@ export default function EditInfo(props) {
     const { nickname } = values;
     axios({
       method: 'patch',
-      url: 'https://buenosvinosserver.ga/user',
+      url: 'https://buenos.haebae.kr/user',
       data: {
         nickname,
       },
@@ -103,7 +103,7 @@ export default function EditInfo(props) {
     const { password, oldPassword } = values;
     axios({
       method: 'post',
-      url: 'https://buenosvinosserver.ga/auth/changepw',
+      url: 'https://buenos.haebae.kr/auth/changepw',
       data: {
         newPassword: password,
         oldPassword: oldPassword,

@@ -13,7 +13,7 @@ function Search() {
   let searchResult = splitedsearchedWine.join(' ');
   const [searchedWines, setSearchedWines] = useState([]);
   const getSearchResult = async (searchResult) => {
-    const response = await axios.get(`https://buenosvinosserver.ga/wine?name=${searchResult}`);
+    const response = await axios.get(`https://buenos.haebae.kr/wine?name=${searchResult}`);
     setSearchedWines(response.data);
   };
   useEffect(() => {

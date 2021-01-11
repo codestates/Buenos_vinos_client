@@ -76,7 +76,7 @@ function Comment({ comments, wineInfo, setCommentNum, commentNum, setSearchResul
   const handleCheckLogin = async () => {
     await axios({
       method: 'get',
-      url: 'https://buenosvinosserver.ga/auth',
+      url: 'https://buenos.haebae.kr/auth',
       withCredentials: true,
     })
       .then((res) => {

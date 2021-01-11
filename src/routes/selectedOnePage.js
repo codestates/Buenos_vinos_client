@@ -75,7 +75,7 @@ function SelectedOnePage() {
 
   const classes = useStyles();
   const getSearchResult = async (search) => {
-    const response = await axios.get(`https://buenosvinosserver.ga/wine?name=${search}`);
+    const response = await axios.get(`https://buenos.haebae.kr/wine?name=${search}`);
     // console.log(response.data);
     location.state = response.data[0];
     setSearchResult(location.state);
@@ -91,7 +91,7 @@ function SelectedOnePage() {
   const handleCheckLogin = async () => {
     await axios({
       method: 'get',
-      url: 'https://buenosvinosserver.ga/auth',
+      url: 'https://buenos.haebae.kr/auth',
       withCredentials: true,
     })
       .then((res) => {
@@ -114,7 +114,7 @@ function SelectedOnePage() {
   const handleAddWishItem = async (e) => {
     await axios({
       method: 'post',
-      url: `https://buenosvinosserver.ga/wine/wishlist/${searchResult.id}`,
+      url: `https://buenos.haebae.kr/wine/wishlist/${searchResult.id}`,
       params: {
         id: searchResult.id,
       },
@@ -132,7 +132,7 @@ function SelectedOnePage() {
   const handleDeleteWishItem = async (e) => {
     await axios({
       method: 'delete',
-      url: `https://buenosvinosserver.ga/wine/wishlist/${searchResult.id}`,
+      url: `https://buenos.haebae.kr/wine/wishlist/${searchResult.id}`,
       params: {
         id: searchResult.id,
       },

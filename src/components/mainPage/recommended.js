@@ -11,7 +11,7 @@ import chunkedDatas from '../utility/chunkedData';
 
 export default function Recommended() {
   const [wines, setWines] = useState([]);
-  const loading = useFetch(setWines, axios.get('https://buenosvinosserver.ga/wine'));
+  const loading = useFetch(setWines, axios.get('https://buenos.haebae.kr/wine'));
   const sortedList = sortDesc(wines, 'rating');
   const chunkedWines = chunkedDatas(sortedList, 5);
 
