@@ -189,7 +189,7 @@ function FilteringPage() {
       setIsLoading(true);
       setFilteredWines([]);
       try {
-        const res = await axios.get('https://buenosvinosserver.ga/wine', {
+        const res = await axios.get('https://buenos.haebae.kr/wine', {
           params: {
             sweet_min: flavorState.sweet[0],
             sweet_max: flavorState.sweet[1],

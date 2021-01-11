@@ -82,7 +82,7 @@ function Nav() {
   const handleToggle = async () => {
     await axios({
       method: 'get',
-      url: 'https://buenosvinosserver.ga/auth',
+      url: 'https://buenos.haebae.kr/auth',
       withCredentials: true,
     })
       .then((res) => {
@@ -112,7 +112,7 @@ function Nav() {
       if (e.target.id === 'signout') {
         axios({
           method: 'get',
-          url: 'https://buenosvinosserver.ga/user/logout',
+          url: 'https://buenos.haebae.kr/user/logout',
         })
           .then((res) => {
             // console.log(res);
@@ -154,7 +154,7 @@ function Nav() {
   }, [open]);
 
   const getWinesData = async () => {
-    const response = await axios.get('https://buenosvinosserver.ga/wine');
+    const response = await axios.get('https://buenos.haebae.kr/wine');
     setWineNames(response.data);
   };
 

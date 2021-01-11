@@ -77,7 +77,7 @@ export default function ReviewModal({
     // console.log('submit click');
     await axios({
       method: 'POST',
-      url: 'https://buenosvinosserver.ga/comment',
+      url: 'https://buenos.haebae.kr/comment',
       data: {
         wineId: wineInfo,
         content: review,

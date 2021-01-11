@@ -53,7 +53,7 @@ function SignUp(props) {
     const { email, nickname, password } = values;
     await axios({
       method: 'post',
-      url: 'https://buenosvinosserver.ga/user',
+      url: 'https://buenos.haebae.kr/user',
       data: {
         email,
         nickname,

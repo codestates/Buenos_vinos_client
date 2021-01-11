@@ -7,7 +7,7 @@ const withAuth = (WrappedComponent) => ({ ...props }) => {
   const checkSignIn = async () => {
     await Axios({
       method: 'get',
-      url: 'https://buenosvinosserver.ga/auth',
+      url: 'https://buenos.haebae.kr/auth',
       withCredentials: true,
     })
       .then((res) => setState(res.data))

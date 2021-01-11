@@ -10,7 +10,7 @@ function MyPage() {
   const fetchData = () => {
     axios({
       method: 'get',
-      url: 'https://buenosvinosserver.ga/user',
+      url: 'https://buenos.haebae.kr/user',
       withCredentials: true,
     })
       .then((res) => {

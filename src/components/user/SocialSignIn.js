@@ -34,7 +34,7 @@ function SocialSignIn(props) {
     // console.log(res);
     await axios({
       method: 'post',
-      url: 'https://buenosvinosserver.ga/auth/login',
+      url: 'https://buenos.haebae.kr/auth/login',
       data: {
         google: res.tokenId,
       },
@@ -51,7 +51,7 @@ function SocialSignIn(props) {
     // console.log(res);
     await axios({
       method: 'post',
-      url: 'https://buenosvinosserver.ga/auth/login',
+      url: 'https://buenos.haebae.kr/auth/login',
       data: {
         kakao: res.response.access_token,
       },
@@ -68,7 +68,7 @@ function SocialSignIn(props) {
     // console.log(res);
     await axios({
       method: 'post',
-      url: 'https://buenosvinosserver.ga/auth/login',
+      url: 'https://buenos.haebae.kr/auth/login',
       data: {
         faceboodId: res.id,
         facebookToken: res.accessToken,

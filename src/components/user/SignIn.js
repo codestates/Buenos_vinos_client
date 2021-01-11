@@ -66,7 +66,7 @@ export default function Signin(props) {
     const { email, password } = values;
     await axios({
       method: 'post',
-      url: 'https://buenosvinosserver.ga/auth/login',
+      url: 'https://buenos.haebae.kr/auth/login',
       data: {
         email,
         password,
