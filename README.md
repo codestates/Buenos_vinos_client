@@ -22,5 +22,5 @@ Buenos Vinos에서는 가성비 좋은 와인을 소개해드립니다. 또 어�
 ## Server
 ![image](https://user-images.githubusercontent.com/67915192/102733289-30e32700-4380-11eb-8de3-9ec4e54ff98b.png)
 
-# For Porject Details
+# For Project Details
 [Go to wiki](https://github.com/codestates/Buenos_vinos_client/wiki)
